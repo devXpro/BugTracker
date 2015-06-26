@@ -11,6 +11,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class Role
 {
+
+    const ROLE_USER='ROLE_USER';
+    const ROLE_ADMIN='ROLE_ADMIN';
+    const ROLE_MANAGER='ROLE_MANAGER';
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
