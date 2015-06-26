@@ -1,0 +1,20 @@
+security:
+    encoders:
+        BugBundle\Entity\User:
+            algorithm: bcrypt
+
+    providers:
+        my_db_provider:
+            entity:
+                class: BugBundle:User
+                property: username
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt|error)|css|images|js)/
+            security: false
+
+        default:
+            pattern:    ^/
+            http_basic: ~
+            provider: my_db_provider

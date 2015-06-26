@@ -1,0 +1,4 @@
+bug:
+    resource: "@BugBundle/Resources/config/routing.yml"
+    prefix:   /
+
