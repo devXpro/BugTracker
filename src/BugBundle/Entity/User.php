@@ -3,7 +3,7 @@
 namespace BugBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -29,11 +29,14 @@ class User implements UserInterface, \Serializable
     private $username;
 
     /**
+     * @Assert\NotBlank(groups={"registration"})
+     * @Assert\Length(min=7, groups={"registration"})
      * @ORM\Column(type="string", length=64)
      */
     private $password;
 
     /**
+     * @Assert\Email(groups={"registration"})
      * @ORM\Column(type="string", length=60, unique=true)
      */
     private $email;
@@ -51,8 +54,6 @@ class User implements UserInterface, \Serializable
      * @ORM\JoinTable(name="users_roles")
      **/
     private $roles;
-
-
 
     public function __construct()
     {
@@ -81,11 +82,7 @@ class User implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        $roles=array();
-        foreach($this->roles as $role){
-            $roles[]=$role->getRole();
-        }
-        return $roles;
+        return $this->roles->toArray();
     }
 
     public function eraseCredentials()

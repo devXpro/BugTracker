@@ -2,3 +2,13 @@ services:
     bug.userManager:
         class: BugBundle\Services\UserManager
         arguments: [@service_container]
+
+    bug.form.type.user:
+        class: BugBundle\Form\Type\UserType
+        tags:
+            - { name: form.type, alias: bug_user }
+
+    bug.form.type.role:
+        class: BugBundle\Form\Type\RoleType
+        tags:
+            - { name: form.type, alias: bug_user_role }

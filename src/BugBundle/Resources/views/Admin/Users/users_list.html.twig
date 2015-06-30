@@ -1,0 +1,43 @@
+{% extends '@Bug/base.html.twig' %}
+
+{% block body %}
+    <h1>User Editor</h1>
+    <div class="count">
+        Users:{{ pagination.getTotalItemCount }}
+    </div>
+    <table class="table table-striped">
+        <tr>
+            {# sorting of properties based on query components #}
+            <th>{{ knp_pagination_sortable(pagination, 'Id', 'u.id') }}</th>
+            <th{% if pagination.isSorted('u.username') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'User Name', 'u.username') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Email', 'u.email') }}</th>
+            <th>Role</th>
+            <th>Delete</th>
+        </tr>
+
+        {# table body #}
+        {% for user in pagination %}
+            <tr {% if loop.index is odd %}class="color"{% endif %}>
+                <td><a href="{{ path('bug_admin_useredit',{'user': user.id}) }}">{{ user.id }}</a></td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    {% for role in  user.roles %}
+                        {{ role }}
+                    {% endfor %}
+                </td>
+
+                <td>
+                    <a href="{{ path('bug_admin_userdelete',{'user': user.id}) }}" class="glyphicon glyphicon-remove" style="font-size: 20px; color: red">
+                    </a>
+                </td>
+
+
+            </tr>
+        {% endfor %}
+    </table>
+    {# display navigation #}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}

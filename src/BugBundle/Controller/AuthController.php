@@ -3,6 +3,7 @@
 namespace BugBundle\Controller;
 
 
+use BugBundle\Entity\Role;
 use BugBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,11 +42,10 @@ class AuthController extends Controller
     public function registrationAction(Request $request){
         $user=new User();
 
-        $form= $this->createFormBuilder($user)
+        $form= $this->createFormBuilder($user,array('validation_groups' => array('registration')))
             ->add('email','email')
             ->add('username','text')
             ->add('password','password')
-//            ->add('save','submit',array('label'=>'Register','attr'=>array("class"=>"btn btn-primary btn-lg btn-block")))
             ->getForm();
         $form->handleRequest($request);
 
@@ -54,6 +54,8 @@ class AuthController extends Controller
             /** @var $user User $user */
             $user=$form->getData();
             $user=$this->container->get('bug.userManager')->encodePassword($user);
+            $roleUser=$em->getRepository('BugBundle:Role')->findOneByRole(Role::ROLE_USER);
+            $user->addRole($roleUser);
             $em->persist($user);
             $em->flush();
             return $this->redirect('login');
