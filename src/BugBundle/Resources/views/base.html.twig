@@ -1,10 +1,20 @@
 <head>
     <link rel="stylesheet" href="{{ asset("bundles/bug/css/bootstrap.min.css") }}">
     <link rel="stylesheet" href="{{ asset("bundles/bug/css/auth.css") }}">
+    <link rel="stylesheet" href="{{ asset("bundles/bug/css/menu.css") }}">
+    <script src="{{ asset('bundles/bug/js/jquery-1.11.3.min.js') }}"></script>
+    <script>
+        ( function( $ ) {
+            $( document ).ready(function() {
+                $('#cssmenu').prepend('<div id="bg-one"></div><div id="bg-two"></div><div id="bg-three"></div><div id="bg-four"></div>');
+            });
+        } )( jQuery );
+    </script>
 </head>
 
 
 <body>
+<div id="cssmenu">{{ knp_menu_render('BugBundle:Builder:mainMenu') }}</div>
     <div class="col-md-1"></div>
     <div class="col-md-10">
         {% block body %}
