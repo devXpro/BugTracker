@@ -1,0 +1,31 @@
+<head>
+    <link rel="stylesheet" href="{{ asset("bundles/bug/css/bootstrap.min.css") }}">
+    <link rel="stylesheet" href="{{ asset("bundles/bug/css/auth.css") }}">
+</head>
+
+
+<body>
+
+<div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="text-center">
+                    {% block title %}
+                    {% endblock %}
+                </h1>
+            </div>
+            <div class="modal-body">
+                {% block form %}
+                {% endblock %}
+            </div>
+            <div class="modal-footer">
+                {% block footer %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>

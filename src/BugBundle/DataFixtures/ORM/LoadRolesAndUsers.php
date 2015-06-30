@@ -49,8 +49,8 @@ class LoadRolesAndUsers implements FixtureInterface, ContainerAwareInterface
             $user->addRole($role);
             $user->setUsername($userName);
             $user->setEmail($userName . '@ukr.net');
-            $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
-            $user->setPassword($encoder->encodePassword($userName, $user->getSalt())); //User name and password is a same
+            $user->setPassword($userName);//User name and password is a same
+            $user = $this->container->get('bug.userManager')->encodePassword($user);
             $manager->persist($role);
             $manager->persist($user);
         }

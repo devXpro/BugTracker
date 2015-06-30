@@ -1,4 +1,7 @@
 bug:
-    resource: "@BugBundle/Resources/config/routing.yml"
-    prefix:   /
+    resource: "@BugBundle/Controller"
+    type: annotation
 
+
+logout:
+    path:   /logout

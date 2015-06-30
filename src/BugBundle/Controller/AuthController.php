@@ -1,0 +1,79 @@
+<?php
+
+namespace BugBundle\Controller;
+
+
+use BugBundle\Entity\User;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+
+
+class AuthController extends Controller
+{
+
+    /**
+     * @Route("/login", name="login_route")
+     */
+    public function loginAction(Request $request)
+    {
+        $authenticationUtils = $this->get('security.authentication_utils');
+
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render(
+            '@Bug/Auth/login.html.twig',
+            array(
+                // last username entered by the user
+                'last_username' => $lastUsername,
+                'error' => $error,
+            )
+        );
+    }
+
+    /**
+     * @Route("/registration", name="registration_route")
+     */
+    public function registrationAction(Request $request){
+        $user=new User();
+
+        $form= $this->createFormBuilder($user)
+            ->add('email','email')
+            ->add('username','text')
+            ->add('password','password')
+//            ->add('save','submit',array('label'=>'Register','attr'=>array("class"=>"btn btn-primary btn-lg btn-block")))
+            ->getForm();
+        $form->handleRequest($request);
+
+        if($form->isValid()){
+            $em=$this->getDoctrine()->getManager();
+            /** @var $user User $user */
+            $user=$form->getData();
+            $user=$this->container->get('bug.userManager')->encodePassword($user);
+            $em->persist($user);
+            $em->flush();
+            return $this->redirect('login');
+        }
+
+        return $this->render('@Bug/Auth/register.html.twig',array(
+            'form'=>$form->createView(),
+        ));
+
+    }
+
+
+
+    /**
+     * @Route("/login_check", name="login_check")
+     */
+    public function loginCheckAction()
+    {
+        // this controller will not be executed,
+        // as the route is handled by the Security system
+
+    }
+}
