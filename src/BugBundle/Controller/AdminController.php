@@ -17,6 +17,7 @@ class AdminController extends Controller
      */
     public function usersListAction(Request $request)
     {
+
         $em = $this->getDoctrine()->getManager();
         $dql = "SELECT u FROM BugBundle:USER u";
         $query = $em->createQuery($dql);

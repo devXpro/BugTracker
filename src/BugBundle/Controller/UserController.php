@@ -31,7 +31,7 @@ class UserController extends Controller
         }
 
 
-        return $this->render('@Bug/Admin/Users/user_edit.html.twig', array(
+        return $this->render('@Bug/User/user_profile_edit.html.twig', array(
             'form' => $form->createView(),
         ));
 

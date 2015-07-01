@@ -9,10 +9,13 @@
 
 <body>
 <div class="row">
-    <div id="user_auth" class="col-md-2 col-md-offset-1">
+    <div id="cssmenu">{{ knp_menu_render('BugBundle:Builder:mainMenu') }}</div>
+</div>
+<div class="row">
+    <div id="user_auth" class="col-md-3 col-md-offset-1">
         {% include '@Bug/Auth/user_auth_widget.html.twig' %}
     </div>
-    <div id="cssmenu" class="col-md-9" >{{ knp_menu_render('BugBundle:Builder:mainMenu') }}</div>
+
 </div>
 <hr>
 <div class="row">

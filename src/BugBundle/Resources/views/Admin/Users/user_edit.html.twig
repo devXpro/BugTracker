@@ -1,17 +1,6 @@
-{% extends '@Bug/base.html.twig' %}
+{% extends '@Bug/User/user_profile_edit.html.twig' %}
 
-
-{% block body %}
-    <h1>User Editor</h1>
-<div class="col-md-5">
-    {{ form_start(form,{'attr':{'class':'form col-md-12 center-block'}}) }}
-    {% for child in form.children %}
-        {{ form_row(child,{'attr':{'class':'form-control input-lg'}}) }}
-    {% endfor %}
-    <br><br>
-    <div class="form-group">
-        <button class="btn btn-primary btn-lg btn-block">Save</button>
-        <span class="pull-right"><a onclick="history.back();">Back</a></span><span><a href="#">Need help?</a></span>
-    </div>
-</div>
+{% block desc %}
+    <h1>Edit User</h1>
 {% endblock %}
+

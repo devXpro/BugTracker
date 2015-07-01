@@ -22,7 +22,8 @@ class ProfileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options){
         $builder
             ->add('email','email')
-            ->add('ava','file')
+            ->add('ava','file',array('required'=>false))
+            ->add('fullName','text',array('required'=>false))
             ->add('password','password');
 
     }

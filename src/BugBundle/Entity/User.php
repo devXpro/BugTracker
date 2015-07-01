@@ -30,6 +30,11 @@ class User implements UserInterface, \Serializable
     private $username;
 
     /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $fullName;
+
+    /**
      * @Assert\NotBlank(groups={"registration"})
      * @Assert\Length(min=7, groups={"registration"})
      * @ORM\Column(type="string", length=64)
@@ -306,5 +311,51 @@ class User implements UserInterface, \Serializable
 
         // clean up the file property as you won't need it anymore
         $this->file = null;
+    }
+
+    /**
+     * Set fullName
+     *
+     * @param string $fullName
+     * @return User
+     */
+    public function setFullName($fullName)
+    {
+        $this->fullName = $fullName;
+
+        return $this;
+    }
+
+    /**
+     * Get fullName
+     *
+     * @return string 
+     */
+    public function getFullName()
+    {
+        return $this->fullName;
+    }
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     * @return User
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string 
+     */
+    public function getPath()
+    {
+        return $this->path;
     }
 }
