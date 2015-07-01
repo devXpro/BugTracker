@@ -1,0 +1,17 @@
+{% if app.user %}
+    <br>
+    <div class="col-md-6">
+        <a href="{{ path('index') }}"> <img width="95" src="/{{ app.user.webPath }}"></a>
+    </div>
+    <div class="col-md-6">
+        <br>
+        <span>Hello <strong>{{ app.user.username | capitalize }}</strong></span>
+        <br> <a href="{{ path('logout') }}">Logout</a>
+        <br><a href="{{ path('user_profile_edit') }}">Edit Profile</a>
+    </div>
+
+
+
+{% else %}
+
+{% endif %}

@@ -44,7 +44,8 @@ class AdminController extends Controller
 
         if ($form->isValid()) {
             $user = $form->getData();
-            $user = $this->container->get('bug.userManager')->encodePassword($user);
+            //$user = $this->container->get('bug.userManager')->encodePassword($user);
+            $user->upload();
             $em->persist($user);
             $em->flush();
             return $this->redirect('/admin/users/list');

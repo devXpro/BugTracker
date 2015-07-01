@@ -2,7 +2,7 @@
 
 
 {% block body %}
-    <h1>User Editor</h1>
+    <h1>Prorile Edit <strong>{{  app.user.username}}</strong></h1>
 <div class="col-md-5">
     {{ form_start(form,{'attr':{'class':'form col-md-12 center-block'}}) }}
     {% for child in form.children %}

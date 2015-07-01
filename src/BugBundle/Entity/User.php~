@@ -3,7 +3,6 @@
 namespace BugBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -64,7 +63,7 @@ class User implements UserInterface, \Serializable
     public function __construct()
     {
         $this->isActive = true;
-        $this->roles = new ArrayCollection();
+        $this->roles=new ArrayCollection();
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid(null, true));
     }
@@ -122,7 +121,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -171,7 +170,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get email
      *
-     * @return string
+     * @return string 
      */
     public function getEmail()
     {
@@ -194,7 +193,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get isActive
      *
-     * @return boolean
+     * @return boolean 
      */
     public function getIsActive()
     {
@@ -225,86 +224,40 @@ class User implements UserInterface, \Serializable
     }
 
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    public $path;
+//
+//
+//    /**
+//     * @ORM\Column(type="string", length=255, nullable=true)
+//     */
+//    public $path;
+//
+//    public function getAbsolutePath()
+//    {
+//        return null === $this->path
+//            ? null
+//            : $this->getUploadRootDir().'/'.$this->path;
+//    }
+//
+//    public function getWebPath()
+//    {
+//        return null === $this->path
+//            ? null
+//            : $this->getUploadDir().'/'.$this->path;
+//    }
+//
+//    protected function getUploadRootDir()
+//    {
+//        // the absolute directory path where uploaded
+//        // documents should be saved
+//        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+//    }
+//
+//    protected function getUploadDir()
+//    {
+//        // get rid of the __DIR__ so it doesn't screw up
+//        // when displaying uploaded doc/image in the view.
+//        return 'uploads/ava';
+//    }
 
-    public function getAbsolutePath()
-    {
-        return null === $this->path
-            ? null
-            : $this->getUploadRootDir() . '/' . $this->path;
-    }
 
-    public function getWebPath()
-    {
-        return null === $this->path
-            ? null
-            : $this->getUploadDir() . '/' . $this->path;
-    }
-
-    protected function getUploadRootDir()
-    {
-        // the absolute directory path where uploaded
-        // documents should be saved
-        return __DIR__ . '/../../../web/' . $this->getUploadDir();
-    }
-
-    protected function getUploadDir()
-    {
-        // get rid of the __DIR__ so it doesn't screw up
-        // when displaying uploaded doc/image in the view.
-        return 'uploads/ava';
-    }
-
-
-    /**
-     * Sets file.
-     *
-     * @param UploadedFile $file
-     */
-    public function setAva(UploadedFile $file = null)
-    {
-        $this->ava = $file;
-    }
-
-    /**
-     * Get file.
-     *
-     * @return UploadedFile
-     */
-    public function getAva()
-    {
-        return $this->ava;
-    }
-
-    /**
-     * @return string
-     */
-    private function getAvaFileName()
-    {
-        $originalName = $this->getAva()->getClientOriginalName();
-        return $this->getUsername() . '.' . preg_replace('/.*?\./', '', $originalName);
-
-    }
-
-    public function upload()
-    {
-        // the file property can be empty if the field is not required
-        if (null === $this->getAva()) {
-            return;
-        }
-
-        $this->getAva()->move(
-            $this->getUploadRootDir(),
-            $this->getAvaFileName()
-        );
-
-        // set the path property to the filename where you've saved the file
-        $this->path = $this->getAvaFileName();
-
-        // clean up the file property as you won't need it anymore
-        $this->file = null;
-    }
 }

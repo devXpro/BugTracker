@@ -1,3 +1,4 @@
+web/uploads
 composer.lock
 .idea
 /app/bootstrap.php.cache

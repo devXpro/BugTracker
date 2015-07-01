@@ -14,8 +14,9 @@ class DefaultController extends Controller
     public function indexAction()
     {
         /** @var  $user User*/
-        $user=$this->getUser();
-        $name=$user->getUsername();
-        return $this->render(':default:index.html.twig',array('name'=>$name));
+        if($user=$this->getUser()) {
+            return $this->render('@Bug/base.html.twig');
+        } else
+            return $this->redirect('/login');
     }
 }

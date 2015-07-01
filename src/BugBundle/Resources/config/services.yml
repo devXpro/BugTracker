@@ -8,6 +8,11 @@ services:
         tags:
             - { name: form.type, alias: bug_user }
 
+    bug.form.type.user.profile:
+        class: BugBundle\Form\Type\ProfileType
+        tags:
+            - { name: form.type, alias: bug_user_profile }
+
     bug.form.type.role:
         class: BugBundle\Form\Type\RoleType
         tags:
