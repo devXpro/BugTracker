@@ -54,6 +54,12 @@ class Issue
     private $description;
 
     /**
+     * @var Collection | IssueComment[]
+     * @ORM\OneToMany(targetEntity="BugBundle\Entity\IssueComment", mappedBy="issue")
+     */
+    private $comments;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="type", type="integer")

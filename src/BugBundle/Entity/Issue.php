@@ -54,6 +54,12 @@ class Issue
     private $description;
 
     /**
+     * @var Collection | IssueComment[]
+     * @ORM\OneToMany(targetEntity="BugBundle\Entity\IssueComment", mappedBy="issue")
+     */
+    private $comments;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="type", type="integer")
@@ -511,5 +517,38 @@ class Issue
     public function getProject()
     {
         return $this->project;
+    }
+
+    /**
+     * Add comments
+     *
+     * @param \BugBundle\Entity\IssueComment $comments
+     * @return Issue
+     */
+    public function addComment(\BugBundle\Entity\IssueComment $comments)
+    {
+        $this->comments[] = $comments;
+
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \BugBundle\Entity\IssueComment $comments
+     */
+    public function removeComment(\BugBundle\Entity\IssueComment $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

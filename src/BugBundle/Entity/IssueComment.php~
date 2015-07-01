@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * Comment
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="BugBundle\Entity\CommentRepository")
+ * @ORM\Entity
  */
-class Comment
+class IssueComment
 {
     /**
      * @var integer
@@ -35,6 +35,19 @@ class Comment
      */
     private $created;
 
+    /**
+     * @var Issue
+     * @ORM\ManyToOne(targetEntity="BugBundle\Entity\Issue", inversedBy="comments")
+     * @ORM\JoinColumn(name="issue_id", referencedColumnName="id", nullable=true)
+     */
+    private $issue;
+
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="BugBundle\Entity\User")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", nullable=false)
+     */
+    private $author;
 
     /**
      * Get id
