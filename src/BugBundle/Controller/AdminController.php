@@ -26,7 +26,7 @@ class AdminController extends Controller
         $pagination = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),/*page number*/
-            5 /*limit per page*/
+            12 /*limit per page*/
 
         );
         return $this->render('@Bug/Admin/Users/users_list.html.twig', array('pagination' => $pagination));
