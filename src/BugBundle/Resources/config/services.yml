@@ -17,3 +17,8 @@ services:
         class: BugBundle\Form\Type\RoleType
         tags:
             - { name: form.type, alias: bug_user_role }
+
+    bug.form.type.project:
+        class: BugBundle\Form\Type\ProjectType
+        tags:
+            - { name: form.type, alias: bug_project }

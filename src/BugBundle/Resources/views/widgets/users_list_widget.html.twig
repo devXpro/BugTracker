@@ -1,0 +1,5 @@
+<ul>
+    {% for user in users %}
+        <li><a href="#">{{ user.fullName ? user.fullName : user.username | capitalize }}</a></li>
+    {% endfor %}
+</ul>

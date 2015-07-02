@@ -63,7 +63,7 @@ class IssueComment
      * Set body
      *
      * @param string $body
-     * @return Comment
+     * @return IssueComment
      */
     public function setBody($body)
     {
@@ -86,7 +86,7 @@ class IssueComment
      * Set created
      *
      * @param \DateTime $created
-     * @return Comment
+     * @return IssueComment
      */
     public function setCreated($created)
     {
@@ -103,5 +103,51 @@ class IssueComment
     public function getCreated()
     {
         return $this->created;
+    }
+
+    /**
+     * Set issue
+     *
+     * @param \BugBundle\Entity\Issue $issue
+     * @return IssueComment
+     */
+    public function setIssue(\BugBundle\Entity\Issue $issue = null)
+    {
+        $this->issue = $issue;
+
+        return $this;
+    }
+
+    /**
+     * Get issue
+     *
+     * @return \BugBundle\Entity\Issue 
+     */
+    public function getIssue()
+    {
+        return $this->issue;
+    }
+
+    /**
+     * Set author
+     *
+     * @param \BugBundle\Entity\User $author
+     * @return IssueComment
+     */
+    public function setAuthor(\BugBundle\Entity\User $author)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return \BugBundle\Entity\User 
+     */
+    public function getAuthor()
+    {
+        return $this->author;
     }
 }

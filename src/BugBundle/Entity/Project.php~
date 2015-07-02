@@ -54,6 +54,13 @@ class Project
     private $issues;
 
     /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="BugBundle\Entity\User")
+     * @ORM\JoinColumn(name="creator_id", referencedColumnName="id", nullable=false)
+     **/
+    private $creator;
+
+    /**
      * @var Collection | User[]
      * @ORM\ManyToMany(targetEntity="BugBundle\Entity\User", inversedBy="projects")
      * @ORM\JoinTable(name="projects_members")

@@ -1,4 +1,6 @@
 security:
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_MANAGER,ROLE_USER]
     encoders:
         BugBundle\Entity\User:
             algorithm: bcrypt
@@ -13,10 +15,8 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt|error)|css|images|js)/
             security: false
-#        login:
-#            pattern:    /login
-#            anonymous: true
         default:
+            security: true
             anonymous: ~
             pattern:    ^/
             http_basic: ~
@@ -30,4 +30,5 @@ security:
 
     access_control:
         - {path: ^/admin, role: ROLE_ADMIN}
+
 

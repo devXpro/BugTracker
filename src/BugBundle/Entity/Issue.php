@@ -19,10 +19,12 @@ class Issue
     const TYPE_TASK = 3;
     const TYPE_STORY = 4;
 
-    public function __construct(){
-        $this->childrenIssues=new ArrayCollection();
-        $this->collaborators=new ArrayCollection();
+    public function __construct()
+    {
+        $this->childrenIssues = new ArrayCollection();
+        $this->collaborators = new ArrayCollection();
     }
+
     /**
      * @var integer
      *
@@ -308,7 +310,7 @@ class Issue
     /**
      * Get priority
      *
-     * @return \BugBundle\Entity\IssuePriority 
+     * @return \BugBundle\Entity\IssuePriority
      */
     public function getPriority()
     {
@@ -331,7 +333,7 @@ class Issue
     /**
      * Get status
      *
-     * @return \BugBundle\Entity\IssueStatus 
+     * @return \BugBundle\Entity\IssueStatus
      */
     public function getStatus()
     {
@@ -354,7 +356,7 @@ class Issue
     /**
      * Get resolution
      *
-     * @return \BugBundle\Entity\IssueResolution 
+     * @return \BugBundle\Entity\IssueResolution
      */
     public function getResolution()
     {
@@ -377,7 +379,7 @@ class Issue
     /**
      * Get reporter
      *
-     * @return \BugBundle\Entity\User 
+     * @return \BugBundle\Entity\User
      */
     public function getReporter()
     {
@@ -400,7 +402,7 @@ class Issue
     /**
      * Get assignee
      *
-     * @return \BugBundle\Entity\User 
+     * @return \BugBundle\Entity\User
      */
     public function getAssignee()
     {
@@ -433,7 +435,7 @@ class Issue
     /**
      * Get collaborators
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCollaborators()
     {
@@ -456,7 +458,7 @@ class Issue
     /**
      * Get parentIssue
      *
-     * @return \BugBundle\Entity\Issue 
+     * @return \BugBundle\Entity\Issue
      */
     public function getParentIssue()
     {
@@ -489,7 +491,7 @@ class Issue
     /**
      * Get childrenIssues
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getChildrenIssues()
     {
@@ -512,7 +514,7 @@ class Issue
     /**
      * Get project
      *
-     * @return \BugBundle\Entity\Project 
+     * @return \BugBundle\Entity\Project
      */
     public function getProject()
     {
@@ -545,7 +547,7 @@ class Issue
     /**
      * Get comments
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getComments()
     {

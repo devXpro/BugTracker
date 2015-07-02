@@ -17,6 +17,6 @@ class DefaultController extends Controller
         if($user=$this->getUser()) {
             return $this->render('@Bug/base.html.twig');
         } else
-            return $this->redirect('/login');
+            return $this->redirect($this->generateUrl('login_route'));
     }
 }

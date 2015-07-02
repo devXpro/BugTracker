@@ -69,7 +69,7 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($user);
         $em->flush();
-        return $this->redirect('/admin/users/list');
+        return $this->redirect($this->generateUrl('admin_users_list'));
 
     }
 

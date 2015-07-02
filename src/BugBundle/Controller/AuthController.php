@@ -58,7 +58,7 @@ class AuthController extends Controller
             $user->addRole($roleUser);
             $em->persist($user);
             $em->flush();
-            return $this->redirect('login');
+            return $this->redirect($this->generateUrl('login_route'));
         }
 
         return $this->render('@Bug/Auth/register.html.twig',array(

@@ -16,6 +16,7 @@ class Builder extends ContainerAware
 {
     public function mainMenu(FactoryInterface $factory, array $options)
     {
+        $translator=$this->container->get('translator');
         $menu = $factory->createItem('root');
 
         $menu->addChild('Home', array('route' => 'index'));
@@ -25,8 +26,8 @@ class Builder extends ContainerAware
                 'route' => 'admin_users_list',
 
             ));
-        $menu->addChild('Registration', array(
-            'route' => 'registration_route',
+        $menu->addChild(ucfirst($translator->trans('projects')), array(
+            'route' => 'projects_list',
 
         ));
 

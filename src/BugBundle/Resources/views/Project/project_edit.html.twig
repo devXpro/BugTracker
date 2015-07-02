@@ -1,0 +1,25 @@
+{% extends '@Bug/base.html.twig' %}
+
+{% block style %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset("bundles/bug/css/project.css") }}">
+{% endblock %}
+
+{% block body %}
+    {% block desc %}
+        <h1>{{ 'project_editor'|trans|capitalize }}</h1>
+    {% endblock %}
+    <div class="col-md-5">
+        {{ form_start(form,{'attr':{'class':'form col-md-12 center-block'}}) }}
+        {% for child in form.children %}
+
+            {{ form_row(child,{'attr':{'class':'form-control input-lg'}}) }}
+        {% endfor %}
+        <br><br>
+
+        <div class="form-group">
+            <button class="btn btn-primary btn-lg btn-block">{{ 'save'|trans }}</button>
+            <span class="pull-right"><a onclick="history.back();">Back</a></span><span><a href="#">Need help?</a></span>
+        </div>
+    </div>
+{% endblock %}

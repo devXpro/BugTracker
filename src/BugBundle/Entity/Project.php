@@ -54,6 +54,13 @@ class Project
     private $issues;
 
     /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="BugBundle\Entity\User")
+     * @ORM\JoinColumn(name="creator_id", referencedColumnName="id", nullable=false)
+     **/
+    private $creator;
+
+    /**
      * @var Collection | User[]
      * @ORM\ManyToMany(targetEntity="BugBundle\Entity\User", inversedBy="projects")
      * @ORM\JoinTable(name="projects_members")
@@ -203,5 +210,28 @@ class Project
     public function getMembers()
     {
         return $this->members;
+    }
+
+    /**
+     * Set creator
+     *
+     * @param \BugBundle\Entity\User $creator
+     * @return Project
+     */
+    public function setCreator(\BugBundle\Entity\User $creator)
+    {
+        $this->creator = $creator;
+
+        return $this;
+    }
+
+    /**
+     * Get creator
+     *
+     * @return \BugBundle\Entity\User 
+     */
+    public function getCreator()
+    {
+        return $this->creator;
     }
 }

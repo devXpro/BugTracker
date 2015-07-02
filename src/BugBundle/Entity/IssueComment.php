@@ -63,7 +63,7 @@ class IssueComment
      * Set body
      *
      * @param string $body
-     * @return Comment
+     * @return IssueComment
      */
     public function setBody($body)
     {
@@ -86,7 +86,7 @@ class IssueComment
      * Set created
      *
      * @param \DateTime $created
-     * @return Comment
+     * @return IssueComment
      */
     public function setCreated($created)
     {

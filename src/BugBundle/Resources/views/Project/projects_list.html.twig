@@ -1,0 +1,43 @@
+{% extends '@Bug/base.html.twig' %}
+
+{% block body %}
+    <a  href="{{ path('bug_project_create') }}" type="button" class="btn btn-primary "><span class="glyphicon glyphicon-plus"
+                                                         aria-hidden="true"></span> {{ 'create_new_project'|trans|capitalize }}
+    </a>
+    <h1>{{ 'project_editor'|trans|capitalize }}</h1>
+    <div class="count">
+        <h4> {{ 'projects'|trans }}:{{ pagination.getTotalItemCount }}</h4>
+
+    </div>
+    <table class="table table-striped">
+        <tr>
+            {# sorting of properties based on query components #}
+            <th>{{ knp_pagination_sortable(pagination, 'id'|trans|capitalize, 'p.id') }}</th>
+            <th>{{ knp_pagination_sortable(pagination,'label'|trans|capitalize, 'p.label') }}</th>
+            <th>{{ knp_pagination_sortable(pagination,'summary'|trans|capitalize, 'p.summary') }}</th>
+            <th>{{ knp_pagination_sortable(pagination,'code'|trans|capitalize, 'p.code') }}</th>
+            <th>{{ 'creator'|trans|capitalize }}</th>
+
+
+            <th>Delete</th>
+        </tr>
+
+        {# table body #}
+        {% for p in pagination %}
+            <tr {% if loop.index is odd %}class="color"{% endif %}>
+                <td><a href="{{ path('bug_project_view',{'project': p.id}) }}">{{ p.id }}</a></td>
+                <td>{{ p.label }}</td>
+                <td>{{ p.summary | slice(0,500) }}...</td>
+                <td>{{ p.code }}</td>
+                <td>{{ p.creator.username |capitalize }}</td>
+                <td><a href="{{ path('bug_project_delete',{'project': p.id}) }}" class="glyphicon glyphicon-remove"
+                       style="font-size: 20px; color: red">
+                    </a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    {# display navigation #}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}

@@ -1,4 +1,15 @@
+id: id
 save: Save
 hello: Hello
 logout: Logout
 edit_profile: Edit Profile
+label: Lable
+summary: Summary
+code: Code
+creator: Creator
+project_editor: project editor
+projects: projects
+edit: edit
+collaborators: Collaborators
+members: members
+create_new_project: create new project
