@@ -6,10 +6,7 @@
         <h1>Prorile Edit for <strong>{{ app.user.username |capitalize }}</strong> user</h1>
     {% endblock %}
     <div class="col-md-5">
-        {{ form_start(form,{'attr':{'class':'form col-md-12 center-block'}}) }}
-        {% for child in form.children %}
-            {{ form_row(child,{'attr':{'class':'form-control input-lg'}}) }}
-        {% endfor %}
+        {% include '@Bug/widgets/form_output.html.twig' %}
         <br><br>
 
         <div class="form-group">

@@ -1,0 +1,5 @@
+{{ form_start(form,{'attr':{'class':'form col-md-12 center-block'}}) }}
+        {% for child in form.children %}
+            {{ form_row(child,{'attr':{'class':'form-control input-lg'},'label':child.vars.name|trans|capitalize}) }}
+        {% endfor %}
+{{ form_end(form) }}

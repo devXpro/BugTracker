@@ -6,7 +6,7 @@
     </a>
     <h1>{{ 'project_editor'|trans|capitalize }}</h1>
     <div class="count">
-        <h4> {{ 'projects'|trans }}:{{ pagination.getTotalItemCount }}</h4>
+        <h4> {{ 'projects'|trans|capitalize }}: {{ pagination.getTotalItemCount }}</h4>
 
     </div>
     <table class="table table-striped">
@@ -19,7 +19,7 @@
             <th>{{ 'creator'|trans|capitalize }}</th>
 
 
-            <th>Delete</th>
+            <th>{{ 'delete'|trans }}</th>
         </tr>
 
         {# table body #}

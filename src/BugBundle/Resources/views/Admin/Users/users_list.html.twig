@@ -8,11 +8,11 @@
     <table class="table table-striped">
         <tr>
             {# sorting of properties based on query components #}
-            <th>{{ knp_pagination_sortable(pagination, 'Id', 'u.id') }}</th>
-            <th{% if pagination.isSorted('u.username') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'User Name', 'u.username') }}</th>
-            <th>{{ knp_pagination_sortable(pagination, 'Email', 'u.email') }}</th>
-            <th>Role</th>
-            <th>Delete</th>
+            <th>{{ knp_pagination_sortable(pagination, 'id'|trans|capitalize, 'u.id') }}</th>
+            <th{% if pagination.isSorted('u.username') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'username'|trans|capitalize, 'u.username') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'email'|trans|capitalize, 'u.email') }}</th>
+            <th>{{ 'role'|trans }}</th>
+            <th>{{ 'delete'|trans }}</th>
         </tr>
 
         {# table body #}

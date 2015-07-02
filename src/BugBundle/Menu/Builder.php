@@ -14,19 +14,30 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 
 class Builder extends ContainerAware
 {
+    public function trans($string)
+    {
+
+        $translator=$this->container->get('translator');
+        $string=$translator->trans($string);
+        $encoding='UTF8';
+        $strlen = mb_strlen($string, $encoding);
+        $firstChar = mb_substr($string, 0, 1, $encoding);
+        $then = mb_substr($string, 1, $strlen - 1, $encoding);
+        return mb_strtoupper($firstChar, $encoding) . $then;
+    }
     public function mainMenu(FactoryInterface $factory, array $options)
     {
-        $translator=$this->container->get('translator');
+
         $menu = $factory->createItem('root');
 
-        $menu->addChild('Home', array('route' => 'index'));
+        $menu->addChild($this->trans('home'), array('route' => 'index'));
 
         if ($this->container->get('security.authorization_checker')->isGranted(Role::ROLE_ADMIN))
-            $menu->addChild('Users', array(
+            $menu->addChild($this->trans('users'), array(
                 'route' => 'admin_users_list',
 
             ));
-        $menu->addChild(ucfirst($translator->trans('projects')), array(
+        $menu->addChild($this->trans('projects'), array(
             'route' => 'projects_list',
 
         ));
