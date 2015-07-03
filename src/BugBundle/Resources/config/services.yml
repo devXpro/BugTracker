@@ -2,6 +2,11 @@ services:
     bug.userManager:
         class: BugBundle\Services\UserManager
         arguments: [@service_container]
+    bug.trans.helper:
+        class: BugBundle\Services\TransHelper
+        arguments: [@translator]
+    bug.request.decorator:
+            class: BugBundle\Services\RequestDecorator
 
     bug.form.type.user:
         class: BugBundle\Form\Type\UserType
@@ -22,3 +27,10 @@ services:
         class: BugBundle\Form\Type\ProjectType
         tags:
             - { name: form.type, alias: bug_project }
+
+    bug.form.type.issue:
+        class: BugBundle\Form\Type\IssueType
+        tags:
+            - { name: form.type, alias: bug_issue }
+        arguments: [@service_container]
+

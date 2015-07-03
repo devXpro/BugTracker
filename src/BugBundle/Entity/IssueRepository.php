@@ -12,4 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class IssueRepository extends EntityRepository
 {
+    public function getAllIssuesQuery(){
+        return  $this->getEntityManager()->createQuery("SELECT i FROM BugBundle:issue i");
+    }
 }

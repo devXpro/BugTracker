@@ -17,6 +17,9 @@ class Project
     public function __construct(){
         $this->issues=new ArrayCollection();
     }
+    public function __toString(){
+        return $this->getLabel();
+    }
     /**
      * @var integer
      *

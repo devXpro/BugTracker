@@ -4,6 +4,7 @@ namespace BugBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 
+
 /**
  * ProjectRepository
  *
@@ -27,5 +28,14 @@ class ProjectRepository extends EntityRepository
 
     public function getAllProjectsQuery(){
         return  $this->getEntityManager()->createQuery("SELECT p FROM BugBundle:project p");
+    }
+
+    /**
+     * @param User $user
+     * @return array
+     */
+    public function getProjectsByUser(User $user){
+        return $this->getProjectsByUserQuery($user)->getResult();
+
     }
 }

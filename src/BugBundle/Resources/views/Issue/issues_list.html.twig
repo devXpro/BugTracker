@@ -1,0 +1,60 @@
+{% extends '@Bug/base.html.twig' %}
+
+{% block body %}
+    <a href="{{ path('bug_issue_create') }}" type="button" class="btn btn-primary "><span
+                class="glyphicon glyphicon-plus"
+                aria-hidden="true"></span> {{ 'createNewIssue'|trans|capitalize }}
+    </a>
+    <h1>{{ 'issueEditor'|trans|capitalize }}</h1>
+    <div class="count">
+        <h4> {{ 'projects'|trans|capitalize }}: {{ pagination.getTotalItemCount }}</h4>
+
+    </div>
+    <table class="table table-striped">
+        <tr>
+            {# sorting of properties based on query components #}
+            <th>{{ knp_pagination_sortable(pagination, 'id'|trans|capitalize, 'i.id') }}</th>
+            <th>{{ knp_pagination_sortable(pagination,'project'|trans|capitalize, 'i.project.label') }}</th>
+            <th>{{ knp_pagination_sortable(pagination,'summary'|trans|capitalize, 'i.summary') }}</th>
+            <th>{{ knp_pagination_sortable(pagination,'code'|trans|capitalize, 'i.code') }}</th>
+            <th>{{ knp_pagination_sortable(pagination,'description'|trans|capitalize, 'i.description') }}</th>
+            <th>{{ 'type'|trans|capitalize }}</th>
+            <th>{{ 'priority'|trans|capitalize }}</th>
+            <th>{{ 'status'|trans|capitalize }}</th>
+            <th>{{ 'resolution'|trans|capitalize }}</th>
+            <th>{{ 'assignee'|trans|capitalize }}</th>
+            <th>{{ 'reporter'|trans|capitalize }}</th>
+            <th>{{ 'created'|trans|capitalize }}</th>
+            <th>{{ 'updated'|trans|capitalize }}</th>
+
+
+            <th>{{ 'delete'|trans }}</th>
+        </tr>
+
+        {# table body #}
+        {% for i in pagination %}
+            <tr {% if loop.index is odd %}class="color"{% endif %}>
+                <td><a href="{{ path('bug_issue_view',{'issue': i.id}) }}">{{ i.id }}</a></td>
+                <td>{{ i.project }}</td>
+                <td>{{ i.summary }}</td>
+                <td>{{ i.code }}</td>
+                <td>{{ i.description | slice(0,500) }}...</td>
+                <td>{{ i.type }}</td>
+                <td>{{ i.priority }}</td>
+                <td>{{ i.status }}</td>
+                <td>{{ i.resolution }}</td>
+                <td>{{ i.assignee }}</td>
+                <td>{{ i.reporter }}</td>
+                <td>{{ i.created |date("m/d/Y  g:ia") }}</td>
+                <td>{{ i.updated | date("m/d/Y  g:ia") }}</td>
+                <td><a href="{{ path('bug_issue_delete',{'issue': i.id}) }}" class="glyphicon glyphicon-remove"
+                       style="font-size: 20px; color: red">
+                    </a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    {# display navigation #}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}

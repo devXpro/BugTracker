@@ -1,16 +1,17 @@
 id: id
-save: Save
-hello: Hello
-logout: Logout
-edit_profile: Edit Profile
-label: Lable
-summary: Summary
-code: Code
-creator: Creator
+save: save
+hello: hello
+logout: logout
+edit_profile: edit Profile
+label: lable
+summary: summary
+code: code
+creator: creator
 project_editor: project editor
+issue_editor: issue editor
 projects: projects
 edit: edit
-collaborators: Collaborators
+collaborators: collaborators
 members: members
 create_new_project: create new project
 home: home
@@ -20,3 +21,19 @@ email: Email
 role: Role
 role: Roles
 delete: Delete
+bug: bug
+story: story
+task: task
+subtask: subtask
+parentIssue: Parent issue
+createNewIssue: create new issue
+issueEditor: issue editor
+project: project
+description: description
+type: type
+priority: priority
+status: status
+resolution: resolution
+assignee: assignee
+reporter: reporter
+youHaveNoAnyProjects: You do not have any project where you were a participant or creator. Create or ask Manager asset project for you!

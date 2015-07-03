@@ -47,6 +47,7 @@ class ProjectController extends Controller
      * @Route("/project/view/{project}", name="bug_project_view")
      * @param Request $request
      * @param Project $project
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function projectListAction(Request $request, Project $project){
         return $this->render('@Bug/Project/project_list.html.twig',array('project'=>$project));
@@ -56,6 +57,7 @@ class ProjectController extends Controller
      * @Route("/project/edit/{project}", name="bug_project_edit")
      * @param Request $request
      * @param Project $project
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function projectEditAction(Request $request, Project $project){
         $em = $this->getDoctrine()->getManager();
@@ -78,7 +80,7 @@ class ProjectController extends Controller
     /**
      * @Route("/project/create", name="bug_project_create")
      * @param Request $request
-
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function projectCreateAction(Request $request){
         $em = $this->getDoctrine()->getManager();

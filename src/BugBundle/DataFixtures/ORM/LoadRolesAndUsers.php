@@ -9,6 +9,7 @@
 namespace BugBundle\DataFixtures\ORM;
 
 
+
 use BugBundle\Entity\Role;
 use BugBundle\Entity\User;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -83,13 +84,30 @@ class LoadRolesAndUsers implements FixtureInterface, ContainerAwareInterface
             }
         $manager->flush();
 
+
+
+
+        $persist=function(array $labels,$name)use($manager){
+            $name='BugBundle\Entity\\'.$name;
+            foreach($labels as $label) {
+                $entity = new $name();
+                $entity->setLabel($label);
+                $manager->persist($entity);
+                }
+        };
+
+        $persist(['Active','Needs Work','Needs Review','Done','Patch','Fixed','Postponed','Closed'],'IssueStatus');
+        $persist(['Fixed','Duplicate','Won\'t fix', 'Incomplete','Cannot reproduce','Redundant','Invalid'],'IssueResolution');
+        $persist(['Highest','High','Medium','Low','Lowest'],'IssuePriority');
+
+        $manager->flush();
     }
 
 
 
     private function makeIdentities(){
         $res=array();
-        for ($i = 1; $i < 50; $i++) {
+        for ($i = 1; $i < 15; $i++) {
             $name = $this->names[rand(0, count($this->names) - 1)];
             $last = $this->lastName[rand(0, count($this->lastName) - 1)];
             $ident=array('full' => $name . ' ' . $last, 'login' => strtolower($name . '_' . $last));
