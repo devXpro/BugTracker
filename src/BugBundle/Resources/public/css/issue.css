@@ -2,3 +2,17 @@
     border-left: solid #adadad 1px;
 
 }
+
+.subtext {
+    color: #aaa;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+}
+
+.comment{
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-style: oblique;
+}
+.border_left{
+    border-left: solid #D3D3D3 1px;
+}

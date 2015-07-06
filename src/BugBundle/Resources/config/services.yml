@@ -35,3 +35,9 @@ services:
             - { name: form.type, alias: bug_issue }
         arguments: [@service_container]
 
+    bug.form.type.issue.comment:
+            class: BugBundle\Form\Type\IssueCommentType
+            tags:
+                - { name: form.type, alias: bug_issue_comment }
+            arguments: [@service_container]
+

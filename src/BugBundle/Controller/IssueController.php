@@ -16,7 +16,8 @@ class IssueController extends Controller
     /**
      * @Route("/issues/list/{project}", name="issues_list", defaults={"project" = null})
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param Project|null $project
+     * @return Response
      */
 
     public function issuesListAction(Request $request,Project $project=null)
@@ -26,7 +27,7 @@ class IssueController extends Controller
         $issueRepository = $em->getRepository('BugBundle:Issue');
         $query = $this->isGranted('ROLE_ADMIN') ?
             $issueRepository->getAllIssuesQuery() :
-            $issueRepository->getissuesByUserQuery($this->getUser())->getResult();
+            $issueRepository->getIssuesByUserQuery($this->getUser())->getResult(); //TODO Write That Query
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -95,15 +96,12 @@ class IssueController extends Controller
 
 
         $issue=new Issue();
-        $issue->setReporter($this->getUser());
         $form = $this->createForm('bug_issue', $issue);
-        $this->get('bug.request.decorator')->emptyToNull($request);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             /** @var Issue $issue */
             $issue = $form->getData();
-            $issue->setReporter($this->getUser());
             $em->persist($issue);
             $em->flush();
             return $this->redirect($this->generateUrl('bug_issue_view',array('issue'=>$issue->getId())));

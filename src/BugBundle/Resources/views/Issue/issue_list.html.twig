@@ -2,7 +2,7 @@
 
 {% block style %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset("bundles/bug/css/project.css") }}">
+    <link rel="stylesheet" href="{{ asset("bundles/bug/css/issue.css") }}">
 {% endblock %}
 
 {% block body %}
@@ -33,19 +33,70 @@
             <hr>
 
             <h3>Comments</h3>
-            {#Comments block#}
+
+            <div id="contents">
+
+            </div>
         </div>
         <div class="col-md-3" id="block_for_activity">
-            <h1>{{ 'collaborators'|trans |capitalize }}</h1>
-            {% set users = issue.collaborators %}
-            {% include '@Bug/widgets/users_list_widget.html.twig' %}
-            <h1>{{ 'activity'|trans |capitalize }}</h1>
-            {#Activity#}
-            <h1>{{ 'members'|trans |capitalize }}</h1>
-            {#Members#}
+            <details>
+                <summary><strong>{{ 'collaborators'|trans |capitalize }}</strong></summary>
+                {% set users = issue.collaborators %}
+                {% include '@Bug/widgets/users_list_widget.html.twig' %}
+
+            </details>
+
+
+            <details>
+                <summary><strong>{{ 'activity'|trans |capitalize }}</strong></summary>
+                So far away we wait for the day
+                For the light source so wasted and gone
+                We feel the pain of a lifetime lost in a thousand days
+                Through the fire and the flames we carry on
+            </details>
+
+            <details>
+                <summary><strong>{{ 'members'|trans |capitalize }}</strong></summary>
+                So far away we wait for the day
+                For the light source so wasted and gone
+                We feel the pain of a lifetime lost in a thousand days
+                Through the fire and the flames we carry on
+            </details>
+
+
 
         </div>
     </div>
 
+    <script>
+        $(document).ready(function () {
+            getComments();
 
+            $('form[name=bug_issue_comment]').on('submit', function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    type: "POST",
+                    url: '{{path('issue_comment',{'issue':issue.id})}}',
+                    data: $(this).serialize(),
+                    success: function (data) {
+                        $('#contents').html(data);
+                    }
+                });
+            });
+
+            function getComments() {
+                $.ajax({
+                    type: "POST",
+                    url: '{{path('issue_comment',{'issue':issue.id})}}',
+                    async: false,
+                    success: function (data) {
+                        $('#contents').html(data);
+                    }
+
+                });
+            }
+
+        });
+    </script>
 {% endblock %}
