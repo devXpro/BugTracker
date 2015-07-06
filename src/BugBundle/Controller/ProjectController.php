@@ -5,11 +5,13 @@ namespace BugBundle\Controller;
 use BugBundle\Entity\Project;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
 class ProjectController extends Controller
 {
+
     /**
      * @Route("/projects/list/", name="projects_list")
      * @param Request $request
@@ -85,7 +87,6 @@ class ProjectController extends Controller
     public function projectCreateAction(Request $request){
         $em = $this->getDoctrine()->getManager();
         $project=new Project();
-        $project->setCreator($this->getUser());
         $form = $this->createForm('bug_project', $project);
         $form->handleRequest($request);
 

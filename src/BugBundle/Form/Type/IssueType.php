@@ -79,7 +79,7 @@ class IssueType extends AbstractType
             ->add('resolution', 'entity', array('class' => 'BugBundle\Entity\IssueResolution'))
             ->add('assignee', 'entity', array('class' => 'BugBundle\Entity\User'))
 //            ->add('parentIssue', 'entity', array('class' => 'BugBundle\Entity\Issue','placeholder' => 'None','required'=>false))
-            ->add('reporter', 'entity', array('class' => 'BugBundle\Entity\User', 'data' => $this->user,'virtual'=>true))//            ->add('childrenIssues', 'entity', array('class' => 'BugBundle\Entity\Issue','multiple'=>true))
+            ->add('reporter', 'entity', array('class' => 'BugBundle\Entity\User', 'empty_data'  => $this->user->getId()))//            ->add('childrenIssues', 'entity', array('class' => 'BugBundle\Entity\Issue','multiple'=>true))
 
         ;
     }

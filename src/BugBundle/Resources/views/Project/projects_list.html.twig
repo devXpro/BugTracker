@@ -19,6 +19,7 @@
             <th>{{ 'creator'|trans|capitalize }}</th>
 
 
+            <th>{{ 'edit'|trans }}</th>
             <th>{{ 'delete'|trans }}</th>
         </tr>
 
@@ -30,9 +31,12 @@
                 <td>{{ p.summary | slice(0,500) }}...</td>
                 <td>{{ p.code }}</td>
                 <td>{{ p.creator.username |capitalize }}</td>
+                <td><a href="{{ path('bug_project_edit',{'project': p.id}) }}" class="glyphicon glyphicon-pencil"
+                       style="font-size: 20px; color: brown"></a></td>
                 <td><a href="{{ path('bug_project_delete',{'project': p.id}) }}" class="glyphicon glyphicon-remove"
                        style="font-size: 20px; color: red">
                     </a></td>
+
             </tr>
         {% endfor %}
     </table>

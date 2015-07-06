@@ -8,27 +8,42 @@
 {% block body %}
     <div class="row">
         <div class="col-md-9">
-            <h2><strong>{{ issue.code }}-{{ issue.id }}</strong> {{ issue.label }}</h2>
-            <a href="{{ path('bug_issue_edit',{'issue': issue.id}) }}" class="glyphicon glyphicon-pencil"
-               style="font-size: 20px; color: brown">{{ 'edit'|trans|capitalize }}</a>
+            <div class="row">
+                <div class="col-md-8">
+                    <h2><strong>{{ issue.code |upper }}-{{ issue.id }}</strong> {{ issue.summary }}</h2>
+                    <a href="{{ path('bug_issue_edit',{'issue': issue.id}) }}" class="glyphicon glyphicon-pencil"
+                       style="font-size: 20px; color: brown">{{ 'edit'|trans|capitalize }}</a>
+                </div>
+                <div class="col-md-4">
+                    <h4>{{ 'assignee'|trans|capitalize }}: <strong>{{ issue.assignee }}</strong></h4>
+                    <h4>{{ 'creator'|trans|capitalize }}: <strong>{{ issue.reporter }}</strong></h4>
+                </div>
+            </div>
             <hr>
-            <h3>{{ 'summary'|trans }}</h3>
+            <h3>{{ 'summary'|trans|capitalize }}</h3>
 
             <p>{{ issue.summary }}</p>
+            <hr>
+            <h3>{{ 'description'|trans|capitalize }}</h3>
+
+            <p>{{ issue.description }}</p>
             <br>
-            <h5 align="right">{{ 'creator'|trans }}:
-                <strong>{{ issue.creator.fullName ? issue.creator.fullName : issue.creator.username | capitalize }}</strong>
-            </h5>
+
 
             <hr>
 
-            <h3>Activity</h3>
-            {#Activity block#}
+            <h3>Comments</h3>
+            {#Comments block#}
         </div>
         <div class="col-md-3" id="block_for_activity">
-            <h1>{{ 'members'|trans |capitalize}}</h1>
-            {% set users = issue.members%}
-            {%  include '@Bug/widgets/users_list_widget.html.twig' %}
+            <h1>{{ 'collaborators'|trans |capitalize }}</h1>
+            {% set users = issue.collaborators %}
+            {% include '@Bug/widgets/users_list_widget.html.twig' %}
+            <h1>{{ 'activity'|trans |capitalize }}</h1>
+            {#Activity#}
+            <h1>{{ 'members'|trans |capitalize }}</h1>
+            {#Members#}
+
         </div>
     </div>
 
