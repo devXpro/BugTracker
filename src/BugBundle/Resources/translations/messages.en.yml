@@ -39,4 +39,9 @@ reporter: reporter
 activity: activity
 noComments: no comments
 doComment: comment
+changeStatus: Change Status
+commentIssue: Comment issue
 youHaveNoAnyProjects: You do not have any project where you were a participant or creator. Create or ask Manager asset project for you!
+changeStatusIssueMessage: Issue %b% %issue% %endb% was change status to %b% %issueStatus% %endb% by %user%
+commentIssueMassage: %user% was commented issue %issue%, and leave comment:
+createIssueMessage: Issue %issue% was created in project %project% by %user%

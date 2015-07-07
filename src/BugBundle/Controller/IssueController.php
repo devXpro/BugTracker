@@ -27,13 +27,13 @@ class IssueController extends Controller
         $issueRepository = $em->getRepository('BugBundle:Issue');
         $query = $this->isGranted('ROLE_ADMIN') ?
             $issueRepository->getAllIssuesQuery() :
-            $issueRepository->getIssuesByUserQuery($this->getUser())->getResult(); //TODO Write That Query
+            $issueRepository->getIssuesByUserQuery($this->getUser())->getResult();
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),/*page number*/
-            5 /*limit per page*/
+            10 /*limit per page*/
 
         );
         return $this->render('@Bug/Issue/issues_list.html.twig', array('pagination' => $pagination));

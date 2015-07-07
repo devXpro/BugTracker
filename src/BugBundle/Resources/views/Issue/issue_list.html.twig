@@ -74,9 +74,9 @@
 
             $('form[name=bug_issue_comment]').on('submit', function (e) {
                 e.preventDefault();
-
                 $.ajax({
                     type: "POST",
+                    async: false,
                     url: '{{path('issue_comment',{'issue':issue.id})}}',
                     data: $(this).serialize(),
                     success: function (data) {

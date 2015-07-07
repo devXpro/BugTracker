@@ -15,4 +15,19 @@ class IssueRepository extends EntityRepository
     public function getAllIssuesQuery(){
         return  $this->getEntityManager()->createQuery("SELECT i FROM BugBundle:issue i");
     }
+
+    public function getIssuesByUserQuery(User $user){
+        $qb=$this->createQueryBuilder('i')
+            ->innerJoin('i.project','p')
+            ->leftJoin('p.members','members');
+        $qb->where($qb->expr()->orX(
+            $qb->expr()->in('members',':user'),
+            $qb->expr()->eq('p.creator',':user')
+
+        ))
+            ->setParameter('user',$user);
+        return $qb->getQuery();
+    }
+
+
 }

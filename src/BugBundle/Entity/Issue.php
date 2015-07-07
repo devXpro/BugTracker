@@ -286,7 +286,8 @@ class Issue
     }
 
     /**
-     * @ORM\PreFlush()
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
      *
      */
     public function setUpdatedNow(){
@@ -438,7 +439,12 @@ class Issue
      */
     public function addCollaborator(\BugBundle\Entity\User $collaborators)
     {
-        $this->collaborators[] = $collaborators;
+        foreach($this->collaborators as $col){
+            if($col==$collaborators)
+                return $this;
+        }
+
+            $this->collaborators[] = $collaborators;
 
         return $this;
     }

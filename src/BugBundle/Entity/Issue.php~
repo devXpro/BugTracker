@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="BugBundle\Entity\IssueRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Issue
 {
@@ -24,7 +25,10 @@ class Issue
         $this->childrenIssues = new ArrayCollection();
         $this->collaborators = new ArrayCollection();
     }
-
+    public function __toString(){
+        return $this->code.'-'.$this->id.' '.$this->summary;
+    }
+    /**
     /**
      * @var integer
      *
@@ -113,7 +117,7 @@ class Issue
     /**
      * @var Issue
      * @ORM\ManyToOne(targetEntity="BugBundle\Entity\Issue", inversedBy="childrenIssues")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
      */
     private $parentIssue;
 
@@ -262,6 +266,16 @@ class Issue
     }
 
     /**
+     * @ORM\PrePersist()
+     * @return $this
+     */
+    public function setCreatedNow(){
+        $this->created = new \DateTime('now');
+
+        return $this;
+    }
+
+    /**
      * Get created
      *
      * @return \DateTime
@@ -271,6 +285,14 @@ class Issue
         return $this->created;
     }
 
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     *
+     */
+    public function setUpdatedNow(){
+        $this->updated = new \DateTime('now');
+    }
     /**
      * Set updated
      *
@@ -417,7 +439,12 @@ class Issue
      */
     public function addCollaborator(\BugBundle\Entity\User $collaborators)
     {
-        $this->collaborators[] = $collaborators;
+        foreach($this->collaborators as $col){
+            if($col==$collaborators)
+                return $this;
+        }
+
+            $this->collaborators[] = $collaborators;
 
         return $this;
     }

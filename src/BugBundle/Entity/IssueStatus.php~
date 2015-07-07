@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class IssueStatus
 {
     public function __toString(){
-        return $this->getLable();
+        return $this->getLabel();
     }
     /**
      * @var integer
@@ -27,9 +27,9 @@ class IssueStatus
     /**
      * @var string
      *
-     * @ORM\Column(name="lable", type="string", length=255)
+     * @ORM\Column(name="label", type="string", length=255)
      */
-    private $lable;
+    private $label;
 
 
     /**
@@ -43,25 +43,25 @@ class IssueStatus
     }
 
     /**
-     * Set lable
+     * Set label
      *
-     * @param string $lable
+     * @param string $label
      * @return IssueStatus
      */
-    public function setLable($lable)
+    public function setLabel($label)
     {
-        $this->lable = $lable;
+        $this->label = $label;
 
         return $this;
     }
 
     /**
-     * Get lable
+     * Get label
      *
      * @return string 
      */
-    public function getLable()
+    public function getLabel()
     {
-        return $this->lable;
+        return $this->label;
     }
 }

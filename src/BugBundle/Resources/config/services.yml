@@ -7,6 +7,9 @@ services:
         arguments: [@translator]
     bug.request.decorator:
             class: BugBundle\Services\RequestDecorator
+    bug.activity.manager:
+            class: BugBundle\Services\ActivityManager
+            arguments: [@service_container]
 
     bug.form.type.user:
         class: BugBundle\Form\Type\UserType
@@ -36,8 +39,28 @@ services:
         arguments: [@service_container]
 
     bug.form.type.issue.comment:
-            class: BugBundle\Form\Type\IssueCommentType
-            tags:
-                - { name: form.type, alias: bug_issue_comment }
-            arguments: [@service_container]
+         class: BugBundle\Form\Type\IssueCommentType
+         tags:
+            - { name: form.type, alias: bug_issue_comment }
+         arguments: [@service_container]
 
+    bug.event.listener:
+        class: BugBundle\EventListener\EventListener
+        tags:
+            - {name: doctrine.event_listener, event: prePersist}
+            - {name: doctrine.event_listener, event: preUpdate}
+        arguments: [@event_dispatcher]
+
+    bug.issue.listner:
+        class: BugBundle\EventListener\IssueListener
+        tags:
+            - {name: kernel.event_listener, event: bug.entity.issue.onUpdate, method: onUpdate}
+            - {name: kernel.event_listener, event: bug.entity.issue.onCreate, method: onCreate}
+        arguments: [@security.token_storage,@bug.activity.manager]
+
+    bug.issue.comment.listner:
+        class: BugBundle\EventListener\IssueCommentListener
+        tags:
+            - {name: kernel.event_listener, event: bug.entity.issuecomment.onUpdate, method: onUpdate}
+            - {name: kernel.event_listener, event: bug.entity.issuecomment.onCreate, method: onCreate}
+        arguments: [@security.token_storage,@bug.activity.manager]

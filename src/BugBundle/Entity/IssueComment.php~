@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class IssueComment
 {
@@ -82,6 +83,16 @@ class IssueComment
         return $this->body;
     }
 
+
+    /**
+     * @ORM\PrePersist()
+     * @return $this
+     */
+    public function setCreatedNow(){
+        $this->created = new \DateTime('now');
+
+        return $this;
+    }
     /**
      * Set created
      *
