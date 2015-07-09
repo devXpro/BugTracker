@@ -2,19 +2,21 @@
 
 namespace BugBundle\Entity;
 
+use Doctrine\DBAL\Types\JsonArrayType;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Activity
  *
  * @ORM\Table()
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass="BugBundle\Entity\ActivityRepository")
  */
 class Activity
 {
-    const TYPE_CREATE_ISSUE=1;
-    const TYPE_CHANGE_STATUS_ISSUE=2;
-    const TYPE_COMMENT_ISSUE=3;
+    const TYPE_CREATE_ISSUE = 1;
+    const TYPE_CHANGE_STATUS_ISSUE = 2;
+    const TYPE_COMMENT_ISSUE = 3;
     /**
      * @var integer
      *
@@ -32,11 +34,10 @@ class Activity
     private $type;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="message", type="string", length=10000)
+     * @var array
+     * @ORM\Column(name="vars", type="string", length=10000)
      */
-    private $message;
+    private $vars;
 
 
     /**
@@ -51,13 +52,18 @@ class Activity
      *
      * @ORM\Column(name="notified", type="boolean")
      */
-    private $notified=false;
-
+    private $notified = false;
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime")
+     */
+    private $created;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -80,35 +86,13 @@ class Activity
     /**
      * Get type
      *
-     * @return integer 
+     * @return integer
      */
     public function getType()
     {
         return $this->type;
     }
 
-    /**
-     * Set message
-     *
-     * @param string $message
-     * @return Activity
-     */
-    public function setMessage($message)
-    {
-        $this->message = $message;
-
-        return $this;
-    }
-
-    /**
-     * Get message
-     *
-     * @return string 
-     */
-    public function getMessage()
-    {
-        return $this->message;
-    }
 
     /**
      * Set notified
@@ -126,7 +110,7 @@ class Activity
     /**
      * Get notified
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getNotified()
     {
@@ -149,10 +133,66 @@ class Activity
     /**
      * Get issue
      *
-     * @return \BugBundle\Entity\Issue 
+     * @return \BugBundle\Entity\Issue
      */
     public function getIssue()
     {
         return $this->issue;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return Activity
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @return $this
+     */
+    public function setCreatedNow()
+    {
+        $this->created = new \DateTime('now');
+        return $this;
+    }
+
+    /**
+     * Set vars
+     *
+     * @param string $vars
+     * @return Activity
+     */
+    public function setVars($vars)
+    {
+        $this->vars = json_encode($vars);
+
+        return $this;
+    }
+
+    /**
+     * Get vars
+     *
+     * @return string
+     */
+    public function getVars()
+    {
+        return json_decode($this->vars);
     }
 }

@@ -39,7 +39,7 @@ class PeriodicNotificationCommand extends ContainerAwareCommand
                 if ($activity->getIssue()) {
                     $collaborators = $activity->getIssue()->getCollaborators();
                     $subj = $this->getContainer()->get('bug.activity.manager')->getTypeName($activity->getType());
-                    $body = $activity->getMessage();
+                    $body = $this->getContainer()->get('twig')->render('@Bug/Issue/activity.html.twig',array('activity'=>$activity));
                     foreach ($collaborators as $collaborator) {
                         /** @var User $collaborator */
                         /** @var \Swift_Message $message */

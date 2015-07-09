@@ -19,28 +19,33 @@ class ProjectType extends AbstractType
 
     private $container;
     private $user;
-    public function __construct(ContainerInterface $container){
-        $this->container=$container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
         $this->user = $container->get('security.token_storage')->getToken()->getUser();
     }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options){
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
         $builder
-            ->add('label','text')
-            ->add('summary','textarea')
-            ->add('code','text')
-            ->add('members','entity',array(
-                'class'=>'BugBundle\Entity\User',
-                'property'=>'username',
-                'multiple'=>true
+            ->add('label', 'text')
+            ->add('summary', 'textarea')
+            ->add('code', 'text')
+            ->add('members', 'entity', array(
+                'class' => 'BugBundle\Entity\User',
+                'property' => 'username',
+                'multiple' => true
             ))
-            ->add('creator', 'entity', array('class' => 'BugBundle\Entity\User', 'empty_data'  => $this->user->getId()))
-        ;
+            ->add('creator', 'entity', array('class' => 'BugBundle\Entity\User', 'empty_data' => $this->user->getId()));
     }
-    public function getName(){
+
+    public function getName()
+    {
         return 'bug_project';
     }
 

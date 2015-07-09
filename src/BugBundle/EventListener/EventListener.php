@@ -23,10 +23,10 @@ class EventListener
 
     public function __construct(EventDispatcherInterface $dispatcherInterface)
     {
-        $this->dispacher =$dispatcherInterface;
+        $this->dispacher = $dispatcherInterface;
     }
 
-    public function prePersist(LifecycleEventArgs $args)
+    public function postPersist(LifecycleEventArgs $args)
     {
         $this->args = $args;
         $this->handleEvent('onCreate');
@@ -42,9 +42,9 @@ class EventListener
 
     private function handleEvent($eventName)
     {
-        $eventName = 'bug.entity.' . strtolower($this->get_class_name($this->args->getEntity())) .'.'. $eventName;
-        $event=new BugEntityEvent($this->args);
-        $this->dispacher->dispatch($eventName,$event);
+        $eventName = 'bug.entity.' . strtolower($this->get_class_name($this->args->getEntity())) . '.' . $eventName;
+        $event = new BugEntityEvent($this->args);
+        $this->dispacher->dispatch($eventName, $event);
 
     }
 

@@ -17,10 +17,11 @@ class Builder extends ContainerAware
     public function trans($string)
     {
 
-        $translator=$this->container->get('bug.trans.helper');
+        $translator = $this->container->get('bug.trans.helper');
         return $translator->transUp($string);
 
     }
+
     public function mainMenu(FactoryInterface $factory, array $options)
     {
 

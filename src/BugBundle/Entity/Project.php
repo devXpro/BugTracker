@@ -14,12 +14,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Project
 {
-    public function __construct(){
-        $this->issues=new ArrayCollection();
+    public function __construct()
+    {
+        $this->issues = new ArrayCollection();
     }
-    public function __toString(){
+
+    public function __toString()
+    {
         return $this->getLabel();
     }
+
     /**
      * @var integer
      *
@@ -73,7 +77,7 @@ class Project
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -96,7 +100,7 @@ class Project
     /**
      * Get label
      *
-     * @return string 
+     * @return string
      */
     public function getLabel()
     {
@@ -119,7 +123,7 @@ class Project
     /**
      * Get summary
      *
-     * @return string 
+     * @return string
      */
     public function getSummary()
     {
@@ -142,7 +146,7 @@ class Project
     /**
      * Get code
      *
-     * @return string 
+     * @return string
      */
     public function getCode()
     {
@@ -175,7 +179,7 @@ class Project
     /**
      * Get issues
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getIssues()
     {
@@ -208,7 +212,7 @@ class Project
     /**
      * Get members
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getMembers()
     {
@@ -231,7 +235,7 @@ class Project
     /**
      * Get creator
      *
-     * @return \BugBundle\Entity\User 
+     * @return \BugBundle\Entity\User
      */
     public function getCreator()
     {

@@ -1,0 +1,21 @@
+{% extends '@Bug/Issue/issues_short.html.twig' %}
+
+{% block another_fields_titiles %}
+<th>{{ knp_pagination_sortable(pagination,'description'|trans|capitalize, 'i.description') }}</th>
+<th>{{ knp_pagination_sortable(pagination,'created'|trans|capitalize, 'i.created') }}</th>
+    <th>{{ knp_pagination_sortable(pagination,'updated'|trans|capitalize, 'i.updated') }}</th>
+<th>{{ 'edit'|trans|capitalize }}</th>
+<th>{{ 'delete'|trans|capitalize }}</th>
+{% endblock %}
+
+
+{% block another_fields_values %}
+<td>{{ i.description | slice(0,500) }}...</td>
+<td>{{ i.created |date("m/d/Y  g:ia") }}</td>
+<td>{{ i.updated | date("m/d/Y  g:ia") }}</td>
+<td><a href="{{ path('bug_issue_edit',{'issue': i.id}) }}" class="glyphicon glyphicon-pencil"
+       style="font-size: 20px; color: brown"></a></td>
+<td><a href="{{ path('bug_issue_delete',{'issue': i.id}) }}" class="glyphicon glyphicon-remove"
+       style="font-size: 20px; color: red">
+    </a></td>
+{% endblock %}

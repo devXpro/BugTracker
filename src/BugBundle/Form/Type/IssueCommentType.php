@@ -40,8 +40,7 @@ class IssueCommentType extends AbstractType
         $builder
             ->add('issue', 'entity', array('class' => 'BugBundle\Entity\Issue', 'empty_data' => $options['issue']->getId()))
             ->add('body', 'textarea')
-            ->add('author', 'entity', array('class' => 'BugBundle\Entity\User', 'data'=>$this->user,'empty_data'  => $this->user->getId()))
-        ;
+            ->add('author', 'entity', array('class' => 'BugBundle\Entity\User', 'data' => $this->user, 'empty_data' => $this->user->getId()));
 
 
     }

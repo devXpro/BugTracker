@@ -1,1 +1,6 @@
-{{ 'createIssueMessage'|trans({'%issue%':issue,'%user%':issue.reporter,'%project%':issue.project}) }}
+{{ 'createIssueMessage'|trans({
+    '%issue%':'<a href="'~ activity.vars.issue_link~'">'~activity.vars.issue~'</a>',
+    '%user%':activity.vars.user,
+    '%project%':activity.vars.project,
+    '%b%':'<b>','%endb%':'</b>'
+})|raw }}

@@ -10,7 +10,7 @@
         <h1>{{ 'issue_editor'|trans|capitalize }}</h1>
     {% endblock %}
     <div class="col-md-5">
-        {% set hidden_list=['reporter'] %}
+        {% set hidden_list=['reporter','parentIssue'] %}
         {% include '@Bug/widgets/form_output.html.twig' %}
         <br><br>
 

@@ -15,9 +15,12 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt|error)|css|images|js)/
             security: false
+        login:
+            pattern:                        ^/(login)$
+            anonymous:                      true
         default:
             security: true
-            anonymous: ~
+            anonymous: false
             pattern:    ^/
             http_basic: ~
             provider: my_db_provider
@@ -30,5 +33,6 @@ security:
 
     access_control:
         - {path: ^/admin, role: ROLE_ADMIN}
+
 
 

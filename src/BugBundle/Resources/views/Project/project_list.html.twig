@@ -26,9 +26,9 @@
             {#Activity block#}
         </div>
         <div class="col-md-3" id="block_for_activity">
-            <h1>{{ 'members'|trans |capitalize}}</h1>
-            {% set users = project.members%}
-            {%  include '@Bug/widgets/users_list_widget.html.twig' %}
+            <h1>{{ 'members'|trans |capitalize }}</h1>
+            {% set users = project.members %}
+            {% include '@Bug/widgets/users_list_widget.html.twig' %}
         </div>
     </div>
 

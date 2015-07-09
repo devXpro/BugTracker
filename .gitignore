@@ -12,3 +12,4 @@ composer.lock
 /composer.phar
 /vendor/
 /web/bundles/
+*~

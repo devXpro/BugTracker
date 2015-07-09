@@ -39,34 +39,34 @@ class AuthController extends Controller
     /**
      * @Route("/registration", name="registration_route")
      */
-    public function registrationAction(Request $request){
-        $user=new User();
+    public function registrationAction(Request $request)
+    {
+        $user = new User();
 
-        $form= $this->createFormBuilder($user,array('validation_groups' => array('registration')))
-            ->add('email','email')
-            ->add('username','text')
-            ->add('password','password')
+        $form = $this->createFormBuilder($user, array('validation_groups' => array('registration')))
+            ->add('email', 'email')
+            ->add('username', 'text')
+            ->add('password', 'password')
             ->getForm();
         $form->handleRequest($request);
 
-        if($form->isValid()){
-            $em=$this->getDoctrine()->getManager();
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             /** @var $user User $user */
-            $user=$form->getData();
-            $user=$this->container->get('bug.userManager')->encodePassword($user);
-            $roleUser=$em->getRepository('BugBundle:Role')->findOneByRole(Role::ROLE_USER);
+            $user = $form->getData();
+            $user = $this->container->get('bug.userManager')->encodePassword($user);
+            $roleUser = $em->getRepository('BugBundle:Role')->findOneByRole(Role::ROLE_USER);
             $user->addRole($roleUser);
             $em->persist($user);
             $em->flush();
             return $this->redirect($this->generateUrl('login_route'));
         }
 
-        return $this->render('@Bug/Auth/register.html.twig',array(
-            'form'=>$form->createView(),
+        return $this->render('@Bug/Auth/register.html.twig', array(
+            'form' => $form->createView(),
         ));
 
     }
-
 
 
     /**

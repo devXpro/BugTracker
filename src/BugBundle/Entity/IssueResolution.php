@@ -13,9 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class IssueResolution
 {
 
-    public function __toString(){
+    public function __toString()
+    {
         return $this->getLabel();
     }
+
     /**
      * @var integer
      *
@@ -36,7 +38,7 @@ class IssueResolution
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -59,7 +61,7 @@ class IssueResolution
     /**
      * Get label
      *
-     * @return string 
+     * @return string
      */
     public function getLabel()
     {

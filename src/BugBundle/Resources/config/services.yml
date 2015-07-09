@@ -47,7 +47,7 @@ services:
     bug.event.listener:
         class: BugBundle\EventListener\EventListener
         tags:
-            - {name: doctrine.event_listener, event: prePersist}
+            - {name: doctrine.event_listener, event: postPersist}
             - {name: doctrine.event_listener, event: preUpdate}
         arguments: [@event_dispatcher]
 

@@ -1,1 +1,6 @@
-{{ 'changeStatusIssueMessage'|trans({'%issue%':issue,'%issueStatus%':issue.status,'%user%':app.user, '%b%':'<strong>','%endb%':'</strong>'})}}
+{{ 'changeStatusIssueMessage'|trans({
+    '%issue%':'<a href="'~ activity.vars.issue_link~'">'~activity.vars.issue~'</a>',
+    '%issueStatus%':activity.vars.status,
+    '%user%':activity.vars.user,
+    '%b%':'<b>','%endb%':'</b>',
+})|raw }}

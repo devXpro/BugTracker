@@ -9,7 +9,6 @@
 namespace BugBundle\Services;
 
 
-
 use BugBundle\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -17,8 +16,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class UserManager
 {
     private $container;
-    public function __construct(ContainerInterface $container){
-        $this->container=$container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
     }
 
     /**
@@ -27,14 +28,15 @@ class UserManager
      * @return User
      * @throws \Exception
      */
-    public function encodePassword(User $user){
+    public function encodePassword(User $user)
+    {
         $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
         $user->getUsername();
-        if(!$user->getUsername())
+        if (!$user->getUsername())
             throw new \Exception('Username in not define');
-        if(!$user->getPassword())
+        if (!$user->getPassword())
             throw new \Exception('Password in not define');
-        $pass=$encoder->encodePassword($user->getPassword() ,$user->getSalt());
+        $pass = $encoder->encodePassword($user->getPassword(), $user->getSalt());
         $user->setPassword($pass);
         return $user;
     }

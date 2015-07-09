@@ -21,26 +21,29 @@ class IssueListener implements ListenerInterface
     private $token;
     private $activityManager;
 
-    public function __construct(TokenStorage $token,IssueActivityInterface $activityManager){
-        $this->token=$token;
-        $this->activityManager=$activityManager;
+    public function __construct(TokenStorage $token, IssueActivityInterface $activityManager)
+    {
+        $this->token = $token;
+        $this->activityManager = $activityManager;
     }
 
-    public function onCreate(BugEntityEvent $event){
+    public function onCreate(BugEntityEvent $event)
+    {
         /** @var Issue $issue */
-        $issue=$event->getEntity();
+        $issue = $event->getEntity();
         //Add Creator task to collaborators
         $issue->addCollaborator($this->token->getToken()->getUser());
         $this->activityManager->markCreateIssue($issue);
 
     }
 
-    public function onUpdate(BugEntityEvent $event){
+    public function onUpdate(BugEntityEvent $event)
+    {
         /** @var Issue $issue */
-        $issue=$event->getEntity();
-        $changes=$event->getEm()->getUnitOfWork()->getEntityChangeSet($issue);
+        $issue = $event->getEntity();
+        $changes = $event->getEm()->getUnitOfWork()->getEntityChangeSet($issue);
         //mark to activity, if status changed
-        if(isset($changes['status'])){
+        if (isset($changes['status'])) {
             $this->activityManager->markChangeStatusIssue($issue);
         }
 

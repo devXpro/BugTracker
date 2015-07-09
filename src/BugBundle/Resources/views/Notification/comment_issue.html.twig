@@ -1,2 +1,6 @@
-<p>{{ 'commentIssueMassage'|trans({'%issue%':comment.issue,'%user%':comment.author}) }}</p>
-<p>{{ comment.body }}</p>
+<p>{{ 'commentIssueMassage'|trans({
+        '%issue%':'<a href="'~ activity.vars.issue_link~'">'~activity.vars.issue~'</a>',
+        '%user%':activity.vars.user,
+        '%b%':'<b>','%endb%':'</b>'
+    })|raw }}</p>
+<p style="font-family: Capriola, Helvetica, sans-serif">"{{ activity.vars.comment }}"</p>

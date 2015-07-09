@@ -19,13 +19,16 @@ class UserType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options){
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
         $builder
-            ->add('email','email')
-            ->add('username','text')
-            ->add('roles','bug_user_role');
+            ->add('email', 'email')
+            ->add('username', 'text')
+            ->add('roles', 'bug_user_role');
     }
-    public function getName(){
+
+    public function getName()
+    {
         return 'bug_user';
     }
 

@@ -3,6 +3,7 @@
 namespace BugBundle\Controller;
 
 use BugBundle\Entity\Project;
+use BugBundle\Entity\Role;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +31,7 @@ class ProjectController extends Controller
         $pagination = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),/*page number*/
-            5 /*limit per page*/
+            10 /*limit per page*/
 
         );
         return $this->render('@Bug/Project/projects_list.html.twig', array('pagination' => $pagination));
@@ -41,7 +42,8 @@ class ProjectController extends Controller
      * @param Request $request
      * @param Project $project
      */
-    public function projectDeleteAction(Request $request, Project $project){
+    public function projectDeleteAction(Request $request, Project $project)
+    {
 
     }
 
@@ -51,8 +53,9 @@ class ProjectController extends Controller
      * @param Project $project
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function projectListAction(Request $request, Project $project){
-        return $this->render('@Bug/Project/project_list.html.twig',array('project'=>$project));
+    public function projectListAction(Request $request, Project $project)
+    {
+        return $this->render('@Bug/Project/project_list.html.twig', array('project' => $project));
     }
 
     /**
@@ -61,7 +64,10 @@ class ProjectController extends Controller
      * @param Project $project
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function projectEditAction(Request $request, Project $project){
+    public function projectEditAction(Request $request, Project $project)
+    {
+        if (!$this->get('security.authorization_checker')->isGranted(Role::ROLE_MANAGER))
+            return $this->render('@Bug/Messages/error.html.twig', array('message' => $this->get('translator')->trans('notEnoughPermissions')));
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm('bug_project', $project);
         $form->handleRequest($request);
@@ -70,7 +76,7 @@ class ProjectController extends Controller
             $project = $form->getData();
             $em->persist($project);
             $em->flush();
-            return $this->redirect($this->generateUrl('bug_project_view',array('project'=>$project->getId())));
+            return $this->redirect($this->generateUrl('bug_project_view', array('project' => $project->getId())));
         }
 
 
@@ -84,9 +90,12 @@ class ProjectController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function projectCreateAction(Request $request){
+    public function projectCreateAction(Request $request)
+    {
+        if (!$this->get('security.authorization_checker')->isGranted(Role::ROLE_MANAGER))
+            return $this->render('@Bug/Messages/error.html.twig', array('message' => $this->get('translator')->trans('notEnoughPermissions')));
         $em = $this->getDoctrine()->getManager();
-        $project=new Project();
+        $project = new Project();
         $form = $this->createForm('bug_project', $project);
         $form->handleRequest($request);
 
@@ -94,7 +103,7 @@ class ProjectController extends Controller
             $project = $form->getData();
             $em->persist($project);
             $em->flush();
-            return $this->redirect($this->generateUrl('bug_project_view',array('project'=>$project->getId())));
+            return $this->redirect($this->generateUrl('bug_project_view', array('project' => $project->getId())));
         }
 
 

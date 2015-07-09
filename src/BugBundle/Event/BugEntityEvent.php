@@ -16,10 +16,11 @@ class BugEntityEvent extends Event
 {
     private $em;
     private $entity;
+
     public function __construct(LifecycleEventArgs $args)
     {
         $this->em = $args->getEntityManager();
-        $this->entity=$args->getEntity();
+        $this->entity = $args->getEntity();
     }
 
     /**

@@ -1,4 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Capriola);
+
 #cssmenu,
 #cssmenu ul,
 #cssmenu ul li,
@@ -12,23 +13,28 @@
     position: relative;
     font-family: Capriola, Helvetica, sans-serif;
 }
+
 #cssmenu {
     width: auto;
     height: 59px;
     padding-bottom: 4px;
 }
+
 #cssmenu.align-right {
     float: right;
 }
+
 #cssmenu.align-right ul li {
     float: right;
     margin-right: 0;
     margin-left: 4px;
 }
+
 #cssmenu.align-right ul li:first-child,
 #cssmenu.align-right ul li:first-child > a {
     border-bottom-right-radius: 3px;
 }
+
 #cssmenu #bg-one,
 #cssmenu #bg-two,
 #cssmenu #bg-three,
@@ -39,15 +45,18 @@
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
 }
+
 #cssmenu #bg-one {
     height: 10px;
     background: #0f71ba;
 }
+
 #cssmenu #bg-two {
     height: 59px;
     z-index: 2;
     background: url('images/bg.png');
 }
+
 #cssmenu #bg-three {
     bottom: 4px;
     height: 55px;
@@ -60,15 +69,18 @@
     background: -ms-linear-gradient(top, #555555 0%, #222222 100%);
     background: linear-gradient(to bottom, #555555 0%, #222222 100%);
 }
+
 #cssmenu #bg-four {
     bottom: 4px;
     height: 55px;
     z-index: 4;
     background: url('images/bg.png');
 }
+
 #cssmenu ul {
     height: 59px;
 }
+
 #cssmenu ul li {
     float: left;
     margin-right: 4px;
@@ -76,6 +88,7 @@
     border-top-right-radius: 3px;
     z-index: 5;
 }
+
 #cssmenu ul li a {
     padding: 24px 30px 20px 30px;
     margin-bottom: 4px;
@@ -85,10 +98,12 @@
     font-size: 15px;
     text-decoration: none;
 }
+
 #cssmenu ul li:first-child,
 #cssmenu ul li:first-child > a {
     border-bottom-left-radius: 3px;
 }
+
 #cssmenu ul li:hover,
 #cssmenu ul li.current {
     background: #0f71ba;
@@ -99,6 +114,7 @@
     background: -ms-linear-gradient(top, #3fa4f0 0%, #0f71ba 100%);
     background: linear-gradient(to bottom, #3fa4f0 0%, #0f71ba 100%);
 }
+
 #cssmenu ul li a:hover,
 #cssmenu ul li.current > a {
     background: url('images/bg.png');

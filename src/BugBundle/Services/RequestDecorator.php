@@ -17,8 +17,8 @@ class RequestDecorator
     {
         $params = $request->request->all();
         $this->trace($params);
-        foreach($params as $key=>$param){
-        $request->request->set($key, $param);
+        foreach ($params as $key => $param) {
+            $request->request->set($key, $param);
         }
 
     }
@@ -27,7 +27,7 @@ class RequestDecorator
     {
         foreach ($arr as &$el) {
             if (is_array($el)) $this->trace($el);
-            else if($el==='') $el=null;
+            else if ($el === '') $el = null;
 
         }
     }

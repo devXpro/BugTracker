@@ -12,9 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class IssuePriority
 {
-    public function __toString(){
+    public function __toString()
+    {
         return $this->getLabel();
     }
+
     /**
      * @var integer
      *
@@ -35,7 +37,7 @@ class IssuePriority
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -58,7 +60,7 @@ class IssuePriority
     /**
      * Get label
      *
-     * @return string 
+     * @return string
      */
     public function getLabel()
     {

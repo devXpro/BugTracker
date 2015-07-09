@@ -20,16 +20,9 @@ class Issue
     const TYPE_TASK = 3;
     const TYPE_STORY = 4;
 
-    public function __construct()
-    {
-        $this->childrenIssues = new ArrayCollection();
-        $this->collaborators = new ArrayCollection();
-    }
-    public function __toString(){
-        return $this->code.'-'.$this->id.' '.$this->summary;
-    }
+
     /**
-    /**
+     * /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
@@ -149,6 +142,21 @@ class Issue
      */
     private $updated;
 
+    public function __construct()
+    {
+        $this->childrenIssues = new ArrayCollection();
+        $this->collaborators = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->getIssueFullName();
+    }
+
+    public function getIssueFullName()
+    {
+        return $this->code . '-' . $this->id . ' ' . $this->summary;
+    }
 
     /**
      * Get id
@@ -252,6 +260,16 @@ class Issue
         return $this->type;
     }
 
+    public function getTypeName()
+    {
+        switch ($this->type) {
+            case self::TYPE_TASK: return 'task';
+            case self::TYPE_BUG: return 'bug';
+            case self::TYPE_SUBTASK: return 'subtask';
+            case self::TYPE_STORY: return 'story';
+        }
+    }
+
     /**
      * Set created
      *
@@ -269,7 +287,8 @@ class Issue
      * @ORM\PrePersist()
      * @return $this
      */
-    public function setCreatedNow(){
+    public function setCreatedNow()
+    {
         $this->created = new \DateTime('now');
 
         return $this;
@@ -290,9 +309,11 @@ class Issue
      * @ORM\PreUpdate()
      *
      */
-    public function setUpdatedNow(){
+    public function setUpdatedNow()
+    {
         $this->updated = new \DateTime('now');
     }
+
     /**
      * Set updated
      *
@@ -439,12 +460,12 @@ class Issue
      */
     public function addCollaborator(\BugBundle\Entity\User $collaborators)
     {
-        foreach($this->collaborators as $col){
-            if($col==$collaborators)
+        foreach ($this->collaborators as $col) {
+            if ($col == $collaborators)
                 return $this;
         }
 
-            $this->collaborators[] = $collaborators;
+        $this->collaborators[] = $collaborators;
 
         return $this;
     }

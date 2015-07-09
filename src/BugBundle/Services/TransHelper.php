@@ -13,9 +13,10 @@ use Symfony\Component\Translation\TranslatorInterface;
 class TransHelper
 {
     private $trans;
+
     public function __construct(TranslatorInterface $translator)
     {
-        $this->trans=$translator;
+        $this->trans = $translator;
     }
 
     public function transUp($string)
@@ -29,7 +30,8 @@ class TransHelper
         return mb_strtoupper($firstChar, $encoding) . $then;
     }
 
-    public function transLo($string){
+    public function transLo($string)
+    {
         $translator = $this->trans;
         $string = $translator->trans($string);
         return $string;

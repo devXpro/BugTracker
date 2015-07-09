@@ -45,6 +45,8 @@ class IssueType extends AbstractType
     {
         /** @var User $user */
         $user = $this->user;
+        if ($options['parentIssue'])
+            $builder->add('parentIssue', 'entity', array('class' => 'BugBundle\Entity\Issue', 'data' => $options['parentIssue'], 'required' => false));
         if ($this->admin)
             $builder
                 ->add('project', 'entity', array('class' => 'BugBundle\Entity\Project'));
@@ -78,10 +80,9 @@ class IssueType extends AbstractType
             ->add('status', 'entity', array('class' => 'BugBundle\Entity\IssueStatus'))
             ->add('resolution', 'entity', array('class' => 'BugBundle\Entity\IssueResolution'))
             ->add('assignee', 'entity', array('class' => 'BugBundle\Entity\User'))
-//            ->add('parentIssue', 'entity', array('class' => 'BugBundle\Entity\Issue','placeholder' => 'None','required'=>false))
-            ->add('reporter', 'entity', array('class' => 'BugBundle\Entity\User', 'empty_data'  => $this->user->getId()))//            ->add('childrenIssues', 'entity', array('class' => 'BugBundle\Entity\Issue','multiple'=>true))
-
-        ;
+            ->add('reporter', 'entity', array('class' => 'BugBundle\Entity\User', 'empty_data' => $this->user->getId()));//            ->add('childrenIssues', 'entity', array('class' => 'BugBundle\Entity\Issue','multiple'=>true))
+        if ($options['parentIssue'])
+            $builder->add('parentIssue', 'entity', array('class' => 'BugBundle\Entity\Issue', 'data' => $options['parentIssue'], 'empty_data'=>$options['parentIssue']->getId()));
     }
 
     public function getName()
@@ -96,7 +97,10 @@ class IssueType extends AbstractType
             'data_class' => 'BugBundle\Entity\Issue',
         ));
 
-
+        $resolver->setRequired('parentIssue');
+        $resolver->setAllowedValues('parentIssue', function ($value) {
+            if ($value instanceof Issue || $value == null) return true; else return false;
+        });
 
 
     }

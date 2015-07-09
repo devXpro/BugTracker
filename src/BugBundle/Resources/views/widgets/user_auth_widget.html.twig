@@ -1,15 +1,16 @@
 {% if app.user %}
     <br>
     <div class="col-md-4">
-        <a href="{{ path('index') }}"> <img width="95" src="/{{ app.user.webPath }}"></a>
+        <a href="{{ path('index') }}"> <img width="95"
+                                            src="{% if  app.user.webPath %}/{{ app.user.webPath }}{% else %}{{ asset('bundles/bug/images/empty-avatar.png') }}{% endif %}"></a>
     </div>
     <div class="col-md-8">
         <br>
-    {% if app.user.fullName %}
-        {% set username = app.user.fullName %}
-    {% else %}
-        {% set username = app.user.username | capitalize%}
-    {% endif %}
+        {% if app.user.fullName %}
+            {% set username = app.user.fullName %}
+        {% else %}
+            {% set username = app.user.username | capitalize %}
+        {% endif %}
         <span>{{ 'hello'|trans }}<strong> {{ username }}</strong></span>
         <br> <a href="{{ path('logout') }}">Logout</a>
         <br><a href="{{ path('user_profile_edit') }}">Edit Profile</a>

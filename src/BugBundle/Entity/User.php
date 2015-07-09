@@ -73,9 +73,17 @@ class User implements UserInterface, \Serializable
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid(null, true));
     }
-    public function __toString(){
-        return $this->fullName?$this->fullName:$this->username;
+
+    public function __toString()
+    {
+        return $this->getAnyName();
     }
+
+    public function getAnyName()
+    {
+        return $this->fullName ? $this->fullName : $this->username;
+    }
+
     public function getUsername()
     {
         return $this->username;
@@ -331,7 +339,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get fullName
      *
-     * @return string 
+     * @return string
      */
     public function getFullName()
     {
@@ -354,7 +362,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get path
      *
-     * @return string 
+     * @return string
      */
     public function getPath()
     {

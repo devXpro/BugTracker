@@ -12,9 +12,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class IssueStatus
 {
-    public function __toString(){
+
+    const OPEN='Open';
+    const REOPEN='Reopen';
+
+    public function __toString()
+    {
         return $this->getLabel();
     }
+
     /**
      * @var integer
      *
@@ -35,7 +41,7 @@ class IssueStatus
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -58,7 +64,7 @@ class IssueStatus
     /**
      * Get label
      *
-     * @return string 
+     * @return string
      */
     public function getLabel()
     {

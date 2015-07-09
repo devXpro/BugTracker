@@ -1,4 +1,4 @@
-#block_for_activity{
+#block_for_activity {
     border-left: solid #adadad 1px;
 
 }
@@ -9,10 +9,11 @@
     font-size: 11px;
 }
 
-.comment{
+.comment {
     font-family: Georgia, "Times New Roman", Times, serif;
     font-style: oblique;
 }
-.border_left{
+
+.border_left {
     border-left: solid #D3D3D3 1px;
 }

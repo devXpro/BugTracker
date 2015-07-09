@@ -12,13 +12,14 @@
             <th{% if pagination.isSorted('u.username') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'username'|trans|capitalize, 'u.username') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'email'|trans|capitalize, 'u.email') }}</th>
             <th>{{ 'role'|trans }}</th>
+            <th>{{ 'edit'|trans }}</th>
             <th>{{ 'delete'|trans }}</th>
         </tr>
 
         {# table body #}
         {% for user in pagination %}
             <tr {% if loop.index is odd %}class="color"{% endif %}>
-                <td><a href="{{ path('bug_admin_useredit',{'user': user.id}) }}">{{ user.id }}</a></td>
+                <td><a href="{{ path('user_page',{'user': user.id}) }}">{{ user.id }}</a></td>
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
                 <td>
@@ -26,9 +27,14 @@
                         {{ role }}
                     {% endfor %}
                 </td>
-
                 <td>
-                    <a href="{{ path('bug_admin_userdelete',{'user': user.id}) }}" class="glyphicon glyphicon-remove" style="font-size: 20px; color: red">
+                    <a href="{{ path('bug_admin_useredit',{'user': user.id}) }}" class="glyphicon glyphicon-edit"
+                       style="font-size: 20px; color: brown">
+                    </a>
+                </td>
+                <td>
+                    <a href="{{ path('bug_admin_userdelete',{'user': user.id}) }}" class="glyphicon glyphicon-remove"
+                       style="font-size: 20px; color: red">
                     </a>
                 </td>
 

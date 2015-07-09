@@ -1,0 +1,23 @@
+<details open="open">
+    <summary><strong>{{ 'collaborators'|trans |capitalize }}</strong></summary>
+    {% set users = issue.collaborators %}
+    {% include '@Bug/widgets/users_list_widget.html.twig' %}
+</details>
+
+{% if  (issue.type==4) %}
+    <details open="open">
+        <summary><strong>{{ 'subTasks'|trans |capitalize }}</strong></summary>
+        <hr>
+        <ul>
+            {% for subTask in issue.childrenIssues %}
+                <li><a href="{{ path('bug_issue_view',{issue:subTask.id}) }}">{{ subTask }}</a></li>
+            {% endfor %}
+        </ul>
+    </details>
+{% endif %}
+
+<details open="open">
+    <summary><strong>{{ 'activity'|trans |capitalize }}</strong></summary>
+    <hr>
+    {% include '@Bug/Issue/activity.html.twig' %}
+</details>

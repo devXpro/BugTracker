@@ -20,15 +20,18 @@ class ProfileType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options){
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
         $builder
-            ->add('email','email')
-            ->add('ava','file',array('required'=>false))
-            ->add('fullName','text',array('required'=>false))
-            ->add('password','password');
+            ->add('email', 'email')
+            ->add('ava', 'file', array('required' => false))
+            ->add('fullName', 'text', array('required' => false))
+            ->add('password', 'password');
 
     }
-    public function getName(){
+
+    public function getName()
+    {
         return 'bug_user_profile';
     }
 
