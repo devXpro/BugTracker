@@ -54,6 +54,7 @@ class ActivityManager implements IssueActivityInterface, IssueCommentActivityInt
             'issue_link' => $this->router->generate('bug_issue_view', array('issue' => $issue->getId()))
         ));
         $this->em->persist($activity);
+        $this->em->flush();
     }
 
     /**

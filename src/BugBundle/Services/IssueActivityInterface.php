@@ -11,10 +11,22 @@ namespace BugBundle\Services;
 
 use BugBundle\Entity\Issue;
 
-
+/**
+ * Interface of Activity Manager for IssueCommentListener
+ * Interface IssueActivityInterface
+ * @package BugBundle\Services
+ */
 interface IssueActivityInterface
 {
+    /**
+     * @param Issue $issue
+     * @return void
+     */
     public function markCreateIssue(Issue $issue);
 
+    /**
+     * @param Issue $issue
+     * @return void
+     */
     public function markChangeStatusIssue(Issue $issue);
 }

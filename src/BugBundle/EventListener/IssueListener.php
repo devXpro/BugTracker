@@ -27,14 +27,17 @@ class IssueListener implements ListenerInterface
         $this->activityManager = $activityManager;
     }
 
-    public function onCreate(BugEntityEvent $event)
+    public function onPreCreate(BugEntityEvent $event)
     {
+
+
+    }
+    public function onAfterCreate(BugEntityEvent $event){
         /** @var Issue $issue */
         $issue = $event->getEntity();
         //Add Creator task to collaborators
         $issue->addCollaborator($this->token->getToken()->getUser());
         $this->activityManager->markCreateIssue($issue);
-
     }
 
     public function onUpdate(BugEntityEvent $event)

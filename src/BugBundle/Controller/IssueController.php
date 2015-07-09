@@ -102,17 +102,15 @@ class IssueController extends Controller
     public function issueCreateAction(Request $request,$parentIssue=null)
     {
         $em = $this->getDoctrine()->getManager();
-
+        $authChecker = $this->get('security.authorization_checker');
         //If user is not admin and have not any projects he can't create Issue
-        if (!$this->get('security.authorization_checker')->isGranted(Role::ROLE_ADMIN) &&
-            count($em->getRepository('BugBundle:Project')->getProjectsByUser($this->getUser())) < 1
-        )
+        if (false === $authChecker->isGranted('can_create_any_issue')) {
             return $this->render('@Bug/Messages/error.html.twig', array('message' => $this->get('translator')->trans('youHaveNoAnyProjects')));
+        }
+        if (false === $this->isGranted('can_create_children_issue',$parentIssue))
+            return $this->render('@Bug/Messages/error.html.twig', array('message' => $this->get('translator')->trans('onlyStoryCanHaveSubIssue')));
         if($parentIssue)
             $parentIssue=$em->getRepository('BugBundle:Issue')->find($parentIssue);
-        if($parentIssue && $parentIssue->getType()!=Issue::TYPE_STORY)
-            return $this->render('@Bug/Messages/error.html.twig', array('message' => $this->get('translator')->trans('onlyStoryCanHaveSubIssue')));
-
         $issue = new Issue();
         $form = $this->createForm('bug_issue', $issue,array('parentIssue'=>$parentIssue));
         $form->handleRequest($request);

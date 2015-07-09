@@ -36,6 +36,8 @@ class AdminController extends Controller
      * @Route("/admin/users/edit/{user}")
      * @param Request $request
      * @param User $user
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
      */
     public function userEditAction(Request $request, User $user)
     {
@@ -45,7 +47,7 @@ class AdminController extends Controller
 
         if ($form->isValid()) {
             $user = $form->getData();
-            //$user = $this->container->get('bug.userManager')->encodePassword($user);
+            $user = $this->container->get('bug.userManager')->encodePassword($user);
             $user->upload();
             $em->persist($user);
             $em->flush();
@@ -63,6 +65,7 @@ class AdminController extends Controller
      * @Route("/admin/users/delete/{user}")
      * @param Request $request
      * @param User $user
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function userDeleteAction(Request $request, User $user)
     {

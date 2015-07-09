@@ -24,7 +24,8 @@ class UserType extends AbstractType
         $builder
             ->add('email', 'email')
             ->add('username', 'text')
-            ->add('roles', 'bug_user_role');
+            ->add('roles', 'bug_user_role')
+            ->add('password', 'password');
     }
 
     public function getName()

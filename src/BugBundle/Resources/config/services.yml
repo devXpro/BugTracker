@@ -49,18 +49,28 @@ services:
         tags:
             - {name: doctrine.event_listener, event: postPersist}
             - {name: doctrine.event_listener, event: preUpdate}
+            - {name: doctrine.event_listener, event: prePersist}
         arguments: [@event_dispatcher]
 
     bug.issue.listner:
         class: BugBundle\EventListener\IssueListener
         tags:
             - {name: kernel.event_listener, event: bug.entity.issue.onUpdate, method: onUpdate}
-            - {name: kernel.event_listener, event: bug.entity.issue.onCreate, method: onCreate}
+            - {name: kernel.event_listener, event: bug.entity.issue.onPreCreate, method: onPreCreate}
+            - {name: kernel.event_listener, event: bug.entity.issue.onAfterCreate, method: onAfterCreate}
         arguments: [@security.token_storage,@bug.activity.manager]
 
     bug.issue.comment.listner:
         class: BugBundle\EventListener\IssueCommentListener
         tags:
             - {name: kernel.event_listener, event: bug.entity.issuecomment.onUpdate, method: onUpdate}
-            - {name: kernel.event_listener, event: bug.entity.issuecomment.onCreate, method: onCreate}
+            - {name: kernel.event_listener, event: bug.entity.issuecomment.onPreCreate, method: onPreCreate}
+            - {name: kernel.event_listener, event: bug.entity.issuecomment.onAfterCreate, method: onAfterCreate}
         arguments: [@security.token_storage,@bug.activity.manager]
+
+    security.access.issue_voter:
+        class:      BugBundle\Security\IssueVoter
+        public:     false
+        tags:
+            - { name: security.voter }
+        arguments: [@doctrine]

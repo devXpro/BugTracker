@@ -13,7 +13,23 @@ use BugBundle\Event\BugEntityEvent;
 
 interface ListenerInterface
 {
+    /**
+     * handler update event
+     * @param BugEntityEvent $event
+     * @return void
+     */
     public function onUpdate(BugEntityEvent $event);
 
-    public function onCreate(BugEntityEvent $event);
+    /**
+     * handler pre create event
+     * @param BugEntityEvent $event
+     * @return void
+     */
+    public function onPreCreate(BugEntityEvent $event);
+    /**
+     * handler after create event
+     * @param BugEntityEvent $event
+     * @return void
+     */
+    public function onAfterCreate(BugEntityEvent $event);
 }

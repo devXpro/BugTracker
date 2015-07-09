@@ -25,9 +25,13 @@ class IssueCommentListener implements ListenerInterface
         $this->activityManager = $activityManager;
     }
 
-    public function onCreate(BugEntityEvent $event)
+    /**
+     * @param BugEntityEvent $event
+     * @return void
+     */
+    public function onPreCreate(BugEntityEvent $event)
     {
-        //add collaborator is user leave comment
+        //add collaborator if user leave comment
         /** @var IssueComment $issueComment */
         $issueComment = $event->getEntity();
         $issue = $issueComment->getIssue();
@@ -35,7 +39,20 @@ class IssueCommentListener implements ListenerInterface
         $this->activityManager->markCommentIssue($issueComment);
     }
 
+    /**
+     * @param BugEntityEvent $event
+     * @return void
+     */
     public function onUpdate(BugEntityEvent $event)
+    {
+
+    }
+
+    /**
+     * @param BugEntityEvent $event
+     * @return void
+     */
+    public function onAfterCreate(BugEntityEvent $event)
     {
 
     }

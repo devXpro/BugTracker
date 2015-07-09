@@ -26,20 +26,41 @@ class EventListener
         $this->dispacher = $dispatcherInterface;
     }
 
+    /**
+     * @param LifecycleEventArgs $args
+     * @return void
+     */
     public function postPersist(LifecycleEventArgs $args)
     {
         $this->args = $args;
-        $this->handleEvent('onCreate');
+        $this->handleEvent('onAfterCreate');
+    }
+
+    /**
+     * @param LifecycleEventArgs $args
+     * @return void
+     */
+    public function prePersist(LifecycleEventArgs $args)
+    {
+        $this->args = $args;
+        $this->handleEvent('onPreCreate');
 
     }
 
+    /**
+     * @param LifecycleEventArgs $args
+     * @return void
+     */
     public function preUpdate(LifecycleEventArgs $args)
     {
         $this->args = $args;
         $this->handleEvent('onUpdate');
     }
 
-
+    /**
+     * @param $eventName
+     * @return void
+     */
     private function handleEvent($eventName)
     {
         $eventName = 'bug.entity.' . strtolower($this->get_class_name($this->args->getEntity())) . '.' . $eventName;
@@ -48,6 +69,10 @@ class EventListener
 
     }
 
+    /**
+     * @param $class
+     * @return string
+     */
     private function get_class_name($class)
     {
         $classname = get_class($class);
