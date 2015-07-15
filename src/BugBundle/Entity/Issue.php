@@ -150,12 +150,13 @@ class Issue
 
     public function __toString()
     {
-        return $this->getIssueFullName();
+        return $this->getIssueFullName()?$this->getIssueFullName():'';
     }
 
     public function getIssueFullName()
     {
-        return $this->code . '-' . $this->id . ' ' . $this->summary;
+
+        return ($this->code && $this->id && $this->summary) ? $this->code.'-'.$this->id.' '.$this->summary : '';
     }
 
     /**
@@ -263,10 +264,14 @@ class Issue
     public function getTypeName()
     {
         switch ($this->type) {
-            case self::TYPE_TASK: return 'task';
-            case self::TYPE_BUG: return 'bug';
-            case self::TYPE_SUBTASK: return 'subtask';
-            case self::TYPE_STORY: return 'story';
+            case self::TYPE_TASK:
+                return 'task';
+            case self::TYPE_BUG:
+                return 'bug';
+            case self::TYPE_SUBTASK:
+                return 'subtask';
+            case self::TYPE_STORY:
+                return 'story';
         }
     }
 
@@ -461,8 +466,9 @@ class Issue
     public function addCollaborator(\BugBundle\Entity\User $collaborators)
     {
         foreach ($this->collaborators as $col) {
-            if ($col == $collaborators)
+            if ($col == $collaborators) {
                 return $this;
+            }
         }
 
         $this->collaborators[] = $collaborators;

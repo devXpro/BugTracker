@@ -1,6 +1,8 @@
 {{ 'changeStatusIssueMessage'|trans({
-    '%issue%':'<a href="'~ activity.vars.issue_link~'">'~activity.vars.issue~'</a>',
-    '%issueStatus%':activity.vars.status,
-    '%user%':activity.vars.user,
+    '%issue%':'<a href="'~ path('bug_issue_view',{'issue':activity.issue.id})~'">'~activity.issue~'</a>',
+    '%issueStatusOld%':activity.oldStatus,
+    '%issueStatusNew%':activity.newStatus,
+    '%user%':activity.user,
     '%b%':'<b>','%endb%':'</b>',
 })|raw }}
+

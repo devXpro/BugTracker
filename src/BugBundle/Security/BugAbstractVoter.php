@@ -50,5 +50,13 @@ abstract class BugAbstractVoter implements VoterInterface
      */
     abstract protected function getSupportedAttributes();
 
+    protected function checkSupportedInAttributes(array $atributesToCheck){
+        foreach($atributesToCheck as $attr){
+            if(in_array($attr,$this->getSupportedAttributes())) return true;
+        }
+        return false;
+    }
+
+
 
 }

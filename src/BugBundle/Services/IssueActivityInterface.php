@@ -10,6 +10,7 @@ namespace BugBundle\Services;
 
 
 use BugBundle\Entity\Issue;
+use BugBundle\Entity\IssueStatus;
 
 /**
  * Interface of Activity Manager for IssueCommentListener
@@ -28,5 +29,5 @@ interface IssueActivityInterface
      * @param Issue $issue
      * @return void
      */
-    public function markChangeStatusIssue(Issue $issue);
+    public function markChangeStatusIssue(Issue $issue,IssueStatus $oldStatus,IssueStatus $newStatus);
 }

@@ -2,7 +2,9 @@
         {% for child in form.children %}
             {% if (hidden_list is defined) and  (child.vars.name in hidden_list) %}
             {% else %}
-                {{ form_row(child,{'attr':{'class':'form-control input-lg'},'label':child.vars.name|trans|capitalize}) }}
+                <div class="form_row">
+                     {{ form_row(child,{'attr':{'class':'form-control input-lg'},'label':child.vars.name|trans|capitalize}) }}
+                </div>
             {% endif %}
 
         {% endfor %}

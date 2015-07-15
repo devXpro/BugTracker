@@ -4,7 +4,7 @@ namespace BugBundle\Controller;
 
 use BugBundle\Entity\Issue;
 use BugBundle\Entity\Project;
-use BugBundle\Entity\Role;
+use BugBundle\Traits\ErrorVisualizer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class IssueController extends Controller
 {
+    use ErrorVisualizer;
     /**
      * @Route("/issues/list/{project}", name="issues_list", defaults={"project" = null})
      * @param Request $request
@@ -102,13 +103,12 @@ class IssueController extends Controller
     public function issueCreateAction(Request $request,$parentIssue=null)
     {
         $em = $this->getDoctrine()->getManager();
-        $authChecker = $this->get('security.authorization_checker');
         //If user is not admin and have not any projects he can't create Issue
-        if (false === $authChecker->isGranted('can_create_any_issue')) {
-            return $this->render('@Bug/Messages/error.html.twig', array('message' => $this->get('translator')->trans('youHaveNoAnyProjects')));
+        if (false === $this->isGranted('can_create_any_issue')) {
+            return $this->renderError('youHaveNoAnyProjects');
         }
         if (false === $this->isGranted('can_create_children_issue',$parentIssue))
-            return $this->render('@Bug/Messages/error.html.twig', array('message' => $this->get('translator')->trans('onlyStoryCanHaveSubIssue')));
+            return $this->renderError('onlyStoryCanHaveSubIssue');
         if($parentIssue)
             $parentIssue=$em->getRepository('BugBundle:Issue')->find($parentIssue);
         $issue = new Issue();

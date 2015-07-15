@@ -50,6 +50,10 @@ class IssueComment
      */
     private $author;
 
+
+    public function __toString(){
+        return $this->getBody()?$this->getBody():'';
+    }
     /**
      * Get id
      *

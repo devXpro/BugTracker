@@ -34,16 +34,39 @@ class Activity
     private $type;
 
     /**
-     * @var array
-     * @ORM\Column(name="vars", type="string", length=10000)
+     * @var IssueStatus
+     * @ORM\ManyToOne(targetEntity="BugBundle\Entity\IssueStatus")
+     * @ORM\JoinColumn(name="issue_old_status_id", referencedColumnName="id", nullable=true)
      */
-    private $vars;
+    private $oldStatus;
+
+
+    /**
+     * @var IssueStatus
+     * @ORM\ManyToOne(targetEntity="BugBundle\Entity\IssueStatus")
+     * @ORM\JoinColumn(name="issue_new_status_id", referencedColumnName="id", nullable=true)
+     */
+    private $newStatus;
+
+    /**
+     * @var IssueComment
+     * @ORM\ManyToOne(targetEntity="BugBundle\Entity\IssueComment")
+     * @ORM\JoinColumn(name="issue_comment_id", referencedColumnName="id", nullable=true)
+     */
+    private $comment;
+
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="BugBundle\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+     */
+    private $user;
 
 
     /**
      * @var Issue
      * @ORM\ManyToOne(targetEntity="BugBundle\Entity\Issue")
-     * @ORM\JoinColumn(name="issue_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="issue_id", referencedColumnName="id", nullable=false)
      */
     private $issue;
 
@@ -170,29 +193,100 @@ class Activity
     public function setCreatedNow()
     {
         $this->created = new \DateTime('now');
+
         return $this;
     }
 
+
     /**
-     * Set vars
+     * Set oldStatus
      *
-     * @param string $vars
+     * @param \BugBundle\Entity\IssueStatus $oldStatus
      * @return Activity
      */
-    public function setVars($vars)
+    public function setOldStatus(\BugBundle\Entity\IssueStatus $oldStatus = null)
     {
-        $this->vars = json_encode($vars);
+        $this->oldStatus = $oldStatus;
 
         return $this;
     }
 
     /**
-     * Get vars
+     * Get oldStatus
      *
-     * @return string
+     * @return \BugBundle\Entity\IssueStatus 
      */
-    public function getVars()
+    public function getOldStatus()
     {
-        return json_decode($this->vars);
+        return $this->oldStatus;
+    }
+
+    /**
+     * Set newStatus
+     *
+     * @param \BugBundle\Entity\IssueStatus $newStatus
+     * @return Activity
+     */
+    public function setNewStatus(\BugBundle\Entity\IssueStatus $newStatus = null)
+    {
+        $this->newStatus = $newStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get newStatus
+     *
+     * @return \BugBundle\Entity\IssueStatus 
+     */
+    public function getNewStatus()
+    {
+        return $this->newStatus;
+    }
+
+    /**
+     * Set comment
+     *
+     * @param \BugBundle\Entity\IssueComment $comment
+     * @return Activity
+     */
+    public function setComment(\BugBundle\Entity\IssueComment $comment = null)
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Get comment
+     *
+     * @return \BugBundle\Entity\IssueComment 
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \BugBundle\Entity\User $user
+     * @return Activity
+     */
+    public function setUser(\BugBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \BugBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

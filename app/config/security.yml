@@ -18,6 +18,10 @@ security:
         login:
             pattern:                        ^/(login)$
             anonymous:                      true
+        regitstration:
+            pattern:                        ^/(registration)$
+            anonymous:                      true
+
         default:
             security: true
             anonymous: false

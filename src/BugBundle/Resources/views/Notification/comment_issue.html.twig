@@ -1,6 +1,6 @@
 <p>{{ 'commentIssueMassage'|trans({
-        '%issue%':'<a href="'~ activity.vars.issue_link~'">'~activity.vars.issue~'</a>',
-        '%user%':activity.vars.user,
+        '%issue%':'<a href="'~ path('bug_issue_view',{'issue':activity.issue.id})~'">'~activity.issue~'</a>',
+        '%user%':activity.user,
         '%b%':'<b>','%endb%':'</b>'
     })|raw }}</p>
-<p style="font-family: Capriola, Helvetica, sans-serif">"{{ activity.vars.comment }}"</p>
+<p style="font-family: Capriola, Helvetica, sans-serif">"{{ activity.comment }}"</p>

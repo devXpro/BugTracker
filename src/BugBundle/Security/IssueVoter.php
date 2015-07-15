@@ -26,7 +26,7 @@ class IssueVoter extends BugAbstractVoter
     }
     protected function getSupportedAttributes()
     {
-        return array(self::CREATE_ISSUE);
+        return array(self::CREATE_ISSUE,self::CAN_CREATE_CHILDREN_ISSUE);
     }
 
     protected function getSupportedClasses()
@@ -38,7 +38,7 @@ class IssueVoter extends BugAbstractVoter
     {
         /** @var User $user */
         $user=$token->getUser();
-
+       if(!$this->checkSupportedInAttributes($attributes)) return false;
         if (!$user instanceof UserInterface) {
             return false;
         }

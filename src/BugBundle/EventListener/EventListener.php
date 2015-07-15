@@ -63,7 +63,7 @@ class EventListener
      */
     private function handleEvent($eventName)
     {
-        $eventName = 'bug.entity.' . strtolower($this->get_class_name($this->args->getEntity())) . '.' . $eventName;
+        $eventName = 'bug.entity.'.strtolower($this->get_class_name($this->args->getEntity())).'.'.$eventName;
         $event = new BugEntityEvent($this->args);
         $this->dispacher->dispatch($eventName, $event);
 
@@ -76,7 +76,10 @@ class EventListener
     private function get_class_name($class)
     {
         $classname = get_class($class);
-        if ($pos = strrpos($classname, '\\')) return substr($classname, $pos + 1);
+        if ($pos = strrpos($classname, '\\')) {
+            return substr($classname, $pos + 1);
+        }
+
         return $pos;
     }
 

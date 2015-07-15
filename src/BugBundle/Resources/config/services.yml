@@ -9,7 +9,10 @@ services:
             class: BugBundle\Services\RequestDecorator
     bug.activity.manager:
             class: BugBundle\Services\ActivityManager
-            arguments: [@service_container]
+            arguments:
+                - @translator
+                - @doctrine
+                - @security.token_storage
 
     bug.form.type.user:
         class: BugBundle\Form\Type\UserType

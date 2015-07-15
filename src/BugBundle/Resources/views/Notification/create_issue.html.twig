@@ -1,6 +1,6 @@
 {{ 'createIssueMessage'|trans({
     '%issue%':'<a href="'~ activity.vars.issue_link~'">'~activity.vars.issue~'</a>',
     '%user%':activity.vars.user,
-    '%project%':activity.vars.project,
+    '%project%':activity.issue.project.label|default('n\a'),
     '%b%':'<b>','%endb%':'</b>'
 })|raw }}

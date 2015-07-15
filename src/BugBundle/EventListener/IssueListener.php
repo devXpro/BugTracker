@@ -10,6 +10,7 @@ namespace BugBundle\EventListener;
 
 
 use BugBundle\Entity\Issue;
+use BugBundle\Entity\IssueStatus;
 use BugBundle\Event\BugEntityEvent;
 use BugBundle\Services\IssueActivityInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
@@ -47,7 +48,7 @@ class IssueListener implements ListenerInterface
         $changes = $event->getEm()->getUnitOfWork()->getEntityChangeSet($issue);
         //mark to activity, if status changed
         if (isset($changes['status'])) {
-            $this->activityManager->markChangeStatusIssue($issue);
+            $this->activityManager->markChangeStatusIssue($issue,$changes['status'][0],$changes['status'][1]);
         }
 
     }

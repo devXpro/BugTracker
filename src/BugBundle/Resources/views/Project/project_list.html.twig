@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row">
+    <div class="row project_view">
         <div class="col-md-9">
             <h2><strong>{{ project.code|upper }}-{{ project.id }}</strong> {{ project.label }}</h2>
             <a href="{{ path('bug_project_edit',{'project': project.id}) }}" class="glyphicon glyphicon-pencil"

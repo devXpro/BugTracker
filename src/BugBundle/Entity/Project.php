@@ -5,6 +5,7 @@ namespace BugBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Project
@@ -35,26 +36,29 @@ class Project
 
     /**
      * @var string
-     *
+     * @Assert\Length(min=5)
      * @ORM\Column(name="label", type="string", length=255)
      */
     private $label;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
+     * @Assert\Length(min=10)
      * @ORM\Column(name="summary", type="string", length=10000)
      */
     private $summary;
 
     /**
      * @var string
-     *
+     * @Assert\Length(min=3)
+     * @Assert\Length(max=3)
      * @ORM\Column(name="code", type="string", length=10)
      */
     private $code;
 
     /**
+     *
      * @var Collection | Issue[]
      * @ORM\OneToMany(targetEntity="BugBundle\Entity\Issue", mappedBy="project")
      */

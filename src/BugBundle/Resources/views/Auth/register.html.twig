@@ -6,7 +6,7 @@
 
 {% block form %}
 
-    {{ form_start(form,{'attr':{'class':'form col-md-12 center-block'}}) }}
+    {{ form_start(form,{'attr':{'class':'form col-md-12 center-block','novalidate':'novalidate'}}) }}
     {% for child in form.children %}
         {{ form_row(child,{'attr':{'class':'form-control input-lg'}}) }}
     {% endfor %}

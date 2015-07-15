@@ -4,15 +4,16 @@ namespace BugBundle\Controller;
 
 use BugBundle\Entity\Project;
 use BugBundle\Entity\Role;
+use BugBundle\Traits\ErrorVisualizer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Component\Routing\Annotation\Route;
 
 
 class ProjectController extends Controller
 {
-
+    use ErrorVisualizer;
     /**
      * @Route("/projects/list/", name="projects_list")
      * @param Request $request
@@ -67,7 +68,7 @@ class ProjectController extends Controller
     public function projectEditAction(Request $request, Project $project)
     {
         if (!$this->get('security.authorization_checker')->isGranted(Role::ROLE_MANAGER))
-            return $this->render('@Bug/Messages/error.html.twig', array('message' => $this->get('translator')->trans('notEnoughPermissions')));
+            return $this->renderError('notEnoughPermissions');
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm('bug_project', $project);
         $form->handleRequest($request);
@@ -75,7 +76,7 @@ class ProjectController extends Controller
         if ($form->isValid()) {
             $project = $form->getData();
             $em->persist($project);
-            $em->flush();
+            //$em->flush();
             return $this->redirect($this->generateUrl('bug_project_view', array('project' => $project->getId())));
         }
 
@@ -92,8 +93,8 @@ class ProjectController extends Controller
      */
     public function projectCreateAction(Request $request)
     {
-        if (!$this->get('security.authorization_checker')->isGranted(Role::ROLE_MANAGER))
-            return $this->render('@Bug/Messages/error.html.twig', array('message' => $this->get('translator')->trans('notEnoughPermissions')));
+        if (!$this->isGranted(Role::ROLE_MANAGER))
+            return $this->renderError('notEnoughPermissions');
         $em = $this->getDoctrine()->getManager();
         $project = new Project();
         $form = $this->createForm('bug_project', $project);
