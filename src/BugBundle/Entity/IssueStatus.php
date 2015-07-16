@@ -18,7 +18,7 @@ class IssueStatus
 
     public function __toString()
     {
-        return $this->getLabel();
+        return $this->getLabel()?$this->getLabel():"";
     }
 
     /**

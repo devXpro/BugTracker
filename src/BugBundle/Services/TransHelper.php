@@ -30,12 +30,6 @@ class TransHelper
         return mb_strtoupper($firstChar, $encoding) . $then;
     }
 
-    public function transLo($string)
-    {
-        $translator = $this->trans;
-        $string = $translator->trans($string);
-        return $string;
-    }
 
 
 }

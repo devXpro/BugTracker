@@ -8,6 +8,7 @@ use BugBundle\Traits\ErrorVisualizer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
@@ -39,13 +40,14 @@ class ProjectController extends Controller
     }
 
     /**
-     * @Route("/projects/delete/{project}", name="bug_project_delete")
+     * @Route("/project/delete/{project}", name="bug_project_delete")
      * @param Request $request
      * @param Project $project
+     * @return Response
      */
     public function projectDeleteAction(Request $request, Project $project)
     {
-
+        return new Response('delete is not need');
     }
 
     /**

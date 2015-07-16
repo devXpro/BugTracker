@@ -1,4 +1,4 @@
-{{ form_start(form,{'attr':{'class':'form col-md-12 center-block'}}) }}
+{{ form_start(form,{'attr':{'class':'form col-md-12 center-block','novalidate': 'novalidate'}}) }}
         {% for child in form.children %}
             {% if (hidden_list is defined) and  (child.vars.name in hidden_list) %}
             {% else %}

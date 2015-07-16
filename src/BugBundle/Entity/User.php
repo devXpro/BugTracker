@@ -27,7 +27,7 @@ class User implements UserInterface, \Serializable
     private $id;
 
     /**
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=25, unique=true)
      */
     private $username;
@@ -38,14 +38,14 @@ class User implements UserInterface, \Serializable
     private $fullName;
 
     /**
-     * @Assert\NotBlank(groups={"registration"})
-     * @Assert\Length(min=7, groups={"registration"})
+     * @Assert\NotBlank()
+     * @Assert\Length(min=4)
      * @ORM\Column(type="string", length=64)
      */
     private $password;
 
     /**
-     * @Assert\Email(groups={"registration"})
+     * @Assert\Email()
      * @ORM\Column(type="string", length=60, unique=true)
      */
     private $email;
@@ -79,7 +79,7 @@ class User implements UserInterface, \Serializable
 
     public function __toString()
     {
-        return $this->getAnyName();
+        return $this->getAnyName() ? $this->getAnyName() : '';
     }
 
     public function getAnyName()
@@ -116,13 +116,15 @@ class User implements UserInterface, \Serializable
     /** @see \Serializable::serialize() */
     public function serialize()
     {
-        return serialize(array(
-            $this->id,
-            $this->username,
-            $this->password,
-            // see section on salt below
-            // $this->salt,
-        ));
+        return serialize(
+            array(
+                $this->id,
+                $this->username,
+                $this->password,
+                // see section on salt below
+                // $this->salt,
+            )
+        );
     }
 
     /** @see \Serializable::unserialize() */
@@ -252,21 +254,21 @@ class User implements UserInterface, \Serializable
     {
         return null === $this->path
             ? null
-            : $this->getUploadRootDir() . '/' . $this->path;
+            : $this->getUploadRootDir().'/'.$this->path;
     }
 
     public function getWebPath()
     {
         return null === $this->path
             ? null
-            : $this->getUploadDir() . '/' . $this->path;
+            : $this->getUploadDir().'/'.$this->path;
     }
 
     protected function getUploadRootDir()
     {
         // the absolute directory path where uploaded
         // documents should be saved
-        return __DIR__ . '/../../../web/' . $this->getUploadDir();
+        return __DIR__.'/../../../web/'.$this->getUploadDir();
     }
 
     protected function getUploadDir()
@@ -303,7 +305,8 @@ class User implements UserInterface, \Serializable
     private function getAvaFileName()
     {
         $originalName = $this->getAva()->getClientOriginalName();
-        return $this->getUsername() . '.' . preg_replace('/.*?\./', '', $originalName);
+
+        return $this->getUsername().'.'.preg_replace('/.*?\./', '', $originalName);
 
     }
 

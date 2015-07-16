@@ -1,7 +1,7 @@
 services:
     bug.userManager:
         class: BugBundle\Services\UserManager
-        arguments: [@service_container]
+        arguments: [@security.encoder_factory]
     bug.trans.helper:
         class: BugBundle\Services\TransHelper
         arguments: [@translator]

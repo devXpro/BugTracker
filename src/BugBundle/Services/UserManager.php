@@ -10,34 +10,36 @@ namespace BugBundle\Services;
 
 
 use BugBundle\Entity\User;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
 
 class UserManager
 {
-    private $container;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(EncoderFactoryInterface $encoderFactory)
     {
-        $this->container = $container;
+        $this->encoderFactory = $encoderFactory;
     }
 
     /**
      * @param User $user
-     * @param $password
      * @return User
      * @throws \Exception
      */
     public function encodePassword(User $user)
     {
-        $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
         $user->getUsername();
-        if (!$user->getUsername())
-            throw new \Exception('Username in not define');
-        if (!$user->getPassword())
+        if (!$user->getUsername()) {
+            throw new UsernameNotFoundException('Username in not define');
+        }
+        if (!$user->getPassword()) {
             throw new \Exception('Password in not define');
+        }
+        $encoder = $this->encoderFactory->getEncoder($user);
         $pass = $encoder->encodePassword($user->getPassword(), $user->getSalt());
         $user->setPassword($pass);
+
         return $user;
     }
 

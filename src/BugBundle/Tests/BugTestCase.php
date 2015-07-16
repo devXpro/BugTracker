@@ -62,7 +62,7 @@ class BugTestCase extends WebTestCase
 
     protected function loginAsUserViaForm()
     {
-        return $this->login('user', '1', 'ROLE_USER');
+        return $this->login('user', 'user', 'ROLE_USER');
     }
 
     /**
@@ -70,7 +70,7 @@ class BugTestCase extends WebTestCase
      */
     protected function loginAsAdminViaForm()
     {
-        return $this->login('admin', '1', 'ROLE_ADMIN');
+        return $this->login('admin', 'admin', 'ROLE_ADMIN');
     }
 
     /**
@@ -98,7 +98,7 @@ class BugTestCase extends WebTestCase
     {
         $client = static::createClient(array(), array(
             'PHP_AUTH_USER' => 'user',
-            'PHP_AUTH_PW' => '1',
+            'PHP_AUTH_PW' => 'user',
         ));
         $client->followRedirects();
         $this->setClient($client);
@@ -113,7 +113,7 @@ class BugTestCase extends WebTestCase
     {
         $client= static::createClient(array(), array(
             'PHP_AUTH_USER' => 'admin',
-            'PHP_AUTH_PW' => '1',
+            'PHP_AUTH_PW' => 'admin',
         ));
         $client->followRedirects();
         $this->setClient($client);
@@ -133,6 +133,7 @@ class BugTestCase extends WebTestCase
         $this->setClient($client);
         return $client;
     }
+
 
 
 }

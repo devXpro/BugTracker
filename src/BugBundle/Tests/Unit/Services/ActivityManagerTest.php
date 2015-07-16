@@ -6,7 +6,7 @@
  * Time: 18:23
  */
 
-namespace BugBundle\Tests\Unit;
+namespace BugBundle\Tests\Unit\Services;
 
 use BugBundle\Entity\Activity;
 use BugBundle\Entity\Issue;
@@ -130,6 +130,62 @@ class ActivityManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider changeStatusIssueDataProvider
+     * @param Issue $issue
+     * @param IssueStatus $oldStatus
+     * @param IssueStatus $newStatus
+     * @param Activity $activity
+     * @param TokenInterface $token
+     */
+    public function testMarkChangeStatusIssue(
+        Issue $issue,
+        IssueStatus $oldStatus,
+        IssueStatus $newStatus,
+        Activity $activity,
+        TokenInterface $token
+    ) {
+        $this->token->expects($this->any())->method('getToken')->will($this->returnValue($token));
+        $em = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
+        $this->doctrine->expects($this->once())->method('getManagerForClass')->with($this->isType('string'))->will(
+            $this->returnValue($em)
+        );
+        $em->expects($this->once())->method('persist')->with($activity);
+        $em->expects($this->once())->method('flush');
+        $this->activityManager->markChangeStatusIssue($issue, $oldStatus, $newStatus);
+
+    }
+
+
+    /**
+     * markCreateIssueDataProvider
+     * @return array
+     */
+    public function changeStatusIssueDataProvider()
+    {
+        $issue = new Issue();
+        $issueOldStatus = new IssueStatus();
+        $issueNewStatus = new IssueStatus();
+
+        $user = new User();
+
+        return array(
+            [
+                $issue,
+                $issueOldStatus,
+                $issueNewStatus,
+                (new Activity())
+                    ->setType(Activity::TYPE_CHANGE_STATUS_ISSUE)
+                    ->setOldStatus($issueOldStatus)
+                    ->setNewStatus($issueNewStatus)
+                    ->setIssue($issue)
+                    ->setUser($user),
+                $this->getToken($user),
+            ],
+
+        );
+    }
+
+    /**
      * @dataProvider testMarkCommentIssueExceptionNotFoundIssueDataProvider
      * @expectedException Doctrine\ORM\EntityNotFoundException
      * @param IssueComment $issueComment
@@ -152,6 +208,7 @@ class ActivityManagerTest extends \PHPUnit_Framework_TestCase
 
         );
     }
+
 
     /**
      * @dataProvider exceptionsProvider

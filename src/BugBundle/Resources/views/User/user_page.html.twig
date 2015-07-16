@@ -1,33 +1,35 @@
 {% extends '@Bug/base.html.twig' %}
 {% block body %}
-    {#if user if defined that it is page of another user#}
-    {% if user is defined %}
-        <div class="row">
-            <div class="col-md-1">
-                <img width="95" src="{% if  user.webPath %}
+    <div id="bug_user_page">
+        {#if user if defined that it is page of another user#}
+        {% if user is defined %}
+            <div class="row">
+                <div class="col-md-1">
+                    <img width="95" src="{% if  user.webPath %}
             /{{ app.user.webPath }}{% else %}{{ asset('bundles/bug/images/empty-avatar.png') }}
             {% endif %}">
+                </div>
+                <div class="col-md-11">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('bug_admin_useredit',{'user': user.id}) }}" class="glyphicon glyphicon-pencil"
+                           style="font-size: 20px; color: brown">{{ 'edit'|trans }}</a>
+                    {% endif %}
+                    <h4>{{ 'fullName'|trans|capitalize }}: <strong>{{ user.fullName }}</strong></h4>
+                    <h4>{{ 'nickName'|trans|capitalize }}: <strong>{{ user.username }}</strong></h4>
+                    <h4>{{ 'email'|trans|capitalize }}: <strong>{{ user.email }}</strong></h4>
+                    <h4>{{ 'roles'|trans|capitalize }}: <strong>{{ user.roles|join(',') }}</strong></h4>
+                </div>
             </div>
-            <div class="col-md-11">
-                {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('bug_admin_useredit',{'user': user.id}) }}" class="glyphicon glyphicon-pencil"
-                       style="font-size: 20px; color: brown">{{ 'edit'|trans }}</a>
-                {% endif %}
-                <h4>{{ 'fullName'|trans|capitalize }}: <strong>{{ user.fullName }}</strong></h4>
-                <h4>{{ 'nickName'|trans|capitalize }}: <strong>{{ user.username }}</strong></h4>
-                <h4>{{ 'email'|trans|capitalize }}: <strong>{{ user.email }}</strong></h4>
-                <h4>{{ 'roles'|trans|capitalize }}: <strong>{{ user.roles|join(',') }}</strong></h4>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-8">
+                {% set who='collaborator'|trans %}
+                {% include '@Bug/Issue/issues_short.html.twig' %}
             </div>
-        </div>
-    {% endif %}
-    <div class="row">
-        <div class="col-md-8">
-            {% set who='collaborator'|trans %}
-            {% include '@Bug/Issue/issues_short.html.twig' %}
-        </div>
-        <div class="col-md-4">
-            <h3>{{ 'activity'|trans|capitalize }}</h3>
-            {% include '@Bug/Issue/activity.html.twig' %}
+            <div class="col-md-4">
+                <h3>{{ 'activity'|trans|capitalize }}</h3>
+                {% include '@Bug/Issue/activity.html.twig' %}
+            </div>
         </div>
     </div>
 {% endblock %}
