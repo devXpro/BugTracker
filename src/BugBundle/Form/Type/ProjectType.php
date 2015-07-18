@@ -9,21 +9,22 @@
 namespace BugBundle\Form\Type;
 
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+
 
 class ProjectType extends AbstractType
 {
 
-    private $container;
     private $user;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(TokenStorageInterface $token)
     {
-        $this->container = $container;
-        $this->user = $container->get('security.token_storage')->getToken()->getUser();
+
+        $this->user =$token->getToken()->getUser();
     }
 
     /**
@@ -36,12 +37,8 @@ class ProjectType extends AbstractType
             ->add('label', 'text')
             ->add('summary', 'textarea')
             ->add('code', 'text')
-            ->add('members', 'entity', array(
-                'class' => 'BugBundle\Entity\User',
-                'property' => 'username',
-                'multiple' => true
-            ))
-            ->add('creator', 'entity', array('class' => 'BugBundle\Entity\User', 'empty_data' => $this->user->getId()));
+            ->add('members', 'bug_select_users')
+            ->add('creator', 'bug_select_user', array('empty_data' => $this->user->getId()));
     }
 
     public function getName()

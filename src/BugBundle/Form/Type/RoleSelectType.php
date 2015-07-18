@@ -8,35 +8,40 @@
 
 namespace BugBundle\Form\Type;
 
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractType
+class RoleSelectType extends AbstractType
 {
-    /**AbstractType
+
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('email', 'email')
-            ->add('username', 'text')
-            ->add('roles', 'bug_user_select_role')
-            ->add('password', 'password');
+
     }
 
     public function getName()
     {
-        return 'bug_user';
+        return 'bug_user_select_role';
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'BugBundle\Entity\User',
-        ));
+        $resolver->setDefaults(
+            array(
+                'class' => 'BugBundle\Entity\Role',
+                'multiple' => true,
+            )
+        );
+    }
+
+    public function getParent()
+    {
+        return 'entity';
     }
 }

@@ -5,8 +5,8 @@ services:
     bug.trans.helper:
         class: BugBundle\Services\TransHelper
         arguments: [@translator]
-    bug.request.decorator:
-            class: BugBundle\Services\RequestDecorator
+#    bug.request.decorator:
+#            class: BugBundle\Services\RequestDecorator
     bug.activity.manager:
             class: BugBundle\Services\ActivityManager
             arguments:
@@ -24,28 +24,75 @@ services:
         tags:
             - { name: form.type, alias: bug_user_profile }
 
-    bug.form.type.role:
-        class: BugBundle\Form\Type\RoleType
+    bug.form.type.select.role:
+        class: BugBundle\Form\Type\RoleSelectType
         tags:
-            - { name: form.type, alias: bug_user_role }
+            - { name: form.type, alias: bug_user_select_role }
+
+    bug.form.type.select.users:
+        class: BugBundle\Form\Type\UsersSelectType
+        tags:
+            - { name: form.type, alias: bug_select_users }
+
+    bug.form.type.select.user:
+        class: BugBundle\Form\Type\UserSelectType
+        tags:
+            - { name: form.type, alias: bug_select_user }
+
+    bug.form.type.select.issueResolution:
+        class: BugBundle\Form\Type\IssueResolutionSelectType
+        tags:
+            - { name: form.type, alias: bug_select_issue_resolution }
+
+    bug.form.type.select.issuePriority:
+        class: BugBundle\Form\Type\IssuePrioritySelectType
+        tags:
+            - { name: form.type, alias: bug_select_issue_priority }
+
+    bug.form.type.select.issueStatus:
+        class: BugBundle\Form\Type\IssueStatusSelectType
+        tags:
+            - { name: form.type, alias: bug_select_issue_status }
+
+    bug.form.type.select.issue:
+        class: BugBundle\Form\Type\IssueSelectType
+        tags:
+            - { name: form.type, alias: bug_select_issue }
+
+    bug.form.type.set.parentIssue:
+        class: BugBundle\Form\Type\ParentIssueSetType
+        tags:
+            - { name: form.type, alias: bug_set_parent_issue}
+
+    bug.form.type.select.issueType:
+        class: BugBundle\Form\Type\IssueTypeSelectType
+        tags:
+            - { name: form.type, alias: bug_select_issue_type }
+        arguments: [@bug.trans.helper]
+
+    bug.form.type.select.project:
+        class: BugBundle\Form\Type\ProjectSelectType
+        tags:
+            - { name: form.type, alias: bug_select_project }
+        arguments: [@security.token_storage,@security.authorization_checker]
 
     bug.form.type.project:
         class: BugBundle\Form\Type\ProjectType
         tags:
             - { name: form.type, alias: bug_project }
-        arguments: [@service_container]
+        arguments: [@security.token_storage]
 
     bug.form.type.issue:
         class: BugBundle\Form\Type\IssueType
         tags:
             - { name: form.type, alias: bug_issue }
-        arguments: [@service_container]
+        arguments: [@security.token_storage]
 
     bug.form.type.issue.comment:
          class: BugBundle\Form\Type\IssueCommentType
          tags:
             - { name: form.type, alias: bug_issue_comment }
-         arguments: [@service_container]
+         arguments: [@security.token_storage]
 
     bug.event.listener:
         class: BugBundle\EventListener\EventListener

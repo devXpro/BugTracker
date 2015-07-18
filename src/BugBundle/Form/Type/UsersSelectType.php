@@ -15,7 +15,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RoleType extends AbstractType
+class UsersSelectType extends AbstractType
 {
 
     /**
@@ -30,14 +30,15 @@ class RoleType extends AbstractType
 
     public function getName()
     {
-        return 'bug_user_role';
+        return 'bug_select_users';
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'class' => 'BugBundle\Entity\Role',
-            'multiple' => true,
+            'class' => 'BugBundle\Entity\User',
+            'property' => 'username',
+            'multiple' => true
         ));
     }
 

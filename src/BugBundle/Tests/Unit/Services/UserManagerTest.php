@@ -55,7 +55,7 @@ class UserManagerTest extends \PHPUnit_Framework_TestCase
             ->with($this->isInstanceOf('BugBundle\Entity\User'))
             ->will($this->returnValue($encoder));
         $result = $this->userManager->encodePassword($user);
-        $this->assertEquals($resultUser, $result);
+        $this->assertEquals($resultUser->getPassword(), $result->getPassword());
     }
 
     public function testEncodePasswordDataProvider()

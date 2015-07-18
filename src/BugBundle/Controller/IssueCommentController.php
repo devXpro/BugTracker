@@ -27,10 +27,15 @@ class IssueCommentController extends Controller
             $issueComment = $form->getData();
             $em->persist($issueComment);
             $em->flush();
+
             return $this->redirect($this->generateUrl('bug_issue_view', array('issue' => $issue->getId())));
         }
 
         $issueComments = $em->getRepository('BugBundle:IssueComment')->findBy(array('issue' => $issue));
-        return $this->render('@Bug/IssueComment/issue_comment_view.html.twig', array('issueComments' => $issueComments, 'form' => $form->createView()));
+
+        return $this->render(
+            '@Bug/IssueComment/issue_comment_view.html.twig',
+            array('issueComments' => $issueComments, 'form' => $form->createView())
+        );
     }
 }

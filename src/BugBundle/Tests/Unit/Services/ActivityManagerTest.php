@@ -231,6 +231,7 @@ class ActivityManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testMarkCommentIssueExceptions(TokenInterface $token, $expectedException)
     {
+
         $this->token->expects($this->any())->method('getToken')->will($this->returnValue($token));
         $this->setExpectedException($expectedException);
         $this->activityManager->markCommentIssue(new IssueComment());
