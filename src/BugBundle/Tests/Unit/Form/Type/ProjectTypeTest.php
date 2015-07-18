@@ -54,20 +54,15 @@ class ProjectTypeTest extends BugTypeTestCase
         $project->setCreator($user);
         $project->setLabel('MegaProject');
         $project->setSummary('MegaProject MegaProjectMegaProject MegaProjectMegaProject MegaProject');
-        $this->entityToFormData($project);
         $this->members = $members;
         $this->members[$user->getId()] = $user;
+        $formData=$this->entityToFormData($project);
+
 
         return [
             [
                 $project,
-                array(
-                    'label' => $project->getLabel(),
-                    'summary' => $project->getSummary(),
-                    'members' => array_keys($members),
-                    'code' => $project->getCode(),
-                    'creator' => $project->getCreator()->getId(),
-                ),
+                $formData,
                 $user,
             ],
         ];

@@ -37,8 +37,10 @@ class ProfileType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'BugBundle\Entity\User',
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'BugBundle\Entity\User',
+            )
+        );
     }
 }
