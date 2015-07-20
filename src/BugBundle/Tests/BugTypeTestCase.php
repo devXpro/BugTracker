@@ -12,7 +12,9 @@ namespace BugBundle\Tests;
 use BugBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Entity;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Test\TypeTestCase;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 abstract class BugTypeTestCase extends TypeTestCase
@@ -147,5 +149,34 @@ abstract class BugTypeTestCase extends TypeTestCase
         $tokenStorage->expects($this->once())->method('getToken')->will($this->returnValue($token));
 
         return $tokenStorage;
+    }
+
+
+    protected function checkSelectors($obj)
+    {
+
+        $this->assertTrue(method_exists($obj, 'getName'));
+        $this->assertTrue(method_exists($obj, 'configureOptions'));
+        $this->assertTrue(method_exists($obj, 'getParent'));
+        /** @var AbstractType $obj */
+
+        $this->assertContains($obj->getParent(), array('entity', 'choice'));
+        $this->assertInternalType('string', $obj->getName());
+        /** @var OptionsResolver | \PHPUnit_Framework_MockObject_MockObject $optionsResolverMock */
+        $optionsResolverMock = $this->getMock('Symfony\Component\OptionsResolver\OptionsResolver');
+        $optionsResolverMock->expects($this->once())->method('setDefaults')->with(
+            $this->logicalAnd(
+                $this->isType('array'),
+                $this->logicalOr($this->arrayHasKey('class'), $this->arrayHasKey('choices'))
+            )
+        );
+        $obj->configureOptions($optionsResolverMock);
+
+    }
+
+    private function startsWith($haystack, $needle)
+    {
+        // search backwards starting from haystack length characters from the end
+        return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
     }
 }
