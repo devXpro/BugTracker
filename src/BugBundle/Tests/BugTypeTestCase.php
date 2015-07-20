@@ -11,7 +11,6 @@ namespace BugBundle\Tests;
 
 use BugBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Entity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,53 +18,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 abstract class BugTypeTestCase extends TypeTestCase
 {
-    /**
-     * @param $entityName
-     * @param $fields
-     * @param int $setsQuantity
-     * @return Entity[]
-     */
-    protected function getEntitySet($entityName, $fields, $setsQuantity = 3)
-    {
-        $result = array();
-        for ($i = 1; $i < $setsQuantity; $i++) {
-            $entity = new $entityName();
-            $idReflection = new \ReflectionProperty(get_class($entity), 'id');
-            $idReflection->setAccessible(true);
-            $idReflection->setValue($entity, $i);
-            foreach ($fields as $field) {
-                $setter = 'set'.ucfirst($field);
-                $entity->$setter($field.'_'.$i);
-            }
 
-            $result[$i] = $entity;
-        }
-
-        return $result;
-    }
-
-    /**
-     * @param $entityName
-     * @param $fields
-     * @param bool|false $withoutId
-     * @return mixed
-     */
-    protected function getEntity($entityName, $fields, $withoutId = false)
-    {
-        $entity = new $entityName();
-        if (!$withoutId) {
-            $idReflection = new \ReflectionProperty(get_class($entity), 'id');
-            $idReflection->setAccessible(true);
-            $idReflection->setValue($entity, 777);
-        }
-        foreach ($fields as $field) {
-            $setter = 'set'.ucfirst($field);
-            $entity->$setter($field);
-        }
-
-        return $entity;
-    }
-
+use EntitySetHelper;
     /**
      * @param $entity
      * @param array $excludeFields
@@ -174,9 +128,4 @@ abstract class BugTypeTestCase extends TypeTestCase
 
     }
 
-    private function startsWith($haystack, $needle)
-    {
-        // search backwards starting from haystack length characters from the end
-        return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
-    }
 }

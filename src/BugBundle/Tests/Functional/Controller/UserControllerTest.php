@@ -16,11 +16,6 @@ use Symfony\Bundle\FrameworkBundle\Client;
 
 class UserControllerTest extends BugTestCase
 {
-    /** @var EntityManager $em */
-    private $em;
-
-
-
     /**
      * @dataProvider profileProvider
      * @param $fullName
@@ -42,13 +37,14 @@ class UserControllerTest extends BugTestCase
         if (!$result) {
             $checkFields = array('bug_user_profile_email', 'bug_user_profile_password');
             $this->checkAllFieldsValidationErrors($checkFields, $crawler);
-            $this->assertCount(0,$crawler->filter('#bug_user_page'));
+            $this->assertCount(0, $crawler->filter('#bug_user_page'));
 
         } else {
-            $this->assertNotCount(0,$crawler->filter('#bug_user_page'));
+            $this->assertNotCount(0, $crawler->filter('#bug_user_page'));
         }
 
     }
+
 
     public function profileProvider()
     {

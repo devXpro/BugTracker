@@ -1,15 +1,18 @@
 {% extends '@Bug/base.html.twig' %}
 {% block body %}
-    {% block desc %}
-        <h1>Prorile Edit for <strong>{{ app.user.username |capitalize }}</strong> user</h1>
-    {% endblock %}
-    <div class="col-md-5">
-        {% include '@Bug/widgets/form_output.html.twig' %}
-        <br><br>
+    <div id="user_edit">
+        {% block desc %}
+            <h1>Prorile Edit for <strong>{{ app.user.username |capitalize }}</strong> user</h1>
+        {% endblock %}
+        <div class="col-md-5">
+            {% include '@Bug/widgets/form_output.html.twig' %}
+            <br><br>
 
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-lg btn-block">{{ 'save'|trans }}</button>
-            <span class="pull-right"><a onclick="history.back();">Back</a></span><span><a href="#">Need help?</a></span>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">{{ 'save'|trans }}</button>
+                <span class="pull-right"><a onclick="history.back();">Back</a></span><span><a href="#">Need
+                        help?</a></span>
+            </div>
         </div>
     </div>
 {% endblock %}

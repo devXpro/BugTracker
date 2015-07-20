@@ -18,6 +18,21 @@ class ProjectControllerTest extends BugTestCase
 {
 
 
+    const PROJECT_LABEL = 'Real Test Project';
+
+
+    public static function tearDownAfterClass()
+    {
+        parent::tearDownAfterClass();
+        $client = static::createClient();
+        $em = $client->getContainer()->get('doctrine')->getManager();
+        $projects = $em->getRepository('BugBundle:Project')->findBy(array('label' => self::PROJECT_LABEL));
+        foreach ($projects as $project) {
+            $em->remove($project);
+        }
+        $em->flush();
+    }
+
     public function testCreateProjectByUser()
     {
         //User is can't create projects
@@ -27,16 +42,19 @@ class ProjectControllerTest extends BugTestCase
         $this->assertNotCount(0, $crawler->filter('.error'));
     }
 
-    public function testDeleteProject(){
-        $client=$this->loginAsManager();
-        $route=$client->getContainer()->get('router')->generate('projects_list');
+    public function testDeleteProject()
+    {
+        $client = $this->loginAsManager();
+        $route = $client->getContainer()->get('router')->generate('projects_list');
         $crawler = $client->request('GET', $route);
-        $urls = $crawler->filterXPath("//a[contains(@href,'project/delete')]")->each(function (Crawler $node) {
-            return $node->attr('href');
-        });
+        $urls = $crawler->filterXPath("//a[contains(@href,'project/delete')]")->each(
+            function (Crawler $node) {
+                return $node->attr('href');
+            }
+        );
 
-        $crawler=$client->request('GET',$urls[0]);
-        $this->assertEquals('delete is not need',$crawler->filter('p')->html());
+        $crawler = $client->request('GET', $urls[0]);
+        $this->assertEquals('delete is not need', $crawler->filter('p')->html());
 
 
     }
@@ -101,8 +119,6 @@ class ProjectControllerTest extends BugTestCase
     }
 
 
-
-
     /**
      * @param Client $client
      * @return Crawler
@@ -111,11 +127,14 @@ class ProjectControllerTest extends BugTestCase
     {
         $route = $client->getContainer()->get('router')->generate('projects_list');
         $crawler = $client->request('GET', $route);
-        $urls = $crawler->filterXPath("//a[contains(@href,'project/edit')]")->each(function (Crawler $node) {
-            return $node->attr('href');
-        });
+        $urls = $crawler->filterXPath("//a[contains(@href,'project/edit')]")->each(
+            function (Crawler $node) {
+                return $node->attr('href');
+            }
+        );
         $this->assertNotCount(0, $urls);
         $url = $urls[rand(0, count($urls) - 1)];
+
         return $client->request('GET', $url);
     }
 
@@ -128,10 +147,12 @@ class ProjectControllerTest extends BugTestCase
     private function makeProject(Client $client, Crawler $crawler)
     {
         $form = $crawler->selectButton('Save')->form();
-        $memberIds = $crawler->filter('#bug_project_members > option')->each(function (Crawler $node) {
-            return $node->attr('value');
+        $memberIds = $crawler->filter('#bug_project_members > option')->each(
+            function (Crawler $node) {
+                return $node->attr('value');
 
-        });
+            }
+        );
         $form['bug_project[label]'] = 'Sma';
         $form['bug_project[summary]'] = 'Small';
         $form['bug_project[code]'] = 'Biggie';
@@ -139,14 +160,13 @@ class ProjectControllerTest extends BugTestCase
         $crawler = $client->submit($form);
         $checkFields = array('bug_project_label', 'bug_project_summary', 'bug_project_code');
         $this->checkAllFieldsValidationErrors($checkFields, $crawler);
-        $form['bug_project[label]'] = 'Real Project';
+        $form['bug_project[label]'] = self::PROJECT_LABEL;
         $form['bug_project[summary]'] = 'Without Mistakes. This summary contain full data';
         $form['bug_project[code]'] = 'PBB';
         $crawler = $client->submit($form);
         $this->assertNotCount(0, $crawler->filter('.project_view'));
 //        $this->assertNotCount(0, $crawler->filter('.project_view:contains("Real Project")'));
     }
-
 
 
 }

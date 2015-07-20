@@ -66,7 +66,7 @@ class Activity
     /**
      * @var Issue
      * @ORM\ManyToOne(targetEntity="BugBundle\Entity\Issue")
-     * @ORM\JoinColumn(name="issue_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="issue_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $issue;
 
@@ -214,7 +214,7 @@ class Activity
     /**
      * Get oldStatus
      *
-     * @return \BugBundle\Entity\IssueStatus 
+     * @return \BugBundle\Entity\IssueStatus
      */
     public function getOldStatus()
     {
@@ -237,7 +237,7 @@ class Activity
     /**
      * Get newStatus
      *
-     * @return \BugBundle\Entity\IssueStatus 
+     * @return \BugBundle\Entity\IssueStatus
      */
     public function getNewStatus()
     {
@@ -260,7 +260,7 @@ class Activity
     /**
      * Get comment
      *
-     * @return \BugBundle\Entity\IssueComment 
+     * @return \BugBundle\Entity\IssueComment
      */
     public function getComment()
     {
@@ -283,7 +283,7 @@ class Activity
     /**
      * Get user
      *
-     * @return \BugBundle\Entity\User 
+     * @return \BugBundle\Entity\User
      */
     public function getUser()
     {

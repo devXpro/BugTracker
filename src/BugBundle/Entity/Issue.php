@@ -5,6 +5,7 @@ namespace BugBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Issue
@@ -33,21 +34,24 @@ class Issue
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
+     * @Assert\Length(min=5)
      * @ORM\Column(name="summary", type="string", length=1000)
      */
     private $summary;
 
     /**
      * @var string
-     *
+     * @Assert\Length(min=3)
+     * @Assert\Length(max=3)
      * @ORM\Column(name="code", type="string", length=10)
      */
     private $code;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
+     * @Assert\Length(min=7)
      * @ORM\Column(name="description", type="string", length=10000)
      */
     private $description;
@@ -110,7 +114,7 @@ class Issue
     /**
      * @var Issue
      * @ORM\ManyToOne(targetEntity="BugBundle\Entity\Issue", inversedBy="childrenIssues")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     private $parentIssue;
 
@@ -124,7 +128,7 @@ class Issue
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="BugBundle\Entity\Project", inversedBy="issues")
-     * @ORM\JoinColumn(name="project_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $project;
 
@@ -150,7 +154,7 @@ class Issue
 
     public function __toString()
     {
-        return $this->getIssueFullName()?$this->getIssueFullName():'';
+        return $this->getIssueFullName() ? $this->getIssueFullName() : '';
     }
 
     public function getIssueFullName()

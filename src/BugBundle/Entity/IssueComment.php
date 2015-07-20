@@ -39,7 +39,7 @@ class IssueComment
     /**
      * @var Issue
      * @ORM\ManyToOne(targetEntity="BugBundle\Entity\Issue", inversedBy="comments")
-     * @ORM\JoinColumn(name="issue_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="issue_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     private $issue;
 
@@ -51,13 +51,15 @@ class IssueComment
     private $author;
 
 
-    public function __toString(){
-        return $this->getBody()?$this->getBody():'';
+    public function __toString()
+    {
+        return $this->getBody() ? $this->getBody() : '';
     }
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -80,7 +82,7 @@ class IssueComment
     /**
      * Get body
      *
-     * @return string 
+     * @return string
      */
     public function getBody()
     {
@@ -92,11 +94,13 @@ class IssueComment
      * @ORM\PrePersist()
      * @return $this
      */
-    public function setCreatedNow(){
+    public function setCreatedNow()
+    {
         $this->created = new \DateTime('now');
 
         return $this;
     }
+
     /**
      * Set created
      *
@@ -113,7 +117,7 @@ class IssueComment
     /**
      * Get created
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -136,7 +140,7 @@ class IssueComment
     /**
      * Get issue
      *
-     * @return \BugBundle\Entity\Issue 
+     * @return \BugBundle\Entity\Issue
      */
     public function getIssue()
     {
@@ -159,7 +163,7 @@ class IssueComment
     /**
      * Get author
      *
-     * @return \BugBundle\Entity\User 
+     * @return \BugBundle\Entity\User
      */
     public function getAuthor()
     {

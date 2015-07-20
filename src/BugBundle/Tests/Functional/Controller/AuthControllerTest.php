@@ -23,10 +23,7 @@ class AuthControllerTest extends BugTestCase
      */
     protected function setUp()
     {
-//        $client=$this->getClient();
 
-//        $em = $client->getKernel()->getContainer()->get('doctrine')->getManager();
-//        $em->beginTransaction();
     }
 
     public static function tearDownAfterClass()

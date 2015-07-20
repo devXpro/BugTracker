@@ -60,7 +60,7 @@ class Project
     /**
      *
      * @var Collection | Issue[]
-     * @ORM\OneToMany(targetEntity="BugBundle\Entity\Issue", mappedBy="project")
+     * @ORM\OneToMany(targetEntity="BugBundle\Entity\Issue", mappedBy="project", cascade={"remove"})
      */
     private $issues;
 

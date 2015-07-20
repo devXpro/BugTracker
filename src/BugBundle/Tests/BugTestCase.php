@@ -9,12 +9,16 @@
 namespace BugBundle\Tests;
 
 
+use BugBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
 class BugTestCase extends WebTestCase
 {
+
+    use EntitySetHelper;
+
     /** @var Client $client */
     private static $client;
 
@@ -37,16 +41,19 @@ class BugTestCase extends WebTestCase
         $form['_username'] = $login;
         $form['_password'] = $pass;
         $crawler = $client->submit($form);
-        $this->assertTrue($crawler->filter('#user_auth:contains("' . $role . '")')->count() > 0);
+        $this->assertTrue($crawler->filter('#user_auth:contains("'.$role.'")')->count() > 0);
         $this->setClient($client);
+
         return $client;
     }
 
 
     public static function getStaticClient()
     {
-        if (null === self::$client)
+        if (null === self::$client) {
             self::$client = static::createClient();
+        }
+
         return self::$client;
     }
 
@@ -89,19 +96,23 @@ class BugTestCase extends WebTestCase
     protected function checkAllFieldsValidationErrors(array $checkFields, Crawler $crawler)
     {
         foreach ($checkFields as $field) {
-            $g=$crawler->filter('#' . $field)->parents()->html();
-            $this->assertNotCount(0, $crawler->filter('#' . $field)->parents()->filter('ul'));
+            $html=$crawler->html();
+            $this->assertNotCount(0, $crawler->filter('#'.$field)->parents()->filter('ul'));
         }
     }
 
     protected function loginAsUser()
     {
-        $client = static::createClient(array(), array(
-            'PHP_AUTH_USER' => 'user',
-            'PHP_AUTH_PW' => 'user',
-        ));
+        $client = static::createClient(
+            array(),
+            array(
+                'PHP_AUTH_USER' => 'user',
+                'PHP_AUTH_PW' => 'user',
+            )
+        );
         $client->followRedirects();
         $this->setClient($client);
+
         return $client;
 
     }
@@ -111,12 +122,16 @@ class BugTestCase extends WebTestCase
      */
     protected function loginAsAdmin()
     {
-        $client= static::createClient(array(), array(
-            'PHP_AUTH_USER' => 'admin',
-            'PHP_AUTH_PW' => 'admin',
-        ));
+        $client = static::createClient(
+            array(),
+            array(
+                'PHP_AUTH_USER' => 'admin',
+                'PHP_AUTH_PW' => 'admin',
+            )
+        );
         $client->followRedirects();
         $this->setClient($client);
+
         return $client;
     }
 
@@ -125,15 +140,18 @@ class BugTestCase extends WebTestCase
      */
     protected function loginAsManager()
     {
-        $client= static::createClient(array(), array(
-            'PHP_AUTH_USER' => 'manager',
-            'PHP_AUTH_PW' => 'manager',
-        ));
+        $client = static::createClient(
+            array(),
+            array(
+                'PHP_AUTH_USER' => 'manager',
+                'PHP_AUTH_PW' => 'manager',
+            )
+        );
         $client->followRedirects();
         $this->setClient($client);
+
         return $client;
     }
-
 
 
 }
