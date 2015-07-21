@@ -39,6 +39,7 @@ class ActivityManagerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
+        $this->translator->expects($this->any())->method('trans')->will($this->returnArgument(0));
         $this->doctrine = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
         $this->token = $this->getMock(
             'Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface'
@@ -216,7 +217,7 @@ class ActivityManagerTest extends \PHPUnit_Framework_TestCase
      * @param TokenInterface |\PHPUnit_Framework_MockObject_MockObject $token
      * @param $expectedException string
      */
-    public function testMarkCreateIssueExceptions(TokenInterface $token, $expectedException)
+    public function testMarkCreateIssueExceptions($token, $expectedException)
     {
         $this->token->expects($this->any())->method('getToken')->will($this->returnValue($token));
         $this->setExpectedException($expectedException);
@@ -229,7 +230,7 @@ class ActivityManagerTest extends \PHPUnit_Framework_TestCase
      * @param TokenInterface |\PHPUnit_Framework_MockObject_MockObject $token
      * @param $expectedException string
      */
-    public function testMarkCommentIssueExceptions(TokenInterface $token, $expectedException)
+    public function testMarkCommentIssueExceptions($token, $expectedException)
     {
 
         $this->token->expects($this->any())->method('getToken')->will($this->returnValue($token));
@@ -243,7 +244,7 @@ class ActivityManagerTest extends \PHPUnit_Framework_TestCase
      * @param TokenInterface |\PHPUnit_Framework_MockObject_MockObject $token
      * @param $expectedException string
      */
-    public function testMarkChangeStatusIssueExceptions(TokenInterface $token, $expectedException)
+    public function testMarkChangeStatusIssueExceptions($token, $expectedException)
     {
         $this->token->expects($this->any())->method('getToken')->will($this->returnValue($token));
         $this->setExpectedException($expectedException);
@@ -291,19 +292,16 @@ class ActivityManagerTest extends \PHPUnit_Framework_TestCase
 
         return $token;
     }
+
+    public function testGetTypeName()
+    {
+        $changeStatus = $this->activityManager->getTypeName(Activity::TYPE_CHANGE_STATUS_ISSUE);
+        $comment = $this->activityManager->getTypeName(Activity::TYPE_COMMENT_ISSUE);
+        $create = $this->activityManager->getTypeName(Activity::TYPE_CREATE_ISSUE);
+        $this->assertEquals($create, 'createNewIssue');
+        $this->assertEquals($comment, 'commentIssue');
+        $this->assertEquals($changeStatus, 'changeStatus');
+        $this->assertNull($this->activityManager->getTypeName(0));
+    }
 }
 
-//$token = $this->getMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
-//$this->token->expects($this->once())->method('getToken')->will($this->returnValue($token));
-//
-//$this->router->expects($this->once())->method('generate')->with(
-//    $this->isType('string'),
-//    $this->logicalAnd($this->isType('array'), $this->arrayHasKey('issue'), $this->contains($issue->getId()))
-//)->will($this->returnArgument(0));
-//$em = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
-//$this->doctrine->expects($this->once())->method('getManagerForClass')->with($this->isType('string'))->will(
-//    $this->returnValue($em)
-//);
-//$em->expects($this->once())->method('persist')->with($activity);
-//$em->expects($this->once())->method('flush');
-//$this->activityManager->markCreateIssue($issue);

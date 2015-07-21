@@ -18,6 +18,7 @@ class AuthControllerTest extends BugTestCase
 {
     /** @var EntityManager $em */
     private $em;
+
     /**
      * Clear test user
      */
@@ -29,29 +30,32 @@ class AuthControllerTest extends BugTestCase
     public static function tearDownAfterClass()
     {
         parent::tearDownAfterClass();
-        $client=static::createClient();
+        $client = static::createClient();
         $em = $client->getContainer()->get('doctrine')->getManager();
-        foreach(self::registrationProvider() as $data){
-            if($data['result']){
-                $user=$em->getRepository('BugBundle:User')->findOneBy(array('username'=>$data['name']));
-                    if($user){
-                        $em->remove($user);
-                    }
+        foreach (self::registrationProvider() as $data) {
+            if ($data['result']) {
+                $user = $em->getRepository('BugBundle:User')->findOneBy(array('username' => $data['name']));
+                if ($user) {
+                    $em->remove($user);
+                }
             }
         }
         $em->flush();
     }
 
 
-    public function testAuthAdmin(){
+    public function testAuthAdmin()
+    {
         $this->loginAsAdminViaForm();
     }
 
-    public function testManagerAdmin(){
+    public function testManagerAdmin()
+    {
         $this->loginAsManagerViaForm();
     }
 
-    public function testUserAdmin(){
+    public function testUserAdmin()
+    {
         $this->loginAsUserViaForm();
     }
 
@@ -67,7 +71,7 @@ class AuthControllerTest extends BugTestCase
     public function testRegisterUser($username, $email, $password, $result)
     {
         /** @var Client $client */
-        $client =  static::createClient();
+        $client = static::createClient();
         $client->followRedirects();
         $crawler = $client->request('GET', $client->getContainer()->get('router')->generate('registration_route'));
         $form = $crawler->selectButton('Register')->form();
@@ -90,7 +94,12 @@ class AuthControllerTest extends BugTestCase
         return [
             ['name' => 'admin', 'email' => 'admin@ukr.net', 'password' => '123', 'result' => false],
             ['name' => 'user', 'email' => 'user.ukr.net', 'password' => '123', 'result' => false],
-            ['name' => 'testUser', 'email' => 'test_user@ukr.net', 'password' => 'superDuperPassword', 'result' => true]
+            [
+                'name' => 'testUser',
+                'email' => 'test_user@ukr.net',
+                'password' => 'superDuperPassword',
+                'result' => true,
+            ],
         ];
     }
 }

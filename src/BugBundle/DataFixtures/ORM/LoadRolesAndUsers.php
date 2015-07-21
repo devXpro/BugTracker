@@ -102,6 +102,7 @@ class LoadRolesAndUsers implements FixtureInterface, ContainerAwareInterface
         $persist(['Highest', 'High', 'Medium', 'Low', 'Lowest'], 'IssuePriority');
 
         $manager->flush();
+        return true;
     }
 
 

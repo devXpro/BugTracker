@@ -150,6 +150,7 @@ class Issue
     {
         $this->childrenIssues = new ArrayCollection();
         $this->collaborators = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function __toString()
@@ -157,7 +158,7 @@ class Issue
         return $this->getIssueFullName() ? $this->getIssueFullName() : '';
     }
 
-    public function getIssueFullName()
+    private function getIssueFullName()
     {
 
         return ($this->code && $this->id && $this->summary) ? $this->code.'-'.$this->id.' '.$this->summary : '';
@@ -265,19 +266,6 @@ class Issue
         return $this->type;
     }
 
-    public function getTypeName()
-    {
-        switch ($this->type) {
-            case self::TYPE_TASK:
-                return 'task';
-            case self::TYPE_BUG:
-                return 'bug';
-            case self::TYPE_SUBTASK:
-                return 'subtask';
-            case self::TYPE_STORY:
-                return 'story';
-        }
-    }
 
     /**
      * Set created
@@ -610,5 +598,19 @@ class Issue
     public function getComments()
     {
         return $this->comments;
+    }
+
+    public function getTypeName()
+    {
+        switch ($this->type) {
+            case self::TYPE_TASK:
+                return 'task';
+            case self::TYPE_BUG:
+                return 'bug';
+            case self::TYPE_SUBTASK:
+                return 'subtask';
+            case self::TYPE_STORY:
+                return 'story';
+        }
     }
 }

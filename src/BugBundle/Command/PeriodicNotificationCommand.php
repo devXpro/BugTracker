@@ -32,14 +32,19 @@ class PeriodicNotificationCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $c = $this->getContainer();
         $em = $this->getContainer()->get('doctrine')->getManager();
+        $output->writeln('<info>Start</info>');
         $unNonifiedEvents = $em->getRepository('BugBundle:Activity')->findBy(array('notified' => false));
         if ($unNonifiedEvents) {
             foreach ($unNonifiedEvents as $activity) {
                 if ($activity->getIssue()) {
                     $collaborators = $activity->getIssue()->getCollaborators();
                     $subj = $this->getContainer()->get('bug.activity.manager')->getTypeName($activity->getType());
-                    $body = $this->getContainer()->get('twig')->render('@Bug/Issue/activity.html.twig',array('activity'=>$activity));
+                    $body = $this->getContainer()->get('twig')->render(
+                        '@Bug/Issue/activity.html.twig',
+                        array('activities' => array($activity))
+                    );
                     foreach ($collaborators as $collaborator) {
                         /** @var User $collaborator */
                         /** @var \Swift_Message $message */
@@ -48,11 +53,20 @@ class PeriodicNotificationCommand extends ContainerAwareCommand
                             ->setFrom('test@test.com')
                             ->setTo($collaborator->getEmail())
                             ->setBody($body);
-                        $this->getContainer()->get('mailer')->send($message);
-                        $output->writeln('<comment>User:' . $collaborator . ' was notified </comment>');
+                        //Uncomment after send Email
+                        //$this->getContainer()->get('mailer')->send($message);
+                        $output->writeln('<comment>User:'.$collaborator.' was notified </comment>');
+                        $activity->setNotified(true);
+                        $em->persist($activity);
+
                     }
+
                 }
             }
+            $em->flush();
+        } else {
+            $output->writeln('<info>Nothing to send </info>');
         }
+
     }
 }

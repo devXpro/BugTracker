@@ -42,6 +42,19 @@ class ProjectControllerTest extends BugTestCase
         $this->assertNotCount(0, $crawler->filter('.error'));
     }
 
+
+    public function testCreateProjectByManager()
+    {
+        //Manager can create Project
+        $client = $this->loginAsManager();
+        $route = $client->getContainer()->get('router')->generate('bug_project_create');
+        $crawler = $client->request('GET', $route);
+        $this->assertCount(0, $crawler->filter('.error'));
+        $this->assertNotCount(0, $crawler->filter('label[for=bug_project_label]'));
+        $this->makeProject($client, $crawler);
+    }
+
+    /** @depends testCreateProjectByManager */
     public function testDeleteProject()
     {
         $client = $this->loginAsManager();
@@ -57,17 +70,6 @@ class ProjectControllerTest extends BugTestCase
         $this->assertEquals('delete is not need', $crawler->filter('p')->html());
 
 
-    }
-
-    public function testCreateProjectByManager()
-    {
-        //Manager can create Project
-        $client = $this->loginAsManager();
-        $route = $client->getContainer()->get('router')->generate('bug_project_create');
-        $crawler = $client->request('GET', $route);
-        $this->assertCount(0, $crawler->filter('.error'));
-        $this->assertNotCount(0, $crawler->filter('label[for=bug_project_label]'));
-        $this->makeProject($client, $crawler);
     }
 
     public function testCreateProjectByAdmin()

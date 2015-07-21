@@ -18,6 +18,7 @@ class Project
     public function __construct()
     {
         $this->issues = new ArrayCollection();
+        $this->members = new ArrayCollection();
     }
 
     public function __toString()

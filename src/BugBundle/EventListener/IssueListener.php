@@ -33,10 +33,15 @@ class IssueListener implements ListenerInterface
 
 
     }
-    public function onAfterCreate(BugEntityEvent $event){
+
+    public function onAfterCreate(BugEntityEvent $event)
+    {
         /** @var Issue $issue */
         $issue = $event->getEntity();
         //Add Creator task to collaborators
+        if (!$this->token->getToken()) {
+            return;
+        }
         $issue->addCollaborator($this->token->getToken()->getUser());
         $this->activityManager->markCreateIssue($issue);
     }
@@ -48,7 +53,7 @@ class IssueListener implements ListenerInterface
         $changes = $event->getEm()->getUnitOfWork()->getEntityChangeSet($issue);
         //mark to activity, if status changed
         if (isset($changes['status'])) {
-            $this->activityManager->markChangeStatusIssue($issue,$changes['status'][0],$changes['status'][1]);
+            $this->activityManager->markChangeStatusIssue($issue, $changes['status'][0], $changes['status'][1]);
         }
 
     }

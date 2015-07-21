@@ -82,7 +82,7 @@ class User implements UserInterface, \Serializable
         return $this->getAnyName() ? $this->getAnyName() : '';
     }
 
-    public function getAnyName()
+    private function getAnyName()
     {
         return $this->fullName ? $this->fullName : $this->username;
     }

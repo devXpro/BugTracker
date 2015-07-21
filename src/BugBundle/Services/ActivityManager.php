@@ -59,15 +59,17 @@ class ActivityManager implements IssueActivityInterface, IssueCommentActivityInt
         $em->flush();
     }
 
-    private function tokenCheck(){
-        if(!$this->token->getToken()){
+    private function tokenCheck()
+    {
+        if (!$this->token->getToken()) {
             throw new TokenNotFoundException();
         }
-        if(!$this->token->getToken()->getUser()){
+        if (!$this->token->getToken()->getUser()) {
             throw new AuthenticationException();
         }
-        if(!($this->token->getToken()->getUser() instanceof User))
+        if (!($this->token->getToken()->getUser() instanceof User)) {
             throw new EntityNotFoundException();
+        }
     }
 
     /**
@@ -75,9 +77,9 @@ class ActivityManager implements IssueActivityInterface, IssueCommentActivityInt
      * @param IssueStatus $oldStatus
      * @param IssueStatus $newStatus
      */
-    public function markChangeStatusIssue(Issue $issue,IssueStatus $oldStatus,IssueStatus $newStatus)
+    public function markChangeStatusIssue(Issue $issue, IssueStatus $oldStatus, IssueStatus $newStatus)
     {
-        $em=$this->doctrine->getManagerForClass('BugBundle:Activity');
+        $em = $this->doctrine->getManagerForClass('BugBundle:Activity');
         $activity = new Activity();
         $activity->setType(Activity::TYPE_CHANGE_STATUS_ISSUE);
         $activity->setIssue($issue);
@@ -95,14 +97,15 @@ class ActivityManager implements IssueActivityInterface, IssueCommentActivityInt
      */
     public function markCommentIssue(IssueComment $comment)
     {
-        $em=$this->doctrine->getManagerForClass('BugBundle:Activity');
+        $em = $this->doctrine->getManagerForClass('BugBundle:Activity');
         $activity = new Activity();
         $activity->setType(Activity::TYPE_COMMENT_ISSUE);
         $activity->setComment($comment);
         $this->tokenCheck();
         $activity->setUser($this->token->getToken()->getUser());
-        if(!($comment->getIssue() instanceof Issue))
+        if (!($comment->getIssue() instanceof Issue)) {
             throw new EntityNotFoundException();
+        }
         $activity->setIssue($comment->getIssue());
         $em->persist($activity);
     }
@@ -121,7 +124,6 @@ class ActivityManager implements IssueActivityInterface, IssueCommentActivityInt
                 return $tr->trans('changeStatus');
             case Activity::TYPE_COMMENT_ISSUE:
                 return $tr->trans('commentIssue');
-
         }
     }
 }
