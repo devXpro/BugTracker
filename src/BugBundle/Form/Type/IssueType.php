@@ -19,16 +19,15 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class IssueType extends AbstractType
 {
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
 
 
-    private $user;
-
-    public function __construct(TokenStorageInterface $token)
+    public function __construct(TokenStorageInterface $tokenStorage)
     {
-
-        /** @var User user */
-        $this->user = $token->getToken()->getUser();
-
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -38,6 +37,7 @@ class IssueType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         /** @var User $user */
+        $user = $this->getUser();
 
         $builder
             ->add('project', 'bug_select_project')
@@ -49,7 +49,7 @@ class IssueType extends AbstractType
             ->add('status', 'bug_select_issue_status')
             ->add('resolution', 'bug_select_issue_resolution')
             ->add('assignee', 'bug_select_user')
-            ->add('reporter', 'bug_select_user', array('empty_data' => $this->user->getId()));
+            ->add('reporter', 'bug_select_user', array('empty_data' => $user->getId()));
         if ($options['parentIssue']) {
             $builder->add('parentIssue','bug_set_parent_issue',
                 array(
@@ -87,5 +87,13 @@ class IssueType extends AbstractType
         );
 
 
+    }
+
+    /**
+     * @return User
+     */
+    private function getUser()
+    {
+        return $this->tokenStorage->getToken()->getUser();
     }
 }

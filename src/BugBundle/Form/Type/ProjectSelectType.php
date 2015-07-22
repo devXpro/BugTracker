@@ -10,6 +10,7 @@ namespace BugBundle\Form\Type;
 
 
 use BugBundle\Entity\Role;
+use BugBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,15 +20,25 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class ProjectSelectType extends AbstractType
 {
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
 
-    private $user;
+    /**
+     * @var AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
 
-    private $admin;
 
-    public function __construct(TokenStorageInterface $token, AuthorizationCheckerInterface $authorizationChecker)
+    /**
+     * @param TokenStorageInterface         $tokenStorage
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     */
+    public function __construct(TokenStorageInterface $tokenStorage, AuthorizationCheckerInterface $authorizationChecker)
     {
-        $this->user = $token->getToken()->getUser();
-        $this->admin = $authorizationChecker->isGranted(Role::ROLE_ADMIN);
+        $this->tokenStorage = $tokenStorage;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -47,8 +58,8 @@ class ProjectSelectType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $params = array('class' => 'BugBundle\Entity\Project');
-        $user = $this->user;
-        if ($this->admin) {
+        $user = $this->getUser();
+        if ($this->isAdmin()) {
             $params['query_builder'] = function (EntityRepository $er) use ($user) {
                 $qb = $er->createQueryBuilder('p')
                     ->leftJoin('p.members', 'members');
@@ -71,5 +82,21 @@ class ProjectSelectType extends AbstractType
     public function getParent()
     {
         return 'entity';
+    }
+
+    /**
+     * @return User
+     */
+    private function getUser()
+    {
+        return $this->tokenStorage->getToken()->getUser();
+    }
+
+    /**
+     * @return bool
+     */
+    private function isAdmin()
+    {
+        return $this->authorizationChecker->isGranted(Role::ROLE_ADMIN);
     }
 }

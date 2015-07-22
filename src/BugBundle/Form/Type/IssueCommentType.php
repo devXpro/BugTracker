@@ -19,17 +19,15 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class IssueCommentType extends AbstractType
 {
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
 
 
-    private $user;
-
-
-    public function __construct(TokenStorageInterface $token)
+    public function __construct(TokenStorageInterface $tokenStorage)
     {
-
-        /** @var User user */
-        $this->user = $token->getToken()->getUser();
-
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -38,10 +36,12 @@ class IssueCommentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $user = $this->getUser();
+
         $builder
             ->add('issue', 'bug_select_issue', array('empty_data' => $options['issue']->getId()))
             ->add('body', 'textarea')
-            ->add('author', 'bug_select_user', array('data' => $this->user, 'empty_data' => $this->user->getId()));
+            ->add('author', 'bug_select_user', array('data' => $user, 'empty_data' => $user->getId()));
 
 
     }
@@ -71,5 +71,10 @@ class IssueCommentType extends AbstractType
             }
         );
 
+    }
+
+    private function getUser()
+    {
+        return $this->tokenStorage->getToken()->getUser();
     }
 }
