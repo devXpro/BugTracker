@@ -5,6 +5,7 @@ namespace BugBundle\Controller;
 use BugBundle\Entity\Issue;
 use BugBundle\Entity\Project;
 use BugBundle\Traits\ErrorVisualizer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class IssueController extends Controller
 {
     use ErrorVisualizer;
+
     /**
      * @Route("/issues/list/{project}", name="issues_list", defaults={"project" = null})
      * @param Request $request
@@ -37,6 +39,7 @@ class IssueController extends Controller
             10 /*limit per page*/
 
         );
+
         return $this->render('@Bug/Issue/issues_list.html.twig', array('pagination' => $pagination));
     }
 
@@ -51,6 +54,7 @@ class IssueController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($issue);
         $em->flush();
+
         return $this->redirect($this->generateUrl('issues_list', array('issue' => $issue->getId())));
     }
 
@@ -64,7 +68,8 @@ class IssueController extends Controller
         $em = $this->getDoctrine()->getManager();
         $activities = $em->getRepository('BugBundle:Activity')->findBy(array('issue' => $issue));
         $template = $onlyActivity ? '@Bug/Issue/right_block.html.twig' : '@Bug/Issue/issue_list.html.twig';
-        return $this->render($template,array('issue'=>$issue,'activities'=>$activities));
+
+        return $this->render($template, array('issue' => $issue, 'activities' => $activities));
 
     }
 
@@ -78,55 +83,65 @@ class IssueController extends Controller
     public function issueEditAction(Request $request, Issue $issue)
     {
         $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm('bug_issue', $issue,array('parentIssue'=>$issue->getParentIssue()));
+        $form = $this->createForm('bug_issue', $issue, array('parentIssue' => $issue->getParentIssue()));
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $issue = $form->getData();
             $em->persist($issue);
             $em->flush();
+
             return $this->redirect($this->generateUrl('bug_issue_view', array('issue' => $issue->getId())));
         }
 
 
-        return $this->render('@Bug/Issue/issue_edit.html.twig', array(
-            'form' => $form->createView(),
-        ));
+        return $this->render(
+            '@Bug/Issue/issue_edit.html.twig',
+            array(
+                'form' => $form->createView(),
+            )
+        );
     }
 
     /**
-     * @Route("/issue/create/{parentIssue}", name="bug_issue_create",defaults={"parentIssue=null"})
+     * @Route("/issue/create/{parentIssue}", name="bug_issue_create")
+     * @ParamConverter("parentIssue", class="BugBundle:Issue", isOptional="true", options={"id" = "parentIssue"})
      * @param Request $request
      * @param null|Issue $parentIssue
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function issueCreateAction(Request $request,$parentIssue=null)
+    public function issueCreateAction(Request $request, Issue $parentIssue = null)
     {
+
         $em = $this->getDoctrine()->getManager();
         //If user is not admin and have not any projects he can't create Issue
         if (false === $this->isGranted('can_create_any_issue')) {
             return $this->renderError('youHaveNoAnyProjects');
         }
-        if (false === $this->isGranted('can_create_children_issue',$parentIssue))
+        if (false === $this->isGranted('can_create_children_issue', $parentIssue)) {
             return $this->renderError('onlyStoryCanHaveSubIssue');
-        if($parentIssue)
-            $parentIssue=$em->getRepository('BugBundle:Issue')->find($parentIssue);
-        $issue = new Issue();
-        $form = $this->createForm('bug_issue', $issue,array('parentIssue'=>$parentIssue));
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            /** @var Issue $issue */
-            $issue = $form->getData();
-            $em->persist($issue);
-            $em->flush();
-            return $this->redirect($this->generateUrl('bug_issue_view', array('issue' => $issue->getId())));
-
         }
-        return $this->render('@Bug/Issue/issue_edit.html.twig', array(
-            'form' => $form->createView(),
-        ));
+        $issue = new Issue();
+        $form = $this->createForm('bug_issue', $issue, array('parentIssue' => $parentIssue));
+        if ($request->isMethod('POST')) {
+
+
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                $em->persist($issue);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('bug_issue_view', array('issue' => $issue->getId())));
+
+            }
+        }
+
+        return $this->render(
+            '@Bug/Issue/issue_edit.html.twig',
+            array(
+                'form' => $form->createView(),
+            )
+        );
     }
-
-
 }

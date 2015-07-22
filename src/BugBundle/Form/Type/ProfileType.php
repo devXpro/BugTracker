@@ -26,7 +26,18 @@ class ProfileType extends AbstractType
             ->add('email', 'email')
             ->add('ava', 'file', array('required' => false))
             ->add('fullName', 'text', array('required' => false))
-            ->add('password', 'password');
+            ->add(
+                'password',
+                'repeated',
+                array(
+                    'type' => 'password',
+                    'invalid_message' => 'The password fields must match.',
+                    'options' => array('attr' => array('class' => 'password-field')),
+                    'required' => true,
+                    'first_options' => array('label' => 'Password'),
+                    'second_options' => array('label' => 'Repeat Password'),
+                )
+            );
 
     }
 

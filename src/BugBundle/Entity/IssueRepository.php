@@ -22,36 +22,47 @@ class IssueRepository extends EntityRepository
         $qb = $this->createQueryBuilder('i')
             ->innerJoin('i.project', 'p')
             ->leftJoin('p.members', 'members');
-        $qb->where($qb->expr()->orX(
-            $qb->expr()->in('members', ':user'),
-            $qb->expr()->eq('p.creator', ':user')
+        $qb->where(
+            $qb->expr()->orX(
+                $qb->expr()->in('members', ':user'),
+                $qb->expr()->eq('p.creator', ':user')
 
-        ))
+            )
+        )
             ->setParameter('user', $user);
+
         return $qb->getQuery();
     }
 
-    public function getActualIssuesByUserCollaboratorQuery(User $user){
-        $issueStatusOpen=$this->getEntityManager()->getRepository('BugBundle:IssueStatus')->findBy(array('label'=>IssueStatus::OPEN));
-        $issueStatusReopen=$this->getEntityManager()->getRepository('BugBundle:IssueStatus')->findBy(array('label'=>IssueStatus::REOPEN));
-        $qb=$this->createQueryBuilder('i')
-            ->innerJoin('i.collaborators','collaborators');
-        $qb->where($qb->expr()->andX(
-            $qb->expr()->in('collaborators', ':user'),
-            $qb->expr()->orX(
-                $qb->expr()->eq('i.status',':status_open'),
-                $qb->expr()->eq('i.status',':status_reopen')
-            )
+    public function getActualIssuesByUserCollaboratorQuery(User $user)
+    {
+        $issueStatusOpen = $this->getEntityManager()->getRepository('BugBundle:IssueStatus')->findBy(
+            array('label' => IssueStatus::OPEN)
+        );
+        $issueStatusReopen = $this->getEntityManager()->getRepository('BugBundle:IssueStatus')->findBy(
+            array('label' => IssueStatus::REOPEN)
+        );
+        $qb = $this->createQueryBuilder('i')
+            ->innerJoin('i.collaborators', 'collaborators');
+        $qb->where(
+            $qb->expr()->andX(
+                $qb->expr()->in('collaborators', ':user'),
+                $qb->expr()->orX(
+                    $qb->expr()->eq('i.status', ':status_open'),
+                    $qb->expr()->eq('i.status', ':status_reopen')
+                )
 
-        ))
+            )
+        )
             ->setParameter('user', $user)
             ->setParameter('status_open', $issueStatusOpen)
             ->setParameter('status_reopen', $issueStatusReopen);
 
-            return $qb->getQuery();
+        return $qb->getQuery();
     }
 
-    public function getActualIssuesByUserCollaborator(User $user){
+    public function getActualIssuesByUserCollaborator(User $user)
+    {
         return $this->getActualIssuesByUserCollaboratorQuery($user)->getResult();
     }
 

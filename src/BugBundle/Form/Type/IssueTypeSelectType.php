@@ -18,8 +18,10 @@ class IssueTypeSelectType extends AbstractType
 {
 
     private $trans;
-    public function __construct(TransHelper $trans){
-        $this->trans=$trans;
+
+    public function __construct(TransHelper $trans)
+    {
+        $this->trans = $trans;
     }
 
     public function getName()
@@ -29,14 +31,16 @@ class IssueTypeSelectType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'choices' => array(
-                Issue::TYPE_BUG => $this->trans->transUp('bug'),
-                Issue::TYPE_STORY => $this->trans->transUp('story'),
-                Issue::TYPE_SUBTASK => $this->trans->transUp('subtask'),
-                Issue::TYPE_TASK => $this->trans->transUp('task'),
-            ),
-        ));
+        $resolver->setDefaults(
+            array(
+                'choices' => array(
+                    Issue::TYPE_BUG => $this->trans->transUp('bug'),
+                    Issue::TYPE_STORY => $this->trans->transUp('story'),
+                    Issue::TYPE_SUBTASK => $this->trans->transUp('subtask'),
+                    Issue::TYPE_TASK => $this->trans->transUp('task'),
+                ),
+            )
+        );
 
     }
 

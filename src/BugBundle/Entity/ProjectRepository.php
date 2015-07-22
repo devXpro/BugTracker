@@ -17,12 +17,15 @@ class ProjectRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('p')
             ->leftJoin('p.members', 'members');
-        $qb->where($qb->expr()->orX(
-            $qb->expr()->in('members', ':user'),
-            $qb->expr()->eq('p.creator', ':user')
+        $qb->where(
+            $qb->expr()->orX(
+                $qb->expr()->in('members', ':user'),
+                $qb->expr()->eq('p.creator', ':user')
 
-        ))
+            )
+        )
             ->setParameter('user', $user);
+
         return $qb->getQuery();
     }
 

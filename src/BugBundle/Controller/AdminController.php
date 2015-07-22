@@ -29,6 +29,7 @@ class AdminController extends Controller
             12 /*limit per page*/
 
         );
+
         return $this->render('@Bug/Admin/Users/users_list.html.twig', array('pagination' => $pagination));
     }
 
@@ -42,22 +43,31 @@ class AdminController extends Controller
     public function userEditAction(Request $request, User $user)
     {
         $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm('bug_user', $user);
+        $form = $this->createForm('bug_user', $user, array('validation_groups' => array('edit_profile')));
+        $oldPassword = $user->getPassword();
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $user = $form->getData();
-            $user = $this->container->get('bug.userManager')->encodePassword($user);
+            if ($user->getPassword()) {
+                $user = $this->container->get('bug.userManager')->encodePassword($user);
+            } else {
+                $user->setPassword($oldPassword);
+            }
             $user->upload();
             $em->persist($user);
             $em->flush();
+
             return $this->redirect('/admin/users/list');
         }
 
 
-        return $this->render('@Bug/Admin/Users/user_edit.html.twig', array(
-            'form' => $form->createView(),
-        ));
+        return $this->render(
+            '@Bug/Admin/Users/user_edit.html.twig',
+            array(
+                'form' => $form->createView(),
+            )
+        );
 
     }
 
@@ -72,6 +82,7 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->remove($user);
         $em->flush();
+
         return $this->redirect($this->generateUrl('admin_users_list'));
 
     }

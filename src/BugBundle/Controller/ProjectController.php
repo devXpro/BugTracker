@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProjectController extends Controller
 {
     use ErrorVisualizer;
+
     /**
      * @Route("/projects/list/", name="projects_list")
      * @param Request $request
@@ -32,10 +33,10 @@ class ProjectController extends Controller
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $query,
-            $request->query->getInt('page', 1),/*page number*/
-            10 /*limit per page*/
-
+            $request->query->getInt('page', 1),
+            10
         );
+
         return $this->render('@Bug/Project/projects_list.html.twig', array('pagination' => $pagination));
     }
 
@@ -69,8 +70,9 @@ class ProjectController extends Controller
      */
     public function projectEditAction(Request $request, Project $project)
     {
-        if (!$this->get('security.authorization_checker')->isGranted(Role::ROLE_MANAGER))
+        if (!$this->get('security.authorization_checker')->isGranted(Role::ROLE_MANAGER)) {
             return $this->renderError('notEnoughPermissions');
+        }
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm('bug_project', $project);
         $form->handleRequest($request);
@@ -78,14 +80,19 @@ class ProjectController extends Controller
         if ($form->isValid()) {
             $project = $form->getData();
             $em->persist($project);
-            //$em->flush();
+
+            $em->flush();
+
             return $this->redirect($this->generateUrl('bug_project_view', array('project' => $project->getId())));
         }
 
 
-        return $this->render('@Bug/Project/project_edit.html.twig', array(
-            'form' => $form->createView(),
-        ));
+        return $this->render(
+            '@Bug/Project/project_edit.html.twig',
+            array(
+                'form' => $form->createView(),
+            )
+        );
     }
 
     /**
@@ -95,8 +102,9 @@ class ProjectController extends Controller
      */
     public function projectCreateAction(Request $request)
     {
-        if (!$this->isGranted(Role::ROLE_MANAGER))
+        if (!$this->isGranted(Role::ROLE_MANAGER)) {
             return $this->renderError('notEnoughPermissions');
+        }
         $em = $this->getDoctrine()->getManager();
         $project = new Project();
         $form = $this->createForm('bug_project', $project);
@@ -106,13 +114,17 @@ class ProjectController extends Controller
             $project = $form->getData();
             $em->persist($project);
             $em->flush();
+
             return $this->redirect($this->generateUrl('bug_project_view', array('project' => $project->getId())));
         }
 
 
-        return $this->render('@Bug/Project/project_edit.html.twig', array(
-            'form' => $form->createView(),
-        ));
+        return $this->render(
+            '@Bug/Project/project_edit.html.twig',
+            array(
+                'form' => $form->createView(),
+            )
+        );
     }
 
 }

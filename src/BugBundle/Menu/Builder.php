@@ -18,6 +18,7 @@ class Builder extends ContainerAware
     {
 
         $translator = $this->container->get('bug.trans.helper');
+
         return $translator->transUp($string);
 
     }
@@ -28,11 +29,15 @@ class Builder extends ContainerAware
         $menu = $factory->createItem('root');
 
         $menu->addChild($this->trans('home'), array('route' => 'index'));
-        if ($this->container->get('security.authorization_checker')->isGranted(Role::ROLE_ADMIN))
-            $menu->addChild($this->trans('users'), array(
-                'route' => 'admin_users_list',
+        if ($this->container->get('security.authorization_checker')->isGranted(Role::ROLE_ADMIN)) {
+            $menu->addChild(
+                $this->trans('users'),
+                array(
+                    'route' => 'admin_users_list',
 
-            ));
+                )
+            );
+        }
         $menu->addChild($this->trans('projects'), array('route' => 'projects_list'));
         $menu->addChild($this->trans('issues'), array('route' => 'issues_list'));
 

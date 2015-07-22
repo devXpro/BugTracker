@@ -4,8 +4,7 @@
   "type": "project",
   "autoload": {
     "psr-4": {
-      "": "src/",
-      "SymfonyStandard\\": "app/SymfonyStandard/"
+      "": "src/"
     }
   },
   "require": {
@@ -23,7 +22,8 @@
     "doctrine/doctrine-fixtures-bundle": "2.2.*",
     "knplabs/knp-paginator-bundle": "^2.4",
     "knplabs/knp-menu-bundle": "~2",
-    "squizlabs/php_codesniffer": "*"
+    "squizlabs/php_codesniffer": "*",
+    "fabpot/php-cs-fixer": "1.10.x-dev"
   },
   "require-dev": {
     "sensio/generator-bundle": "~2.3",

@@ -9,7 +9,6 @@
 namespace BugBundle\Form\Type;
 
 
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,7 +23,7 @@ class ProjectType extends AbstractType
     public function __construct(TokenStorageInterface $token)
     {
 
-        $this->user =$token->getToken()->getUser();
+        $this->user = $token->getToken()->getUser();
     }
 
     /**
@@ -48,9 +47,11 @@ class ProjectType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'BugBundle\Entity\Project',
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'BugBundle\Entity\Project',
 
-        ));
+            )
+        );
     }
 }

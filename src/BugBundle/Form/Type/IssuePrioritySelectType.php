@@ -23,9 +23,11 @@ class IssuePrioritySelectType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'class' => 'BugBundle\Entity\IssuePriority',
-        ));
+        $resolver->setDefaults(
+            array(
+                'class' => 'BugBundle\Entity\IssuePriority',
+            )
+        );
     }
 
     public function getParent()

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Comment
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="IssueCommentRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class IssueComment
@@ -153,7 +153,7 @@ class IssueComment
      * @param \BugBundle\Entity\User $author
      * @return IssueComment
      */
-    public function setAuthor(\BugBundle\Entity\User $author)
+    public function setAuthor(User $author)
     {
         $this->author = $author;
 

@@ -26,6 +26,7 @@ interface ListenerInterface
      * @return void
      */
     public function onPreCreate(BugEntityEvent $event);
+
     /**
      * handler after create event
      * @param BugEntityEvent $event

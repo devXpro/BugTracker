@@ -23,9 +23,11 @@ class IssueSelectType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'class' => 'BugBundle\Entity\Issue',
-        ));
+        $resolver->setDefaults(
+            array(
+                'class' => 'BugBundle\Entity\Issue',
+            )
+        );
     }
 
     public function getParent()

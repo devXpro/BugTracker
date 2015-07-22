@@ -96,7 +96,7 @@ class IssueVoterTest extends \PHPUnit_Framework_TestCase
         $user->expects($this->once())->method('getRoles')->willReturn(array('Another Role'));
         $this->token->expects($this->any())->method('getUser')->willReturn($user);
 
-        /** @var ProjectRepository |  \PHPUnit_Framework_MockObject_MockObject $projectRepo */
+        /** @var ProjectRepository | \PHPUnit_Framework_MockObject_MockObject $projectRepo */
         $projectRepo = $this->getMockBuilder('BugBundle\Entity\ProjectRepository')->disableOriginalConstructor(
         )->getMock();
         $projectRepo->expects($this->once())->method('getProjectsByUser')->with($user)->will(

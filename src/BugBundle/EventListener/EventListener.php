@@ -77,6 +77,7 @@ class EventListener
     {
         $classname = get_class($class);
         $pos = strrpos($classname, '\\');
+
         return substr($classname, $pos + 1);
 
     }

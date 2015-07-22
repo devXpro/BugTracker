@@ -26,11 +26,13 @@ class UsersSelectType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'class' => 'BugBundle\Entity\User',
-            'property' => 'username',
-            'multiple' => true
-        ));
+        $resolver->setDefaults(
+            array(
+                'class' => 'BugBundle\Entity\User',
+                'property' => 'username',
+                'multiple' => true,
+            )
+        );
     }
 
     public function getParent()

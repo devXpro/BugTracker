@@ -17,16 +17,21 @@ class ActivityRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('a')
             ->innerJoin('a.issue', 'i')
-            ->innerJoin('i.project','p')
+            ->innerJoin('i.project', 'p')
             ->leftJoin('p.members', 'members');
-        $qb->where($qb->expr()->orX(
-            $qb->expr()->in('members', ':user'),
-            $qb->expr()->eq('p.creator', ':user')
-        ))
+        $qb->where(
+            $qb->expr()->orX(
+                $qb->expr()->in('members', ':user'),
+                $qb->expr()->eq('p.creator', ':user')
+            )
+        )
             ->setParameter('user', $user);
+
         return $qb->getQuery();
     }
-    public function getActivitiesByUser(User $user){
+
+    public function getActivitiesByUser(User $user)
+    {
         return $this->getActivitiesByUserQuery($user)->getResult();
     }
 }

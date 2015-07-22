@@ -44,7 +44,10 @@ class AuthController extends Controller
     {
         $user = new User();
 
-        $form = $this->createFormBuilder($user, array('validation_groups' => array('registration',Constraint::DEFAULT_GROUP)))
+        $form = $this->createFormBuilder(
+            $user,
+            array('validation_groups' => array('registration', Constraint::DEFAULT_GROUP))
+        )
             ->add('email', 'email')
             ->add('username', 'text')
             ->add('password', 'password')
@@ -52,32 +55,25 @@ class AuthController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $x=$this->get('validator')->validate($user);
+            $x = $this->get('validator')->validate($user);
             $em = $this->getDoctrine()->getManager();
             /** @var $user User $user */
             $user = $form->getData();
             $user = $this->container->get('bug.userManager')->encodePassword($user);
-            $roleUser = $em->getRepository('BugBundle:Role')->findOneBy(array('role'=>Role::ROLE_USER));
+            $roleUser = $em->getRepository('BugBundle:Role')->findOneBy(array('role' => Role::ROLE_USER));
             $user->addRole($roleUser);
             $em->persist($user);
             $em->flush();
+
             return $this->redirect($this->generateUrl('login_route'));
         }
 
-        return $this->render('@Bug/Auth/register.html.twig', array(
-            'form' => $form->createView(),
-        ));
+        return $this->render(
+            '@Bug/Auth/register.html.twig',
+            array(
+                'form' => $form->createView(),
+            )
+        );
 
     }
-
-//
-//    /**
-//     * @Route("/login_check", name="login_check")
-//     */
-//    public function loginCheckAction()
-//    {
-//        // this controller will not be executed,
-//        // as the route is handled by the Security system
-//
-//    }
 }

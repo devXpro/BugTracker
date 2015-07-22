@@ -45,7 +45,7 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
-     * @Assert\Email()
+     * @Assert\Email(groups={"edit_profile"})
      * @ORM\Column(type="string", length=60, unique=true)
      */
     private $email;

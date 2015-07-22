@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 07.07.15
- * Time: 18:59
- */
 
 namespace BugBundle\Command;
-
 
 use BugBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -16,9 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class PeriodicNotificationCommand extends ContainerAwareCommand
 {
-    /**
-     *
-     */
+
     protected function configure()
     {
         $this->setName('bug:collaborators:notify')
@@ -32,7 +23,6 @@ class PeriodicNotificationCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $c = $this->getContainer();
         $em = $this->getContainer()->get('doctrine')->getManager();
         $output->writeln('<info>Start</info>');
         $unNonifiedEvents = $em->getRepository('BugBundle:Activity')->findBy(array('notified' => false));
@@ -54,16 +44,16 @@ class PeriodicNotificationCommand extends ContainerAwareCommand
                             ->setTo($collaborator->getEmail())
                             ->setBody($body);
                         //Uncomment after send Email
-                        //$this->getContainer()->get('mailer')->send($message);
+                        $this->getContainer()->get('mailer')->send($message);
                         $output->writeln('<comment>User:'.$collaborator.' was notified </comment>');
                         $activity->setNotified(true);
                         $em->persist($activity);
 
                     }
 
+                    $em->flush();
                 }
             }
-            $em->flush();
         } else {
             $output->writeln('<info>Nothing to send </info>');
         }

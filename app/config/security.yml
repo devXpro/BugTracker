@@ -16,10 +16,7 @@ security:
             pattern: ^/(_(profiler|wdt|error)|css|images|js)/
             security: false
         login:
-            pattern:                        ^/(login)$
-            anonymous:                      true
-        regitstration:
-            pattern:                        ^/(registration)$
+            pattern:                        ^/(login|registration)$
             anonymous:                      true
 
         default:
@@ -37,6 +34,3 @@ security:
 
     access_control:
         - {path: ^/admin, role: ROLE_ADMIN}
-
-
-

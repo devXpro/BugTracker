@@ -20,20 +20,31 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $form = $this->createForm('bug_user_profile', $user);
+        $oldPassword = $user->getPassword();
+        $form = $this->createForm('bug_user_profile', $user, array('validation_groups' => array('edit_profile')));
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $user = $form->getData();
-            $user = $this->container->get('bug.userManager')->encodePassword($user);
-            $user->upload();
-            $em->persist($user);
+            /** @var User $userFromForm */
+            $userFromForm = $form->getData();
+            if ($userFromForm->getPassword()) {
+                $userFromForm = $this->container->get('bug.userManager')->encodePassword($user);
+            } else {
+                $userFromForm->setPassword($oldPassword);
+            }
+            $userFromForm->upload();
+            $em->persist($userFromForm);
             $em->flush();
+
             return $this->redirect($this->generateUrl('index'));
         }
-        return $this->render('@Bug/User/user_profile_edit.html.twig', array(
-            'form' => $form->createView(),
-        ));
+
+        return $this->render(
+            '@Bug/User/user_profile_edit.html.twig',
+            array(
+                'form' => $form->createView(),
+            )
+        );
     }
 
     /**
@@ -42,24 +53,28 @@ class UserController extends Controller
      * @param null $user
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function userPage(Request $request,$user=null){
+    public function userPage(Request $request, $user = null)
+    {
         $em = $this->getDoctrine()->getManager();
-        if($user)
-            $userEntity=$em->getRepository('BugBundle:User')->find($user);
-        else
-            $userEntity=$this->getUser();
-        $activities=$em->getRepository('BugBundle:Activity')->getActivitiesByUser($userEntity);
-        $issuesQuery=$em->getRepository('BugBundle:Issue')->getActualIssuesByUserCollaboratorQuery($userEntity);
+        if ($user) {
+            $userEntity = $em->getRepository('BugBundle:User')->find($user);
+        } else {
+            $userEntity = $this->getUser();
+        }
+        $activities = $em->getRepository('BugBundle:Activity')->getActivitiesByUser($userEntity);
+        $issuesQuery = $em->getRepository('BugBundle:Issue')->getActualIssuesByUserCollaboratorQuery($userEntity);
         $paginator = $this->get('knp_paginator');
         $issuesPagination = $paginator->paginate(
             $issuesQuery,
             $request->query->getInt('page', 1),/*page number*/
             10 /*limit per page*/
         );
-        $params=array('activities'=>$activities,'pagination' => $issuesPagination);
-        if($user)
-            $params['user']=$userEntity;
-        return $this->render('@Bug/User/user_page.html.twig',$params);
+        $params = array('activities' => $activities, 'pagination' => $issuesPagination);
+        if ($user) {
+            $params['user'] = $userEntity;
+        }
+
+        return $this->render('@Bug/User/user_page.html.twig', $params);
     }
 
 }

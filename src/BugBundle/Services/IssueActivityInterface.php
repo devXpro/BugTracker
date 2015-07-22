@@ -29,5 +29,5 @@ interface IssueActivityInterface
      * @param Issue $issue
      * @return void
      */
-    public function markChangeStatusIssue(Issue $issue,IssueStatus $oldStatus,IssueStatus $newStatus);
+    public function markChangeStatusIssue(Issue $issue, IssueStatus $oldStatus, IssueStatus $newStatus);
 }

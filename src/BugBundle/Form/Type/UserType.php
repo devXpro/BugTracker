@@ -25,7 +25,19 @@ class UserType extends AbstractType
             ->add('email', 'email')
             ->add('username', 'text')
             ->add('roles', 'bug_user_select_role')
-            ->add('password', 'password');
+            ->add(
+                'password',
+                'repeated',
+                array(
+                    'type' => 'password',
+                    'invalid_message' => 'The password fields must match.',
+                    'options' => array('attr' => array('class' => 'password-field')),
+                    'required' => true,
+                    'first_options' => array('label' => 'Password'),
+                    'second_options' => array('label' => 'Repeat Password'),
+
+                )
+            );
     }
 
     public function getName()
@@ -35,8 +47,10 @@ class UserType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'BugBundle\Entity\User',
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'BugBundle\Entity\User',
+            )
+        );
     }
 }

@@ -13,12 +13,12 @@ use Doctrine\ORM\Mapping as ORM;
 class IssueStatus
 {
 
-    const OPEN='Open';
-    const REOPEN='Reopen';
+    const OPEN = 'Open';
+    const REOPEN = 'Reopen';
 
     public function __toString()
     {
-        return $this->getLabel()?$this->getLabel():"";
+        return $this->getLabel() ? $this->getLabel() : "";
     }
 
     /**
