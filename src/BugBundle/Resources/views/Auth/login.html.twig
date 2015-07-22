@@ -1,0 +1,32 @@
+{% extends '@Bug/Auth/auth_base.html.twig' %}
+
+
+{% block title %}
+    Login
+{% endblock %}
+{% block form %}
+    <form class="form col-md-12 center-block bug_login_form" action="{{ path('login_check') }}" method="post">
+        <div class="form-group">
+            <input name="_username" type="text" class="form-control input-lg" placeholder="Login">
+        </div>
+        <div class="form-group">
+            <input name="_password" type="password" class="form-control input-lg" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary btn-lg btn-block">Sign In</button>
+            <span class="pull-right"><a href="{{ path('registration_route') }}">Register</a></span><span><a href="#">Need
+                    help?</a></span>
+        </div>
+    </form>
+{% endblock %}
+
+
+{% block footer %}
+    <div class="col-md-12">
+        {% if error %}
+            <span style="float: left;font-size: large"
+                  class="label label-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</span>
+        {% endif %}
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    </div>
+{% endblock %}

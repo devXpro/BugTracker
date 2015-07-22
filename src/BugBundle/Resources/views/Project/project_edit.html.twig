@@ -1,0 +1,22 @@
+{% extends '@Bug/base.html.twig' %}
+
+{% block style %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset("bundles/bug/css/project.css") }}">
+{% endblock %}
+
+{% block body %}
+    {% block desc %}
+        <h1>{{ 'project_editor'|trans|capitalize }}</h1>
+    {% endblock %}
+    <div class="col-md-5">
+        {% set hidden_list=['creator'] %}
+        {% include '@Bug/widgets/form_output.html.twig' %}
+        <br><br>
+
+        <div class="form-group">
+            <button class="btn btn-primary btn-lg btn-block">{{ 'save'|trans|capitalize }}</button>
+            <span class="pull-right"><a onclick="history.back();">Back</a></span><span><a href="#">Need help?</a></span>
+        </div>
+    </div>
+{% endblock %}

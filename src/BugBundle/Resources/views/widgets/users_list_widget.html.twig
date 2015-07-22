@@ -1,0 +1,5 @@
+<ul>
+    {% for user in users %}
+        <li><a href="{{ path('user_page',{"user":user.id}) }}">{{ user.fullName ? user.fullName : user.username | capitalize }}</a></li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,32 @@
+{% extends '@Bug/Auth/auth_base.html.twig' %}
+
+{% block title %}
+    Registration
+{% endblock %}
+
+{% block form %}
+
+    {{ form_start(form,{'attr':{'class':'form col-md-12 center-block','novalidate':'novalidate'}}) }}
+    {% for child in form.children %}
+        {{ form_row(child,{'attr':{'class':'form-control input-lg'}}) }}
+    {% endfor %}
+    <br><br>
+    <div class="form-group">
+        <button class="btn btn-primary btn-lg btn-block">Register</button>
+        <span class="pull-right"><a href="{{ path('login_route') }}">Log In</a></span><span><a href="#">Need
+                help?</a></span>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}
+
+
+        {% block footer %}
+            <div class="col-md-12">
+                {#{% if error %}#}
+                {#<span style="float: left;font-size: large"#}
+                {#class="label label-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</span>#}
+                {#{% endif %}#}
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+            </div>
+        {% endblock %}

@@ -1,3 +1,6 @@
+
 bug_homepage:
     path:     /
     defaults: { _controller: BugBundle:Default:index }
+
+

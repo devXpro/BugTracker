@@ -1,0 +1,28 @@
+{% set hidden_list=['issue','author'] %}
+{% include '@Bug/widgets/form_output.html.twig' %}
+<br>
+<button type="submit" class="btn btn-primary btn-lg btn-block"
+        style="width: 30%">{{ 'doComment'|trans|capitalize }}</button>
+<hr>
+
+
+{% if issueComments %}
+    {% for comment in issueComments %}
+        <div class="row">
+            <div class="col-md-2">
+                <h5>{{ comment.author }}</h5>
+
+                <span class="date subtext">{{ comment.created|date("m/d/Y g:ia") }}</span>
+            </div>
+            <div class="col-md-10 border_left">
+                <p class="comment">{{ comment.body }}</p>
+            </div>
+        </div>
+        <hr>
+
+
+    {% endfor %}
+{% else %}
+    <h3>{{ 'noComments'|trans|capitalize }}</h3>
+{% endif %}
+

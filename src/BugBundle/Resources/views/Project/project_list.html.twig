@@ -1,0 +1,36 @@
+{% extends '@Bug/base.html.twig' %}
+
+{% block style %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset("bundles/bug/css/project.css") }}">
+{% endblock %}
+
+{% block body %}
+    <div class="row project_view">
+        <div class="col-md-9">
+            <h2><strong>{{ project.code|upper }}-{{ project.id }}</strong> {{ project.label }}</h2>
+            <a href="{{ path('bug_project_edit',{'project': project.id}) }}" class="glyphicon glyphicon-pencil"
+               style="font-size: 20px; color: brown">{{ 'edit'|trans|capitalize }}</a>
+            <hr>
+            <h3>{{ 'summary'|trans }}</h3>
+
+            <p>{{ project.summary }}</p>
+            <br>
+            <h5 align="right">{{ 'creator'|trans }}:
+                <strong>{{ project.creator.fullName ? project.creator.fullName : project.creator.username | capitalize }}</strong>
+            </h5>
+
+            <hr>
+
+            <h3>Activity</h3>
+            {#Activity block#}
+        </div>
+        <div class="col-md-3" id="block_for_activity">
+            <h1>{{ 'members'|trans |capitalize }}</h1>
+            {% set users = project.members %}
+            {% include '@Bug/widgets/users_list_widget.html.twig' %}
+        </div>
+    </div>
+
+
+{% endblock %}

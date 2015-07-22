@@ -1,0 +1,105 @@
+{% extends '@Bug/base.html.twig' %}
+
+{% block style %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset("bundles/bug/css/issue.css") }}">
+{% endblock %}
+
+{% block body %}
+    <div class="row" id="issue_view">
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-8">
+                    <h4><span class="label label-success">{{ issue.typeName|trans|capitalize }}</span></h4>
+
+                    <h3><strong>{{ issue.code |upper }}-{{ issue.id }}</strong> {{ issue.summary }}</h3>
+
+                    <a class="btn btn-primary" href="{{ path('bug_issue_edit',{'issue': issue.id}) }}"
+                            ><span class="glyphicon glyphicon-pencil"
+                                   style="font-size: 20px"></span>{{ 'edit'|trans|capitalize }}</a>
+
+                    <a class="btn btn-primary" href="{{ path('bug_issue_create',{'parentIssue': issue.id}) }}"
+                            ><span class="glyphicon glyphicon-plus"
+                                   style="font-size: 20px"></span>{{ 'createSubTask'|trans|capitalize }}</a>
+
+
+                </div>
+                <div class="col-md-4">
+                    <h4>{{ 'assignee'|trans|capitalize }}: <strong>{{ issue.assignee }}</strong></h4>
+                    <h4>{{ 'creator'|trans|capitalize }}: <strong>{{ issue.reporter }}</strong></h4>
+                    {% if issue.parentIssue %}
+                        <h4>{{ 'parentIssue'|trans|capitalize }}: <strong><a
+                                        href="{{ path('bug_issue_view',{'issue': issue.parentIssue.id}) }}">{{ issue.parentIssue }}</a></strong>
+                        </h4>
+                    {% endif %}
+                </div>
+            </div>
+            <hr>
+            <h3>{{ 'summary'|trans|capitalize }}</h3>
+
+            <p>{{ issue.summary }}</p>
+            <hr>
+            <h3>{{ 'description'|trans|capitalize }}</h3>
+
+            <p>{{ issue.description }}</p>
+            <br>
+
+
+            <hr>
+
+            <h3>Comments</h3>
+
+            <div id="contents">
+
+            </div>
+        </div>
+        <div class="col-md-3" id="right_block">
+            {% include '@Bug/Issue/right_block.html.twig' %}
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            getComments();
+
+            $('form[name=bug_issue_comment]').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    async: false,
+                    url: '{{path('issue_comment',{'issue':issue.id})}}',
+                    data: $(this).serialize(),
+                    success: function (data) {
+                        $('#contents').html(data);
+                    }
+                });
+            });
+
+            function getComments() {
+                $.ajax({
+                    type: "POST",
+                    url: '{{path('issue_comment',{'issue':issue.id})}}',
+                    async: false,
+                    success: function (data) {
+                        $('#contents').html(data);
+                        refreshActivity();
+                    }
+
+                });
+            }
+
+            function refreshActivity() {
+                $.ajax({
+                    type: "POST",
+                    url: '{{path('bug_issue_view',{'issue':issue.id,'onlyActivity':true})}}',
+                    async: false,
+                    success: function (data1) {
+                        $('#right_block').html(data1);
+                    }
+
+                });
+            }
+
+        });
+    </script>
+{% endblock %}

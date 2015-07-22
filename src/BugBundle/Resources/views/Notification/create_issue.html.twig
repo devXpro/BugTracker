@@ -1,0 +1,6 @@
+{{ 'createIssueMessage'|trans({
+    '%issue%':'<a href="'~ path('bug_issue_view',{'issue':activity.issue.id})~'">'~activity.issue~'</a>',
+    '%user%':activity.user,
+    '%project%':activity.issue.project.label|default('n\a'),
+    '%b%':'<b>','%endb%':'</b>'
+})|raw }}

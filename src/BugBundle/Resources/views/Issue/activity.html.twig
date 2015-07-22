@@ -1,0 +1,14 @@
+
+    {% for activity in activities %}
+
+        {% if activity.type == 1 %}
+            {% include '@Bug/Notification/create_issue.html.twig' %}
+        {% elseif activity.type == 2 %}
+            {% include '@Bug/Notification/change_status_issue.html.twig' %}
+        {% elseif activity.type == 3 %}
+            {% include '@Bug/Notification/comment_issue.html.twig' %}
+        {% endif %}
+
+        <p class="subtext">{{ activity.created|date("m/d/Y  g:ia") }}</p>
+        <hr>
+    {% endfor %}

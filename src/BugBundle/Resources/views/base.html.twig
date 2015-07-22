@@ -1,0 +1,41 @@
+<head>
+    {% block style %}
+        <link rel="stylesheet" href="{{ asset("bundles/bug/css/bootstrap.min.css") }}">
+        <link rel="stylesheet" href="{{ asset("bundles/bug/css/auth.css") }}">
+        <link rel="stylesheet" href="{{ asset("bundles/bug/css/menu.css") }}">
+        {#<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet"/>#}
+
+    {% endblock %}
+    <script src="{{ asset('bundles/bug/js/jquery-1.11.3.min.js') }}"></script>
+    <script src="{{ asset('bundles/bug/js/menu.js') }}"></script>
+    {#<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>#}
+</head>
+
+
+<body>
+<div class="row">
+    <div id="cssmenu">{{ knp_menu_render('BugBundle:Builder:mainMenu') }}</div>
+</div>
+<div class="row">
+    <div id="user_auth" class="col-md-3 col-md-offset-1">
+        {% include '@Bug/widgets/user_auth_widget.html.twig' %}
+    </div>
+
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        {% block body %}
+
+        {% endblock %}
+    </div>
+    <div class="col-md-1"></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('select').select2();
+    });
+
+</script>
+</body>

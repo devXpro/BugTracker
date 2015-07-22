@@ -1,4 +1,126 @@
 services:
-#    bug.example:
-#        class: BugBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    bug.userManager:
+        class: BugBundle\Services\UserManager
+        arguments: [@security.encoder_factory]
+    bug.trans.helper:
+        class: BugBundle\Services\TransHelper
+        arguments: [@translator]
+#    bug.request.decorator:
+#            class: BugBundle\Services\RequestDecorator
+    bug.activity.manager:
+            class: BugBundle\Services\ActivityManager
+            arguments:
+                - @translator
+                - @doctrine
+                - @security.token_storage
+
+    bug.form.type.user:
+        class: BugBundle\Form\Type\UserType
+        tags:
+            - { name: form.type, alias: bug_user }
+
+    bug.form.type.user.profile:
+        class: BugBundle\Form\Type\ProfileType
+        tags:
+            - { name: form.type, alias: bug_user_profile }
+
+    bug.form.type.select.role:
+        class: BugBundle\Form\Type\RoleSelectType
+        tags:
+            - { name: form.type, alias: bug_user_select_role }
+
+    bug.form.type.select.users:
+        class: BugBundle\Form\Type\UsersSelectType
+        tags:
+            - { name: form.type, alias: bug_select_users }
+
+    bug.form.type.select.user:
+        class: BugBundle\Form\Type\UserSelectType
+        tags:
+            - { name: form.type, alias: bug_select_user }
+
+    bug.form.type.select.issueResolution:
+        class: BugBundle\Form\Type\IssueResolutionSelectType
+        tags:
+            - { name: form.type, alias: bug_select_issue_resolution }
+
+    bug.form.type.select.issuePriority:
+        class: BugBundle\Form\Type\IssuePrioritySelectType
+        tags:
+            - { name: form.type, alias: bug_select_issue_priority }
+
+    bug.form.type.select.issueStatus:
+        class: BugBundle\Form\Type\IssueStatusSelectType
+        tags:
+            - { name: form.type, alias: bug_select_issue_status }
+
+    bug.form.type.select.issue:
+        class: BugBundle\Form\Type\IssueSelectType
+        tags:
+            - { name: form.type, alias: bug_select_issue }
+
+    bug.form.type.set.parentIssue:
+        class: BugBundle\Form\Type\ParentIssueSetType
+        tags:
+            - { name: form.type, alias: bug_set_parent_issue}
+
+    bug.form.type.select.issueType:
+        class: BugBundle\Form\Type\IssueTypeSelectType
+        tags:
+            - { name: form.type, alias: bug_select_issue_type }
+        arguments: [@bug.trans.helper]
+
+    bug.form.type.select.project:
+        class: BugBundle\Form\Type\ProjectSelectType
+        tags:
+            - { name: form.type, alias: bug_select_project }
+        arguments: [@security.token_storage,@security.authorization_checker]
+
+    bug.form.type.project:
+        class: BugBundle\Form\Type\ProjectType
+        tags:
+            - { name: form.type, alias: bug_project }
+        arguments: [@security.token_storage]
+
+    bug.form.type.issue:
+        class: BugBundle\Form\Type\IssueType
+        tags:
+            - { name: form.type, alias: bug_issue }
+        arguments: [@security.token_storage]
+
+    bug.form.type.issue.comment:
+         class: BugBundle\Form\Type\IssueCommentType
+         tags:
+            - { name: form.type, alias: bug_issue_comment }
+         arguments: [@security.token_storage]
+
+    bug.event.listener:
+        class: BugBundle\EventListener\EventListener
+        tags:
+            - {name: doctrine.event_listener, event: postPersist}
+            - {name: doctrine.event_listener, event: preUpdate}
+            - {name: doctrine.event_listener, event: prePersist}
+        arguments: [@event_dispatcher]
+
+    bug.issue.listner:
+        class: BugBundle\EventListener\IssueListener
+        tags:
+            - {name: kernel.event_listener, event: bug.entity.issue.onUpdate, method: onUpdate}
+            - {name: kernel.event_listener, event: bug.entity.issue.onPreCreate, method: onPreCreate}
+            - {name: kernel.event_listener, event: bug.entity.issue.onAfterCreate, method: onAfterCreate}
+        arguments: [@security.token_storage,@bug.activity.manager]
+
+    bug.issue.comment.listner:
+        class: BugBundle\EventListener\IssueCommentListener
+        tags:
+            - {name: kernel.event_listener, event: bug.entity.issuecomment.onUpdate, method: onUpdate}
+            - {name: kernel.event_listener, event: bug.entity.issuecomment.onPreCreate, method: onPreCreate}
+            - {name: kernel.event_listener, event: bug.entity.issuecomment.onAfterCreate, method: onAfterCreate}
+        arguments: [@security.token_storage,@bug.activity.manager]
+
+    security.access.issue_voter:
+        class:      BugBundle\Security\IssueVoter
+        public:     false
+        tags:
+            - { name: security.voter }
+        arguments: [@doctrine]

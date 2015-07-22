@@ -1,0 +1,60 @@
+id: id
+save: save
+hello: hello
+logout: logout
+edit_profile: edit Profile
+label: lable
+summary: summary
+code: code
+creator: creator
+project_editor: project editor
+issue_editor: issue editor
+projects: projects
+edit: edit
+collaborators: collaborators
+members: members
+create_new_project: create new project
+home: home
+users: users
+username: User Name
+email: Email
+role: Role
+role: Roles
+delete: Delete
+bug: bug
+story: story
+task: task
+subtask: subtask
+parentIssue: Parent issue
+createNewIssue: create new issue
+issueEditor: issue editor
+project: project
+description: description
+type: type
+priority: priority
+status: status
+resolution: resolution
+assignee: assignee
+reporter: reporter
+activity: activity
+noComments: no comments
+doComment: comment
+changeStatus: Change Status
+commentIssue: Comment issue
+createSubTask: Create Subtask
+subTasks: subtasks
+issues: issues
+member: member
+collaborator: collaborator
+updated: updated
+created: created
+fullName: full name
+nickName: nick name
+notEnoughPermissions: Only managers can create and edit projects
+youAreIssues: you are a %who% of %num% issues
+userAreIssues: That user is a %who% of %num% issues
+onlyStoryCanHaveSubIssue: Sorry, but only Story type task can have subissues. Please change issue type please.
+youHaveNoAnyProjects: You do not have any project where you were a participant or creator. Create or ask Manager asset project for you!
+changeStatusIssueMessage: Issue %issue% was change status from %b%%issueStatusOld%%endb% to %b%%issueStatusNew%%endb% by %b%%user%%endb%
+commentIssueMassage: %b%%user%%endb% was commented issue %issue%, and leave comment:
+createIssueMessage: Issue %issue% was created in project %b%%project%%endb% by %b%%user%%endb%

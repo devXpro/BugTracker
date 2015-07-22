@@ -3,14 +3,24 @@
 namespace BugBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Role\RoleInterface;
 
 /**
  * @ORM\Table(name="role")
  * @ORM\Entity(repositoryClass="BugBundle\Entity\UserRepository")
  */
-class Role
+class Role implements RoleInterface
 {
+
+    const ROLE_USER = 'ROLE_USER';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_MANAGER = 'ROLE_MANAGER';
+
+    public function __toString()
+    {
+        return (string)$this->role;
+    }
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -24,11 +34,10 @@ class Role
     private $role;
 
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -51,7 +60,7 @@ class Role
     /**
      * Get role
      *
-     * @return string 
+     * @return string
      */
     public function getRole()
     {
