@@ -76,11 +76,9 @@ class EventListener
     private function get_class_name($class)
     {
         $classname = get_class($class);
-        if ($pos = strrpos($classname, '\\')) {
-            return substr($classname, $pos + 1);
-        }
+        $pos = strrpos($classname, '\\');
+        return substr($classname, $pos + 1);
 
-        return $pos;
     }
 
 }

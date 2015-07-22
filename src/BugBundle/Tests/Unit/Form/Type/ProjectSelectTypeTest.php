@@ -24,4 +24,13 @@ class ProjectSelectTypeTest extends BugTypeTestCase
         $selectType = new ProjectSelectType($this->getTokenStorageWithUserMock(new User()), $authMock);
         $this->checkSelectors($selectType);
     }
+
+    public function testSelectorNonAdmin()
+    {
+        /** @var AuthorizationCheckerInterface| \PhpUnit_Framework_MockObject_MockObject $authMock */
+        $authMock = $this->getMock('Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface');
+        $authMock->expects($this->once())->method('isGranted')->will($this->returnValue(false));
+        $selectType = new ProjectSelectType($this->getTokenStorageWithUserMock(new User()), $authMock);
+        $this->checkSelectors($selectType);
+    }
 }

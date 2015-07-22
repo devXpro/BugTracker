@@ -35,7 +35,8 @@ class IssueCommentListener implements ListenerInterface
         /** @var IssueComment $issueComment */
         $issueComment = $event->getEntity();
         $issue = $issueComment->getIssue();
-        $issue->addCollaborator($this->token->getToken()->getUser());
+        $user = $this->token->getToken()->getUser();
+        $issue->addCollaborator($user);
         $this->activityManager->markCommentIssue($issueComment);
     }
 

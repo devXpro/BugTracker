@@ -9,6 +9,7 @@
 namespace BugBundle\Form\Type;
 
 
+use BugBundle\Entity\ProjectRepository;
 use BugBundle\Entity\Role;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
@@ -48,8 +49,8 @@ class ProjectSelectType extends AbstractType
     {
         $params = array('class' => 'BugBundle\Entity\Project');
         $user = $this->user;
-        if ($this->admin) {
-            $params['query_builder'] = function (EntityRepository $er) use ($user) {
+        if (!$this->admin) {
+            $params['query_builder'] = function (ProjectRepository $er) use ($user) {
                 $qb = $er->createQueryBuilder('p')
                     ->leftJoin('p.members', 'members');
                 $qb->where(
