@@ -5,6 +5,7 @@ namespace BugBundle\Controller;
 use BugBundle\Entity\Project;
 use BugBundle\Entity\Role;
 use BugBundle\Traits\ErrorVisualizer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -42,6 +43,7 @@ class ProjectController extends Controller
 
     /**
      * @Route("/project/delete/{project}", name="bug_project_delete")
+     * @Security("has_role('ROLE_ADMIN') or is_granted('can_manipulate_project',project)")
      * @param Request $request
      * @param Project $project
      * @return Response
@@ -53,17 +55,19 @@ class ProjectController extends Controller
 
     /**
      * @Route("/project/view/{project}", name="bug_project_view")
+     * @Security("has_role('ROLE_ADMIN') or is_granted('can_manipulate_project',project)")
      * @param Request $request
      * @param Project $project
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function projectListAction(Request $request, Project $project)
+    public function projectViewAction(Request $request, Project $project)
     {
         return $this->render('@Bug/Project/project_list.html.twig', array('project' => $project));
     }
 
     /**
      * @Route("/project/edit/{project}", name="bug_project_edit")
+     * @Security("has_role('ROLE_ADMIN') or is_granted('can_manipulate_project',project)")
      * @param Request $request
      * @param Project $project
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
@@ -97,6 +101,7 @@ class ProjectController extends Controller
 
     /**
      * @Route("/project/create", name="bug_project_create")
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_MANAGER')")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */

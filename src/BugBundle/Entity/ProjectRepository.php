@@ -3,6 +3,7 @@
 namespace BugBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 
 /**
@@ -13,20 +14,49 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProjectRepository extends EntityRepository
 {
-    public function getProjectsByUserQuery(User $user)
+    /**
+     * @param User $user
+     * @param bool|false $count
+     * @return Query
+     */
+    public function getProjectsByUserQuery(User $user, $count = false)
     {
-        $qb = $this->createQueryBuilder('p')
-            ->leftJoin('p.members', 'members');
-        $qb->where(
-            $qb->expr()->orX(
-                $qb->expr()->in('members', ':user'),
-                $qb->expr()->eq('p.creator', ':user')
 
-            )
+        return $this->getProjectsByUserQueryBuilder($user, $count)->getQuery();
+    }
+
+    /**
+     * @param User $user
+     * @param bool|false $count
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getProjectsByUserQueryBuilder(User $user, $count = false)
+    {
+        $qb = $this->createQueryBuilder('p');
+        if ($count) {
+            $qb->select('count(p.id)');
+        }
+        $qb->leftJoin('p.members', 'members');
+        $qb->where(
+            $qb->expr()->in('members', ':user')
         )
             ->setParameter('user', $user);
 
-        return $qb->getQuery();
+        return $qb;
+    }
+
+    /**
+     * @param User $user
+     * @param Project $project
+     * @return mixed
+     */
+    public function checkAccessProject(User $user, Project $project)
+    {
+        return $this->getProjectsByUserQueryBuilder($user, true)
+            ->andWhere('p = :project')
+            ->setParameter('project', $project)
+            ->getQuery()->getSingleScalarResult();
+
     }
 
 
@@ -42,6 +72,10 @@ class ProjectRepository extends EntityRepository
     public function getProjectsByUser(User $user)
     {
         return $this->getProjectsByUserQuery($user)->getResult();
+    }
 
+    public function countProjectsByUser(User $user)
+    {
+        return $this->getProjectsByUserQuery($user, true)->getSingleScalarResult();
     }
 }

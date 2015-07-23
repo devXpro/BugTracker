@@ -9,7 +9,10 @@
 namespace BugBundle\Security;
 
 
+use BugBundle\Entity\User;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 abstract class BugAbstractVoter implements VoterInterface
 {
@@ -60,6 +63,29 @@ abstract class BugAbstractVoter implements VoterInterface
 
         return false;
     }
+
+    /**
+     * @param TokenInterface $token
+     * @param null|object $obj
+     * @param array $attributes
+     * @return int
+     */
+    public function vote(TokenInterface $token, $obj, array $attributes)
+    {
+        /** @var User $user */
+        $user = $token->getUser();
+        if (!$this->checkSupportedInAttributes($attributes)) {
+            return VoterInterface::ACCESS_ABSTAIN;
+        }
+        if (!$user instanceof UserInterface) {
+            return VoterInterface::ACCESS_DENIED;
+        }
+
+        return $this->decide($user, $obj, $attributes);
+
+    }
+
+    abstract protected function decide(User $user, $obj, array $attributes);
 
 
 }

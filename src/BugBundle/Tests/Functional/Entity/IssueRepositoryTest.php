@@ -12,17 +12,20 @@ namespace BugBundle\Tests\Functional\Entity;
 use BugBundle\Entity\Issue;
 use BugBundle\Entity\IssueStatus;
 use BugBundle\Entity\Project;
+use BugBundle\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class IssueRepositoryTest extends KernelTestCase
 {
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
+    /** @var  EntityManager */
     private $em;
+    /** @var  User */
     private $user;
-
+    /** @var  Issue */
+    private $issue;
+    /** @var  Project */
     private static $project;
 
     /**
@@ -45,7 +48,7 @@ class IssueRepositoryTest extends KernelTestCase
         $issuePriority = $em->getRepository('BugBundle:IssuePriority')->findOneBy(array('label' => 'High'));
         $issueResolution = $em->getRepository('BugBundle:IssueResolution')->findOneBy(array('label' => 'Invalid'));
         $issueStatus = $em->getRepository('BugBundle:IssueStatus')->findOneBy(array('label' => IssueStatus::OPEN));
-        $issue = new Issue();
+        $this->issue = $issue = new Issue();
         $issue->addCollaborator($user);
         $issue->setSummary('asdf')->setCode('123')->setAssignee($user)->setDescription('sdf')
             ->setProject($project)->setType(Issue::TYPE_BUG)->setPriority($issuePriority)
@@ -81,6 +84,9 @@ class IssueRepositoryTest extends KernelTestCase
         $query = $em->getRepository('BugBundle:Issue')->getAllIssuesQuery();
         $this->assertInstanceOf('Doctrine\ORM\Query', $query);
         $this->assertNotCount(0, $query->getResult());
+
+
+        $result = $em->getRepository('BugBundle:Issue')->checkIssueUserAccess($this->user, $this->issue);
 
 
     }

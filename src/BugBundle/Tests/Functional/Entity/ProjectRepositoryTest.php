@@ -60,15 +60,19 @@ class ProjectRepositoryTest extends KernelTestCase
     {
 
         $em = $this->em;
-
-        $query = $em->getRepository('BugBundle:Project')->getAllProjectsQuery();
+        $projectRepo = $em->getRepository('BugBundle:Project');
+        $query = $projectRepo->getAllProjectsQuery();
         $this->assertInstanceOf('Doctrine\ORM\Query', $query);
-        $query = $em->getRepository('BugBundle:Project')->getProjectsByUserQuery($this->user);
+        $query = $projectRepo->getProjectsByUserQuery($this->user);
         $this->assertInstanceOf('Doctrine\ORM\Query', $query);
 
-        $result = $em->getRepository('BugBundle:Project')->getProjectsByUser($this->user);
+        $result = $projectRepo->getProjectsByUser($this->user);
         $this->assertNotCount(0, $result);
 
+        $result = $projectRepo->countProjectsByUser($this->user);
+        $this->assertNotEquals(0, $result);
 
+        $result = $projectRepo->checkAccessProject($this->user, self::$project);
+        $this->assertNotEquals(0, $result);
     }
 }
