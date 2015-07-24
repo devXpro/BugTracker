@@ -155,3 +155,10 @@ services:
         tags:
             - { name: security.voter }
         arguments: [@doctrine]
+
+    security.access.can_manipulate_comment_issue:
+        class:      BugBundle\Security\IssueCommentCanManipulateVoter
+        public:     false
+        tags:
+            - { name: security.voter }
+        arguments: [@doctrine]

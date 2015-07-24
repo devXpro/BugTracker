@@ -51,7 +51,7 @@ class Activity
     /**
      * @var IssueComment
      * @ORM\ManyToOne(targetEntity="BugBundle\Entity\IssueComment")
-     * @ORM\JoinColumn(name="issue_comment_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="issue_comment_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     private $comment;
 
