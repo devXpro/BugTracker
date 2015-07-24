@@ -37,6 +37,13 @@ class IssueStatus
      */
     private $label;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="open", type="boolean")
+     */
+    private $open=false;
+
 
     /**
      * Get id
@@ -63,11 +70,32 @@ class IssueStatus
 
     /**
      * Get label
-     *
      * @return string
      */
     public function getLabel()
     {
         return $this->label;
+    }
+
+    /**
+     * Set open
+     *
+     * @param boolean $open
+     * @return IssueStatus
+     */
+    public function setOpen($open)
+    {
+        $this->open = $open;
+
+        return $this;
+    }
+
+    /**
+     * Get open
+     * @return boolean
+     */
+    public function getOpen()
+    {
+        return $this->open;
     }
 }

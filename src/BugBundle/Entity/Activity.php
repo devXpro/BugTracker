@@ -192,7 +192,7 @@ class Activity
      */
     public function setCreatedNow()
     {
-        $this->created = new \DateTime('now');
+        $this->created = new \DateTime('now', new \DateTimeZone('UTC'));
 
         return $this;
     }

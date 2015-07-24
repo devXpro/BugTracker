@@ -74,5 +74,6 @@ class ProjectRepositoryTest extends KernelTestCase
 
         $result = $projectRepo->checkAccessProject($this->user, self::$project);
         $this->assertNotEquals(0, $result);
+
     }
 }

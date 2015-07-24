@@ -10,18 +10,24 @@
         <div class="col-md-9">
             <div class="row">
                 <div class="col-md-8">
-                    <h4><span class="label label-success">{{ issue.typeName|trans|capitalize }}</span></h4>
+                    <h4>
+                        Type:<span class="label label-success">{{ issue.typeName|trans|capitalize }}</span>
+                        Status:<span class="label label-info">{{ issue.status|trans|capitalize }}</span>
+                    </h4>
+
 
                     <h3><strong>{{ issue.code |upper }}-{{ issue.id }}</strong> {{ issue.summary }}</h3>
 
-                    <a class="btn btn-primary" href="{{ path('bug_issue_edit',{'issue': issue.id}) }}"
-                            ><span class="glyphicon glyphicon-pencil"
-                                   style="font-size: 20px"></span>{{ 'edit'|trans|capitalize }}</a>
-
-                    <a class="btn btn-primary" href="{{ path('bug_issue_create',{'parentIssue': issue.id}) }}"
-                            ><span class="glyphicon glyphicon-plus"
-                                   style="font-size: 20px"></span>{{ 'createSubTask'|trans|capitalize }}</a>
-
+                    <a class="btn btn-primary" href="{{ path('bug_issue_edit',{'issue': issue.id}) }}">
+                        <span class="glyphicon glyphicon-pencil" style="font-size: 20px">
+                        </span>{{ 'edit'|trans|capitalize }}
+                    </a>
+                    {% if is_granted('can_create_children_issue',issue) %}
+                        <a class="btn btn-primary" href="{{ path('bug_issue_create',{'parentIssue': issue.id}) }}">
+                            <span class="glyphicon glyphicon-plus" style="font-size: 20px">
+                            </span>{{ 'createSubTask'|trans|capitalize }}
+                        </a>
+                    {% endif %}
 
                 </div>
                 <div class="col-md-4">

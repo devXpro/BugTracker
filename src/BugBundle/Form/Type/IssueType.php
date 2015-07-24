@@ -43,14 +43,9 @@ class IssueType extends AbstractType
             ->add('project', 'bug_select_project')
             ->add('summary', 'text')
             ->add('code', 'text')
-            ->add('description', 'textarea')
-            ->add('type', 'bug_select_issue_type')
-            ->add('priority', 'bug_select_issue_priority')
-            ->add('status', 'bug_select_issue_status')
-            ->add('resolution', 'bug_select_issue_resolution')
-            ->add('assignee', 'bug_select_user')
-            ->add('reporter', 'bug_select_user', array('empty_data' => $this->user->getId()));
+            ->add('description', 'textarea');
         if ($options['parentIssue']) {
+            $builder->add('type', 'bug_select_issue_type_subtask');
             $builder->add(
                 'parentIssue',
                 'bug_set_parent_issue',
@@ -59,7 +54,15 @@ class IssueType extends AbstractType
                     'empty_data' => $options['parentIssue']->getId(),
                 )
             );
+        } else {
+            $builder->add('type', 'bug_select_issue_type');
         }
+        $builder->add('priority', 'bug_select_issue_priority')
+            ->add('status', 'bug_select_issue_status')
+            ->add('resolution', 'bug_select_issue_resolution')
+            ->add('assignee', 'bug_select_user')
+            ->add('reporter', 'bug_select_user', array('empty_data' => $this->user->getId()));
+
     }
 
     public function getName()

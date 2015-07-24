@@ -20,7 +20,7 @@ class ActivityTest extends \PHPUnit_Framework_TestCase
     public function testEntity()
     {
         $activity = new Activity();
-        $now = new \DateTime('now');
+        $now = new \DateTime('now', new \DateTimeZone('UTC'));
         $issue = new Issue();
         $comment = new IssueComment();
         $newStatus = new IssueStatus();

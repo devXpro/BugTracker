@@ -41,6 +41,7 @@ class ActivityRepositoryTest extends KernelTestCase
         $issuePriority = $em->getRepository('BugBundle:IssuePriority')->findOneBy(array('label' => 'High'));
         $issueResolution = $em->getRepository('BugBundle:IssueResolution')->findOneBy(array('label' => 'Invalid'));
         $issueStatus = $em->getRepository('BugBundle:IssueStatus')->findOneBy(array('label' => 'Closed'));
+        $project->addMember($user);
         $issue = new Issue();
         $issue->addCollaborator($user);
         $issue->setSummary('asdf')->setCode('123')->setAssignee($user)->setDescription('sdf')
@@ -67,10 +68,13 @@ class ActivityRepositoryTest extends KernelTestCase
     {
 
         $em = $this->em;
-
-        $query = $em->getRepository('BugBundle:Activity')->getActivitiesByUserQuery($this->user);
+        $activityRepo = $em->getRepository('BugBundle:Activity');
+        $query = $activityRepo->getActivitiesByUserQuery($this->user);
         $this->assertInstanceOf('Doctrine\ORM\Query', $query);
-        $result = $em->getRepository('BugBundle:Activity')->getActivitiesByUser($this->user);
+        $result = $activityRepo->getActivitiesByUser($this->user);
+        $this->assertNotCount(0, $result);
+
+        $result = $activityRepo->getActivitiesForProjectByUser($this->user, self::$project);
         $this->assertNotCount(0, $result);
     }
 

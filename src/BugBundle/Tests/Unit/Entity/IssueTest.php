@@ -34,7 +34,7 @@ class IssueTest extends BugTestCase
         $reporter = new User();
         $assignee = new User();
         $code = '123';
-        $now = new \DateTime('now');
+        $now = new \DateTime('now', new \DateTimeZone('UTC'));
         $project = new Project();
         $summary = 'summary';
         $desc = 'desc';

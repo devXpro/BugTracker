@@ -4,11 +4,13 @@ namespace BugBundle\Command;
 
 use BugBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class PeriodicNotificationCommand extends ContainerAwareCommand
 {
+    const RECORD_LIMIT = 500;
 
     protected function configure()
     {
@@ -26,6 +28,7 @@ class PeriodicNotificationCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
         $output->writeln('<info>Start</info>');
         $unNonifiedEvents = $em->getRepository('BugBundle:Activity')->findBy(array('notified' => false));
+        $mailer = $this->getContainer()->get('mailer');
         if ($unNonifiedEvents) {
             foreach ($unNonifiedEvents as $activity) {
                 if ($activity->getIssue()) {
@@ -35,6 +38,7 @@ class PeriodicNotificationCommand extends ContainerAwareCommand
                         '@Bug/Issue/activity.html.twig',
                         array('activities' => array($activity))
                     );
+                    $limit = self::RECORD_LIMIT;
                     foreach ($collaborators as $collaborator) {
                         /** @var User $collaborator */
                         /** @var \Swift_Message $message */
@@ -44,11 +48,21 @@ class PeriodicNotificationCommand extends ContainerAwareCommand
                             ->setTo($collaborator->getEmail())
                             ->setBody($body);
                         //Uncomment after send Email
-                        $this->getContainer()->get('mailer')->send($message);
+                        try {
+                            $mailer->send($message);
+                        } catch (Exception $e) {
+                            $output->writeln(
+                                '<error>User:'.$collaborator.'was not notified, because:'.$e->getMessage().'</error>'
+                            );
+                        }
                         $output->writeln('<comment>User:'.$collaborator.' was notified </comment>');
                         $activity->setNotified(true);
                         $em->persist($activity);
-
+                        if ($limit <= 0) {
+                            $em->flush();
+                            $limit = self::RECORD_LIMIT;
+                        }
+                        $limit++;
                     }
 
                     $em->flush();

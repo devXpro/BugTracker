@@ -285,7 +285,7 @@ class Issue
      */
     public function setCreatedNow()
     {
-        $this->created = new \DateTime('now');
+        $this->created = new \DateTime('now', new \DateTimeZone('UTC'));
 
         return $this;
     }
@@ -307,7 +307,7 @@ class Issue
      */
     public function setUpdatedNow()
     {
-        $this->updated = new \DateTime('now');
+        $this->updated = new \DateTime('now', new \DateTimeZone('UTC'));
     }
 
     /**

@@ -70,6 +70,13 @@ services:
             - { name: form.type, alias: bug_select_issue_type }
         arguments: [@bug.trans.helper]
 
+
+    bug.form.type.select.issueTypeSubtask:
+        class: BugBundle\Form\Type\IssueTypeSubtaskSelectType
+        tags:
+            - { name: form.type, alias: bug_select_issue_type_subtask }
+        arguments: [@bug.trans.helper]
+
     bug.form.type.select.project:
         class: BugBundle\Form\Type\ProjectSelectType
         tags:
@@ -108,7 +115,7 @@ services:
             - {name: kernel.event_listener, event: bug.entity.issue.onUpdate, method: onUpdate}
             - {name: kernel.event_listener, event: bug.entity.issue.onPreCreate, method: onPreCreate}
             - {name: kernel.event_listener, event: bug.entity.issue.onAfterCreate, method: onAfterCreate}
-        arguments: [@security.token_storage,@bug.activity.manager]
+        arguments: [@security.token_storage,@bug.activity.manager,@doctrine]
 
     bug.project.listner:
         class: BugBundle\EventListener\ProjectListener

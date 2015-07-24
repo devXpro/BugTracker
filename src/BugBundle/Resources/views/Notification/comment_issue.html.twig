@@ -1,6 +1,6 @@
 <p>{{ 'commentIssueMassage'|trans({
         '%issue%':'<a href="'~ path('bug_issue_view',{'issue':activity.issue.id})~'">'~activity.issue~'</a>',
-        '%user%':activity.user,
+        '%user%': '<a href="'~ path('user_page',  {"user":activity.user.id}) ~'"> '~ activity.user ~ '</a>',
         '%b%':'<b>','%endb%':'</b>'
     })|raw }}</p>
 <p style="font-family: Capriola, Helvetica, sans-serif">"{{ activity.comment }}"</p>

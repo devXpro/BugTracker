@@ -43,7 +43,8 @@ class ProjectController extends Controller
 
     /**
      * @Route("/project/delete/{project}", name="bug_project_delete")
-     * @Security("has_role('ROLE_ADMIN') or is_granted('can_manipulate_project',project)")
+     * @Security
+     * ("has_role('ROLE_ADMIN') or (has_role('ROLE_MANAGER') and is_granted('can_manipulate_project',project))")
      * @param Request $request
      * @param Project $project
      * @return Response
@@ -62,21 +63,26 @@ class ProjectController extends Controller
      */
     public function projectViewAction(Request $request, Project $project)
     {
-        return $this->render('@Bug/Project/project_list.html.twig', array('project' => $project));
+        $em = $this->getDoctrine()->getManager();
+        $activities = $em->getRepository('BugBundle:Activity')
+            ->getActivitiesForProjectByUser($this->getUser(), $project);
+
+        return $this->render(
+            '@Bug/Project/project_list.html.twig',
+            array('project' => $project, 'activities' => $activities)
+        );
     }
 
     /**
      * @Route("/project/edit/{project}", name="bug_project_edit")
-     * @Security("has_role('ROLE_ADMIN') or is_granted('can_manipulate_project',project)")
+     * @Security
+     * ("has_role('ROLE_ADMIN') or (has_role('ROLE_MANAGER') and is_granted('can_manipulate_project',project))")
      * @param Request $request
      * @param Project $project
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function projectEditAction(Request $request, Project $project)
     {
-        if (!$this->get('security.authorization_checker')->isGranted(Role::ROLE_MANAGER)) {
-            return $this->renderError('notEnoughPermissions');
-        }
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm('bug_project', $project);
         $form->handleRequest($request);

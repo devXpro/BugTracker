@@ -88,7 +88,7 @@ class ActivityManager implements IssueActivityInterface, IssueCommentActivityInt
         $activity->setOldStatus($oldStatus);
         $activity->setNewStatus($newStatus);
         $em->persist($activity);
-        $em->flush();
+        $em->flush();   //???? Status or activity????
     }
 
     /**

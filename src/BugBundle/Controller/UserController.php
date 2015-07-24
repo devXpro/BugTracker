@@ -63,11 +63,12 @@ class UserController extends Controller
         }
         $activities = $em->getRepository('BugBundle:Activity')->getActivitiesByUser($userEntity);
         $issuesQuery = $em->getRepository('BugBundle:Issue')->getActualIssuesByUserCollaboratorQuery($userEntity);
+        $result=$issuesQuery->getResult();
         $paginator = $this->get('knp_paginator');
         $issuesPagination = $paginator->paginate(
             $issuesQuery,
-            $request->query->getInt('page', 1),/*page number*/
-            10 /*limit per page*/
+            $request->query->getInt('page', 1),
+            10
         );
         $params = array('activities' => $activities, 'pagination' => $issuesPagination);
         if ($user) {

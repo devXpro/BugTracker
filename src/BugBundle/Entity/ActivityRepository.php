@@ -13,25 +13,54 @@ use Doctrine\ORM\EntityRepository;
 class ActivityRepository extends EntityRepository
 {
 
-    public function getActivitiesByUserQuery(User $user)
+    /**
+     * @param User $user
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getActivitiesByUserQueryBuilder(User $user)
     {
         $qb = $this->createQueryBuilder('a')
             ->innerJoin('a.issue', 'i')
             ->innerJoin('i.project', 'p')
-            ->leftJoin('p.members', 'members');
+            ->innerJoin('p.members', 'members');
         $qb->where(
-            $qb->expr()->orX(
-                $qb->expr()->in('members', ':user'),
-                $qb->expr()->eq('p.creator', ':user')
-            )
+            $qb->expr()->in('members', ':user')
         )
             ->setParameter('user', $user);
 
-        return $qb->getQuery();
+        return $qb;
     }
 
+    /**
+     * @param User $user
+     * @return \Doctrine\ORM\Query
+     */
+    public function getActivitiesByUserQuery(User $user)
+    {
+        return $this->getActivitiesByUserQueryBuilder($user)->getQuery();
+    }
+
+    /**
+     * @param User $user
+     * @param Project $project
+     * @return array
+     */
+    public function getActivitiesForProjectByUser(User $user, Project $project)
+    {
+        return $this->getActivitiesByUserQueryBuilder($user)
+            ->andWhere('p = :project')
+            ->setParameter('project', $project)
+            ->getQuery()->getResult();
+    }
+
+    /**
+     * @param User $user
+     * @return array
+     */
     public function getActivitiesByUser(User $user)
     {
         return $this->getActivitiesByUserQuery($user)->getResult();
     }
+
+
 }

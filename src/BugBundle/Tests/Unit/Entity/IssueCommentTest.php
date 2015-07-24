@@ -18,7 +18,7 @@ class IssueCommentTest extends \PHPUnit_Framework_TestCase
     public function testEntity()
     {
         $comment = new IssueComment();
-        $now = new \DateTime();
+        $now = new \DateTime('now', new \DateTimeZone('UTC'));
         $author = new User();
         $body = 'body';
         $issue = new Issue();

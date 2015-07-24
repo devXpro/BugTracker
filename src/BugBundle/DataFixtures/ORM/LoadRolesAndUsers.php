@@ -133,12 +133,16 @@ class LoadRolesAndUsers implements FixtureInterface, ContainerAwareInterface
         $manager->flush();
 
 
-        $persist = function (array $labels, $name) use ($manager) {
+        $persist = function (array $labels, $name, $add = false) use ($manager) {
             $name = 'BugBundle\Entity\\'.$name;
             foreach ($labels as $label) {
                 $entity = new $name();
                 $entity->setLabel($label);
+                if ($add && in_array($label, array(IssueStatus::OPEN, IssueStatus::REOPEN,))) {
+                    $entity->setOpen(true);
+                }
                 $manager->persist($entity);
+
             }
         };
 
@@ -154,7 +158,8 @@ class LoadRolesAndUsers implements FixtureInterface, ContainerAwareInterface
                 'Postponed',
                 'Closed',
             ],
-            'IssueStatus'
+            'IssueStatus',
+            true
         );
         $persist(
             ['Fixed', 'Duplicate', 'Won\'t fix', 'Incomplete', 'Cannot reproduce', 'Redundant', 'Invalid'],

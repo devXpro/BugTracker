@@ -55,27 +55,15 @@ class IssueRepository extends EntityRepository
 
     public function getActualIssuesByUserCollaboratorQuery(User $user)
     {
-        $issueStatusOpen = $this->getEntityManager()->getRepository('BugBundle:IssueStatus')->findBy(
-            array('label' => IssueStatus::OPEN)
-        );
-        $issueStatusReopen = $this->getEntityManager()->getRepository('BugBundle:IssueStatus')->findBy(
-            array('label' => IssueStatus::REOPEN)
-        );
         $qb = $this->createQueryBuilder('i')
-            ->innerJoin('i.collaborators', 'collaborators');
+            ->innerJoin('i.collaborators', 'collaborators')
+            ->innerJoin('i.status', 'status');
         $qb->where(
-            $qb->expr()->andX(
-                $qb->expr()->in('collaborators', ':user'),
-                $qb->expr()->orX(
-                    $qb->expr()->eq('i.status', ':status_open'),
-                    $qb->expr()->eq('i.status', ':status_reopen')
-                )
-
-            )
+            $qb->expr()->in('collaborators', ':user')
         )
-            ->setParameter('user', $user)
-            ->setParameter('status_open', $issueStatusOpen)
-            ->setParameter('status_reopen', $issueStatusReopen);
+            ->andWhere('status.open = true')
+            ->setParameter('user', $user);
+
 
         return $qb->getQuery();
     }

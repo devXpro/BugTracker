@@ -10,34 +10,35 @@ namespace BugBundle\Form\Type;
 
 
 use BugBundle\Entity\Issue;
+use BugBundle\Services\TransHelper;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ParentIssueSetType extends AbstractType
+class IssueTypeSubtaskSelectType extends AbstractType
 {
 
+    private $trans;
+
+    public function __construct(TransHelper $trans)
+    {
+        $this->trans = $trans;
+    }
 
     public function getName()
     {
-        return 'bug_set_parent_issue';
+        return 'bug_select_issue_type_subtask';
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-
-
         $resolver->setDefaults(
-            array(
-                'class' => 'BugBundle\Entity\Issue',
-            )
+            array('choices' => array(Issue::TYPE_SUBTASK => $this->trans->transUp('subtask')), 'read_only' => true)
         );
-
 
     }
 
     public function getParent()
     {
-        return 'entity';
+        return 'choice';
     }
 }

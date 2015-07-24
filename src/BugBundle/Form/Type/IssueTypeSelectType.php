@@ -36,7 +36,6 @@ class IssueTypeSelectType extends AbstractType
                 'choices' => array(
                     Issue::TYPE_BUG => $this->trans->transUp('bug'),
                     Issue::TYPE_STORY => $this->trans->transUp('story'),
-                    Issue::TYPE_SUBTASK => $this->trans->transUp('subtask'),
                     Issue::TYPE_TASK => $this->trans->transUp('task'),
                 ),
             )

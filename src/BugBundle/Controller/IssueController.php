@@ -79,13 +79,12 @@ class IssueController extends Controller
      */
     public function issueEditAction(Request $request, Issue $issue)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManagerForClass('BugBundle:Issue');
         $form = $this->createForm('bug_issue', $issue, array('parentIssue' => $issue->getParentIssue()));
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $issue = $form->getData();
-            $em->persist($issue);
             $em->flush();
 
             return $this->redirect($this->generateUrl('bug_issue_view', array('issue' => $issue->getId())));
