@@ -8,10 +8,8 @@ use BugBundle\Traits\ErrorVisualizer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 
 class ProjectController extends Controller
 {
@@ -90,12 +88,10 @@ class ProjectController extends Controller
         if ($form->isValid()) {
             $project = $form->getData();
             $em->persist($project);
-
             $em->flush();
 
             return $this->redirect($this->generateUrl('bug_project_view', array('project' => $project->getId())));
         }
-
 
         return $this->render(
             '@Bug/Project/project_edit.html.twig',
@@ -129,7 +125,6 @@ class ProjectController extends Controller
             return $this->redirect($this->generateUrl('bug_project_view', array('project' => $project->getId())));
         }
 
-
         return $this->render(
             '@Bug/Project/project_edit.html.twig',
             array(
@@ -137,5 +132,4 @@ class ProjectController extends Controller
             )
         );
     }
-
 }

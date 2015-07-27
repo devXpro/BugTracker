@@ -1,20 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 20.07.15
- * Time: 15:38
- */
 
 namespace BugBundle\Tests\Functional\Controller;
-
 
 use BugBundle\Entity\Project;
 use BugBundle\Entity\Role;
 use BugBundle\Entity\User;
 use BugBundle\Tests\BugTestCase;
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -22,8 +14,7 @@ class IssueControllerTest extends BugTestCase
 {
 
     const PROJECT_LABEL = 'My project For test!';
-    /** @var  EntityManager $em */
-    private static $em;
+
     private static $user;
     private static $newUser;
     private static $manager;
@@ -31,10 +22,12 @@ class IssueControllerTest extends BugTestCase
     private static $adminProject;
     /** @var Project $managerProject */
     private static $managerProject;
-
     private static $userIssueId;
     private static $adminIssueId;
 
+    /**
+     * {@inheritdoc}
+     */
     public static function setUpBeforeClass()
     {
         $client = static::createClient();
@@ -66,6 +59,9 @@ class IssueControllerTest extends BugTestCase
         $em->flush();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function tearDownAfterClass()
     {
         parent::tearDownAfterClass();
@@ -186,7 +182,13 @@ class IssueControllerTest extends BugTestCase
         $this->assertNotCount(0, $crawler->filter('#issues_list'));
     }
 
-    private function  makeIssue(Crawler $crawler, Client $client, Project $project, $username)
+    /**
+     * @param Crawler $crawler
+     * @param Client $client
+     * @param Project $project
+     * @param $username
+     */
+    private function makeIssue(Crawler $crawler, Client $client, Project $project, $username)
     {
         $form = $crawler->filter('button[type="submit"]')->form();
         $getValue = function (Crawler $node) {
@@ -224,8 +226,5 @@ class IssueControllerTest extends BugTestCase
             }
         );
         self::$$linkProperty = substr($links[0], strrpos($links[0], '/') + 1);
-
     }
-
-
 }

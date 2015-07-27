@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 09.07.15
- * Time: 19:48
- */
 
 namespace BugBundle\Security;
-
 
 use BugBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -41,7 +34,6 @@ abstract class BugAbstractVoter implements VoterInterface
 
     /**
      * Return an array of supported classes. This will be called by supportsClass
-     *
      * @return array an array of supported classes, i.e. array('Acme\DemoBundle\Model\Product')
      */
     abstract protected function getSupportedClasses();
@@ -86,6 +78,4 @@ abstract class BugAbstractVoter implements VoterInterface
     }
 
     abstract protected function decide(User $user, $obj, array $attributes);
-
-
 }

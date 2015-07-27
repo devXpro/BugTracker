@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 09.07.15
- * Time: 19:31
- */
 
 namespace BugBundle\Security;
 
@@ -25,21 +19,24 @@ class IssueCanCreateChildrenVoter extends BugAbstractVoter
         $this->em = $doctrine->getManager();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getSupportedAttributes()
     {
         return array(self::CAN_CREATE_CHILDREN_ISSUE);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getSupportedClasses()
     {
         return array('BugBundle\Controller\IssueController');
     }
 
     /**
-     * @param User $user
-     * @param $obj
-     * @param array $attributes
-     * @return int
+     * {@inheritdoc}
      */
     public function decide(User $user, $obj, array $attributes)
     {

@@ -1,23 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 09.07.15
- * Time: 19:31
- */
 
 namespace BugBundle\Security;
 
 use BugBundle\Entity\Role;
 use BugBundle\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class IssueCanCreateAnyVoter extends BugAbstractVoter
 {
     const CREATE_ISSUE = 'can_create_any_issue';
+    /** @var EntityManager */
     private $em;
 
     public function __construct(Registry $doctrine)
@@ -25,21 +19,24 @@ class IssueCanCreateAnyVoter extends BugAbstractVoter
         $this->em = $doctrine->getManager();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getSupportedAttributes()
     {
         return array(self::CREATE_ISSUE);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getSupportedClasses()
     {
         return array('BugBundle\Controller\IssueController');
     }
 
     /**
-     * @param User $user
-     * @param $obj
-     * @param array $attributes
-     * @return int
+     * {@inheritdoc}
      */
     public function decide(User $user, $obj, array $attributes)
     {

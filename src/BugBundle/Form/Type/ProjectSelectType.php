@@ -1,17 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 30.06.15
- * Time: 16:39
- */
 
 namespace BugBundle\Form\Type;
 
-
 use BugBundle\Entity\ProjectRepository;
 use BugBundle\Entity\Role;
-use Doctrine\ORM\EntityRepository;
+use BugBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,11 +13,15 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class ProjectSelectType extends AbstractType
 {
-
+    /** @var User */
     private $user;
-
+    /** @var  boolean */
     private $admin;
 
+    /**
+     * @param TokenStorageInterface $token
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     */
     public function __construct(TokenStorageInterface $token, AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->user = $token->getToken()->getUser();
@@ -32,19 +29,23 @@ class ProjectSelectType extends AbstractType
     }
 
     /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'bug_select_project';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $params = array('class' => 'BugBundle\Entity\Project');
@@ -57,7 +58,6 @@ class ProjectSelectType extends AbstractType
                     $qb->expr()->orX(
                         $qb->expr()->in('members', ':user'),
                         $qb->expr()->eq('p.creator', ':user')
-
                     )
                 )
                     ->setParameter('user', $user);
@@ -69,6 +69,9 @@ class ProjectSelectType extends AbstractType
         $resolver->setDefaults($params);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getParent()
     {
         return 'entity';

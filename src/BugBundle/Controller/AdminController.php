@@ -3,9 +3,7 @@
 namespace BugBundle\Controller;
 
 use BugBundle\Entity\User;
-use BugBundle\Form\Type\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -25,9 +23,8 @@ class AdminController extends Controller
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $query,
-            $request->query->getInt('page', 1),/*page number*/
-            12 /*limit per page*/
-
+            $request->query->getInt('page', 1),
+            12
         );
 
         return $this->render('@Bug/Admin/Users/users_list.html.twig', array('pagination' => $pagination));
@@ -61,14 +58,12 @@ class AdminController extends Controller
             return $this->redirect('/admin/users/list');
         }
 
-
         return $this->render(
             '@Bug/Admin/Users/user_edit.html.twig',
             array(
                 'form' => $form->createView(),
             )
         );
-
     }
 
     /**
@@ -84,8 +79,5 @@ class AdminController extends Controller
         $em->flush();
 
         return $this->redirect($this->generateUrl('admin_users_list'));
-
     }
-
-
 }

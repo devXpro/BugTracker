@@ -1,26 +1,18 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 10.07.15
- * Time: 13:46
- */
 
 namespace BugBundle\Tests\Functional\Controller;
-
 
 use BugBundle\Tests\BugTestCase;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
-
 class ProjectControllerTest extends BugTestCase
 {
-
-
     const PROJECT_LABEL = 'Real Test Project';
 
-
+    /**
+     * {@inheritdoc}
+     */
     public static function tearDownAfterClass()
     {
         parent::tearDownAfterClass();
@@ -68,8 +60,6 @@ class ProjectControllerTest extends BugTestCase
 
         $crawler = $client->request('GET', $urls[0]);
         $this->assertEquals('delete is not need', $crawler->filter('p')->html());
-
-
     }
 
     public function testCreateProjectByAdmin()
@@ -82,7 +72,6 @@ class ProjectControllerTest extends BugTestCase
         $this->assertNotCount(0, $crawler->filter('label[for=bug_project_label]'));
         $this->makeProject($client, $crawler);
     }
-
 
     /**
      * Test Edit created tasks, save and check
@@ -107,7 +96,6 @@ class ProjectControllerTest extends BugTestCase
         $this->makeProject($client, $crawler);
     }
 
-
     /**
      * Test Edit created tasks, save and check
      * @depends testCreateProjectByAdmin
@@ -119,7 +107,6 @@ class ProjectControllerTest extends BugTestCase
         $this->assertCount(0, $crawler->filter('.error'));
         $this->makeProject($client, $crawler);
     }
-
 
     /**
      * @param Client $client
@@ -139,7 +126,6 @@ class ProjectControllerTest extends BugTestCase
 
         return $client->request('GET', $url);
     }
-
 
     /**
      * Save new Project, check validation rules
@@ -167,8 +153,5 @@ class ProjectControllerTest extends BugTestCase
         $form['bug_project[code]'] = 'PBB';
         $crawler = $client->submit($form);
         $this->assertNotCount(0, $crawler->filter('.project_view'));
-//        $this->assertNotCount(0, $crawler->filter('.project_view:contains("Real Project")'));
     }
-
-
 }

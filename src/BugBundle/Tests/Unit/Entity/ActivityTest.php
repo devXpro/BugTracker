@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 21.07.15
- * Time: 18:50
- */
 
 namespace BugBundle\Tests\Unit\Entity;
-
 
 use BugBundle\Entity\Activity;
 use BugBundle\Entity\Issue;

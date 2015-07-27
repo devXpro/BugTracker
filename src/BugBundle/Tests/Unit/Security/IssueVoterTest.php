@@ -1,19 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 22.07.15
- * Time: 12:16
- */
 
 namespace BugBundle\Tests\Unit\Security;
-
 
 use BugBundle\Controller\IssueController;
 use BugBundle\Entity\Issue;
 use BugBundle\Entity\ProjectRepository;
 use BugBundle\Entity\User;
-use BugBundle\Security\IssueVoter;
+use BugBundle\Security\IssueCanCreateAnyVoter;
+use BugBundle\Security\IssueCanCreateChildrenVoter;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -22,7 +16,7 @@ class IssueVoterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var EntityManager | \PHPUnit_Framework_MockObject_MockObject $emMock */
     private $emMock;
-    /** @var  IssueVoter */
+    /** @var  IssueCanCreateAnyVoter */
     private $issueVoter;
     /** @var TokenInterface|\PHPUnit_Framework_MockObject_MockObject $token */
     private $token;
@@ -68,7 +62,7 @@ class IssueVoterTest extends \PHPUnit_Framework_TestCase
         $objTrue = new Issue();
         $objFalse = new  \StdClass();
 
-        $attrTrue = array(IssueVoter::CAN_CREATE_CHILDREN_ISSUE);
+        $attrTrue = array(IssueCanCreateChildrenVoter::CAN_CREATE_CHILDREN_ISSUE);
         $attrFalse = array('Some Shit');
 
         return [
@@ -105,7 +99,7 @@ class IssueVoterTest extends \PHPUnit_Framework_TestCase
         $this->emMock->expects($this->once())->method('getRepository')->with('BugBundle:Project')->will(
             $this->returnValue($projectRepo)
         );
-        $this->assertFalse($this->issueVoter->vote($this->token, null, array(IssueVoter::CREATE_ISSUE)));
+        $this->assertFalse($this->issueVoter->vote($this->token, null, array(IssueCanCreateAnyVoter::CREATE_ISSUE)));
     }
 
 
@@ -128,7 +122,11 @@ class IssueVoterTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($IssueRepo)
         );
         $this->assertFalse(
-            $this->issueVoter->vote($this->token, $wrongObj, array(IssueVoter::CAN_CREATE_CHILDREN_ISSUE))
+            $this->issueVoter->vote(
+                $this->token,
+                $wrongObj,
+                array(IssueCanCreateChildrenVoter::CAN_CREATE_CHILDREN_ISSUE)
+            )
         );
     }
 
@@ -151,13 +149,17 @@ class IssueVoterTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($IssueRepo)
         );
         $this->assertTrue(
-            $this->issueVoter->vote($this->token, $wrongObj, array(IssueVoter::CAN_CREATE_CHILDREN_ISSUE))
+            $this->issueVoter->vote(
+                $this->token,
+                $wrongObj,
+                array(IssueCanCreateChildrenVoter::CAN_CREATE_CHILDREN_ISSUE)
+            )
         );
     }
 
     public function testSupportAttr()
     {
-        $this->assertTrue($this->issueVoter->supportsAttribute(IssueVoter::CAN_CREATE_CHILDREN_ISSUE));
+        $this->assertTrue($this->issueVoter->supportsAttribute(IssueCanCreateChildrenVoter::CAN_CREATE_CHILDREN_ISSUE));
     }
 
     public function testSupportsClass()
@@ -167,6 +169,4 @@ class IssueVoterTest extends \PHPUnit_Framework_TestCase
         $controller = $this->getMock('BugBundle\Controller\IssueController');
         $this->assertTrue($this->issueVoter->supportsClass($controller));
     }
-
-
 }

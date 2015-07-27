@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 17.07.15
- * Time: 19:34
- */
 
 namespace BugBundle\Tests;
 
@@ -20,7 +14,7 @@ class EntityTypeStub extends AbstractType
 
     /** @var string */
     protected $name;
-
+    /** @var array */
     protected $additionalOptions;
 
     /**
@@ -62,7 +56,7 @@ class EntityTypeStub extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $options = ['choice_list' => $this->choiceList];
-        $options=array_merge($options,$this->additionalOptions);
+        $options = array_merge($options, $this->additionalOptions);
         $resolver->setDefaults($options);
     }
 

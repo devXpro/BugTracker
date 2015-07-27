@@ -161,10 +161,10 @@ class Project
     /**
      * Add issues
      *
-     * @param \BugBundle\Entity\Issue $issues
+     * @param Issue $issues
      * @return Project
      */
-    public function addIssue(\BugBundle\Entity\Issue $issues)
+    public function addIssue(Issue $issues)
     {
         $this->issues[] = $issues;
 
@@ -174,9 +174,9 @@ class Project
     /**
      * Remove issues
      *
-     * @param \BugBundle\Entity\Issue $issues
+     * @param Issue $issues
      */
-    public function removeIssue(\BugBundle\Entity\Issue $issues)
+    public function removeIssue(Issue $issues)
     {
         $this->issues->removeElement($issues);
     }
@@ -184,7 +184,7 @@ class Project
     /**
      * Get issues
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getIssues()
     {
@@ -194,10 +194,10 @@ class Project
     /**
      * Add members
      *
-     * @param \BugBundle\Entity\User $members
+     * @param User $members
      * @return Project
      */
-    public function addMember(\BugBundle\Entity\User $members)
+    public function addMember(User $members)
     {
         $this->members[] = $members;
 
@@ -207,9 +207,9 @@ class Project
     /**
      * Remove members
      *
-     * @param \BugBundle\Entity\User $members
+     * @param User $members
      */
-    public function removeMember(\BugBundle\Entity\User $members)
+    public function removeMember(User $members)
     {
         $this->members->removeElement($members);
     }
@@ -217,7 +217,7 @@ class Project
     /**
      * Get members
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getMembers()
     {
@@ -227,10 +227,10 @@ class Project
     /**
      * Set creator
      *
-     * @param \BugBundle\Entity\User $creator
+     * @param User $creator
      * @return Project
      */
-    public function setCreator(\BugBundle\Entity\User $creator)
+    public function setCreator(User $creator)
     {
         $this->creator = $creator;
 
@@ -240,7 +240,7 @@ class Project
     /**
      * Get creator
      *
-     * @return \BugBundle\Entity\User
+     * @return User
      */
     public function getCreator()
     {

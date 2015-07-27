@@ -1,14 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 07.07.15
- * Time: 11:16
- */
 
 namespace BugBundle\EventListener;
 
-use BugBundle\Entity\Issue;
 use BugBundle\Entity\Project;
 use BugBundle\Event\BugEntityEvent;
 use BugBundle\Services\IssueActivityInterface;
@@ -17,8 +10,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 class ProjectListener implements ListenerInterface
 {
 
-    /** @var Issue */
+    /** @var TokenStorage */
     private $token;
+    /** @var IssueActivityInterface */
     private $activityManager;
 
     public function __construct(TokenStorage $token, IssueActivityInterface $activityManager)
@@ -27,12 +21,16 @@ class ProjectListener implements ListenerInterface
         $this->activityManager = $activityManager;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onPreCreate(BugEntityEvent $event)
     {
-
-
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onAfterCreate(BugEntityEvent $event)
     {
         /** @var Project $issue */
@@ -43,9 +41,10 @@ class ProjectListener implements ListenerInterface
         $project->addMember($this->token->getToken()->getUser());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onUpdate(BugEntityEvent $event)
     {
-
-
     }
 }

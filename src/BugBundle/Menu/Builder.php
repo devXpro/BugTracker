@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 30.06.15
- * Time: 20:46
- */
 
 namespace BugBundle\Menu;
 
@@ -16,11 +10,9 @@ class Builder extends ContainerAware
 {
     public function trans($string)
     {
-
         $translator = $this->container->get('bug.trans.helper');
 
         return $translator->transUp($string);
-
     }
 
     public function mainMenu(FactoryInterface $factory, array $options)

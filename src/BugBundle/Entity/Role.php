@@ -11,7 +11,6 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
  */
 class Role implements RoleInterface
 {
-
     const ROLE_USER = 'ROLE_USER';
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_MANAGER = 'ROLE_MANAGER';

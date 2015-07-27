@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 30.06.15
- * Time: 16:39
- */
 
 namespace BugBundle\Form\Type;
-
 
 use BugBundle\Entity\Issue;
 use BugBundle\Services\TransHelper;
@@ -16,19 +9,28 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IssueTypeSubtaskSelectType extends AbstractType
 {
-
+    /** @var TransHelper */
     private $trans;
 
+    /**
+     * @param TransHelper $trans
+     */
     public function __construct(TransHelper $trans)
     {
         $this->trans = $trans;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'bug_select_issue_type_subtask';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
@@ -37,6 +39,9 @@ class IssueTypeSubtaskSelectType extends AbstractType
 
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getParent()
     {
         return 'choice';

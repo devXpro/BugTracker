@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 30.06.15
- * Time: 16:39
- */
 
 namespace BugBundle\Form\Type;
-
 
 use BugBundle\Entity\Issue;
 use BugBundle\Entity\User;
@@ -16,24 +9,23 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-
 class IssueType extends AbstractType
 {
 
-
+    /** @var User */
     private $user;
 
+    /**
+     * @param TokenStorageInterface $token
+     */
     public function __construct(TokenStorageInterface $token)
     {
-
         /** @var User user */
         $this->user = $token->getToken()->getUser();
-
     }
 
     /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -65,11 +57,17 @@ class IssueType extends AbstractType
 
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'bug_issue';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
@@ -90,7 +88,5 @@ class IssueType extends AbstractType
                 }
             }
         );
-
-
     }
 }

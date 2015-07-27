@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 21.07.15
- * Time: 18:36
- */
 
 namespace BugBundle\Tests\Unit\Entity;
-
 
 use BugBundle\Entity\Issue;
 use BugBundle\Entity\IssueComment;
@@ -23,13 +16,11 @@ class IssueCommentTest extends \PHPUnit_Framework_TestCase
         $body = 'body';
         $issue = new Issue();
 
-
         $comment->setCreated($now);
         $comment->setAuthor($author);
         $comment->setBody($body);
         $comment->setIssue($issue);
         $comment->setCreatedNow();
-
 
         $this->assertEquals($now, $comment->getCreated());
         $this->assertEquals($author, $comment->getAuthor());
@@ -37,7 +28,5 @@ class IssueCommentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($issue, $comment->getIssue());
         $this->assertEquals($body, $comment->__toString());
         $this->assertNull($comment->getId());
-
     }
-
 }

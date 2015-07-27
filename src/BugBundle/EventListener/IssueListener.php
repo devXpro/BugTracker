@@ -1,16 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 07.07.15
- * Time: 11:16
- */
 
 namespace BugBundle\EventListener;
 
-
 use BugBundle\Entity\Issue;
-use BugBundle\Entity\IssueStatus;
 use BugBundle\Event\BugEntityEvent;
 use BugBundle\Services\IssueActivityInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
@@ -20,6 +12,7 @@ class IssueListener implements ListenerInterface
 
     /** @var Issue */
     private $token;
+    /** @var IssueActivityInterface */
     private $activityManager;
 
     public function __construct(TokenStorage $token, IssueActivityInterface $activityManager)
@@ -28,12 +21,16 @@ class IssueListener implements ListenerInterface
         $this->activityManager = $activityManager;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onPreCreate(BugEntityEvent $event)
     {
-
-
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onAfterCreate(BugEntityEvent $event)
     {
         /** @var Issue $issue */
@@ -47,11 +44,13 @@ class IssueListener implements ListenerInterface
         $this->activityManager->markCreateIssue($issue);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onUpdate(BugEntityEvent $event)
     {
         /** @var Issue $issue */
         $issue = $event->getEntity();
-
         $changes = $event->getEm()->getUnitOfWork()->getEntityChangeSet($issue);
         //mark to activity, if status changed
         if (isset($changes['status'])) {

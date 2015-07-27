@@ -15,7 +15,6 @@ class UserController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-
     public function profileEditAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -63,7 +62,6 @@ class UserController extends Controller
         }
         $activities = $em->getRepository('BugBundle:Activity')->getActivitiesByUser($userEntity);
         $issuesQuery = $em->getRepository('BugBundle:Issue')->getActualIssuesByUserCollaboratorQuery($userEntity);
-        $result=$issuesQuery->getResult();
         $paginator = $this->get('knp_paginator');
         $issuesPagination = $paginator->paginate(
             $issuesQuery,
@@ -77,5 +75,4 @@ class UserController extends Controller
 
         return $this->render('@Bug/User/user_page.html.twig', $params);
     }
-
 }

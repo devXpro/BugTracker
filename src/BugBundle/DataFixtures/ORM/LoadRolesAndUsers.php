@@ -1,26 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 26.06.15
- * Time: 16:15
- */
-
 namespace BugBundle\DataFixtures\ORM;
-
 
 use BugBundle\Entity\IssueStatus;
 use BugBundle\Entity\Role;
 use BugBundle\Entity\User;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadRolesAndUsers implements FixtureInterface, ContainerAwareInterface
 {
-
     private $names = array(
         'Noah',
         'Emma',
@@ -67,34 +57,32 @@ class LoadRolesAndUsers implements FixtureInterface, ContainerAwareInterface
         'Martinez',
         'Walker',
     );
-    private $inent;
-
     /**
      * @var ContainerInterface
      */
     private $container;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function load(ObjectManager $manager)
     {
-
         $roles = array(Role::ROLE_ADMIN, Role::ROLE_USER, Role::ROLE_MANAGER);
         $indents = $this->makeIdentities();
         $i = 0;
         foreach ($roles as $roleName) {
             if (!$role = $manager->getRepository('BugBundle:Role')->findOneBy(array('role' => $roleName))) {
                 $role = new Role();
-
             }
             $role->setRole($roleName);
-
             //add User (User name is a role user)
             $userName = strtolower(str_replace('ROLE_', '', $roleName));
             $role->setAlias($userName);
@@ -132,7 +120,6 @@ class LoadRolesAndUsers implements FixtureInterface, ContainerAwareInterface
         }
         $manager->flush();
 
-
         $persist = function (array $labels, $name, $add = false) use ($manager) {
             $name = 'BugBundle\Entity\\'.$name;
             foreach ($labels as $label) {
@@ -166,7 +153,6 @@ class LoadRolesAndUsers implements FixtureInterface, ContainerAwareInterface
             'IssueResolution'
         );
         $persist(['Highest', 'High', 'Medium', 'Low', 'Lowest'], 'IssuePriority');
-
         $manager->flush();
 
         return true;
@@ -187,6 +173,4 @@ class LoadRolesAndUsers implements FixtureInterface, ContainerAwareInterface
 
         return $res;
     }
-
-
 }

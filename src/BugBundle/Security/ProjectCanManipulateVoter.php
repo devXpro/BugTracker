@@ -1,43 +1,45 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 09.07.15
- * Time: 19:31
- */
 
 namespace BugBundle\Security;
 
 use BugBundle\Entity\Project;
 use BugBundle\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class ProjectCanManipulateVoter extends BugAbstractVoter
 {
     const CAN_MANIPULATE_ISSUE = 'can_manipulate_project';
+    /** @var  EntityManager */
     private $em;
 
+    /**
+     * @param Registry $doctrine
+     */
     public function __construct(Registry $doctrine)
     {
         $this->em = $doctrine->getManager();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getSupportedAttributes()
     {
         return array(self::CAN_MANIPULATE_ISSUE);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getSupportedClasses()
     {
         return array('BugBundle\Controller\ProjectController');
     }
 
     /**
-     * @param User $user
-     * @param $obj
-     * @param array $attributes
-     * @return int
+     * {@inheritdoc}
      */
     public function decide(User $user, $obj, array $attributes)
     {

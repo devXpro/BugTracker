@@ -1,22 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 16.07.15
- * Time: 18:06
- */
 
 namespace BugBundle\Tests\Unit\Form\Type;
 
-
 use BugBundle\Entity\Issue;
-
 use BugBundle\Entity\IssuePriority;
 use BugBundle\Entity\IssueResolution;
 use BugBundle\Entity\IssueStatus;
 use BugBundle\Entity\Project;
 use BugBundle\Entity\User;
-
 use BugBundle\Form\Type\IssueType;
 use BugBundle\Tests\BugTypeTestCase;
 use Symfony\Component\Form\PreloadedExtension;
@@ -57,9 +48,7 @@ class IssueTypeTest extends BugTypeTestCase
         $form = $this->factory->create($issueType, null, array('parentIssue' => $parentIssue));
         $form->submit($formData);
         $this->assertTrue($form->isSynchronized());
-        $data = $form->getData();
         $this->assertEquals($issue, $form->getData());
-
     }
 
     /**
@@ -71,7 +60,6 @@ class IssueTypeTest extends BugTypeTestCase
         $user = $this->getEntity('BugBundle\Entity\User', array('username'));
         $IssueType = new IssueType($this->getTokenStorageWithUserMock($user));
         $this->factory->create($IssueType, null, array('parentIssue' => new \StdClass));
-
     }
 
     public function formDataProvider()
@@ -116,8 +104,6 @@ class IssueTypeTest extends BugTypeTestCase
      */
     protected function getExtensions()
     {
-
-
         $this->formDataProvider();
         $paramsSet = array(
             [$this->projects, 'bug_select_project'],
@@ -134,5 +120,4 @@ class IssueTypeTest extends BugTypeTestCase
             new PreloadedExtension($stubs, array()),
         );
     }
-
 }

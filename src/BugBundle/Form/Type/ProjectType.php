@@ -1,25 +1,21 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 30.06.15
- * Time: 16:39
- */
 
 namespace BugBundle\Form\Type;
 
-
+use BugBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-
 class ProjectType extends AbstractType
 {
-
+    /** @var User */
     private $user;
 
+    /**
+     * @param TokenStorageInterface $token
+     */
     public function __construct(TokenStorageInterface $token)
     {
 
@@ -27,8 +23,7 @@ class ProjectType extends AbstractType
     }
 
     /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -40,11 +35,17 @@ class ProjectType extends AbstractType
             ->add('creator', 'bug_select_user', array('empty_data' => $this->user->getId()));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'bug_project';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(

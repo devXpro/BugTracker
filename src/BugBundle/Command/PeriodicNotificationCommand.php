@@ -51,11 +51,15 @@ class PeriodicNotificationCommand extends ContainerAwareCommand
                         try {
                             $mailer->send($message);
                         } catch (Exception $e) {
+                            $format = '<error>User: %u was not notified, because: %e</error>';
                             $output->writeln(
-                                '<error>User:'.$collaborator.'was not notified, because:'.$e->getMessage().'</error>'
+                                sprintf($format, $collaborator, $e->getMessage())
                             );
                         }
-                        $output->writeln('<comment>User:'.$collaborator.' was notified </comment>');
+                        $format = '<comment>User: %u was notified </comment>';
+                        $output->writeln(
+                            sprintf($format, $collaborator)
+                        );
                         $activity->setNotified(true);
                         $em->persist($activity);
                         if ($limit <= 0) {

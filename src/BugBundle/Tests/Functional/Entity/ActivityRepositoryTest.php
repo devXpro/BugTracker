@@ -1,22 +1,20 @@
 <?php
+namespace BugBundle\Tests\Functional\Entity;
+
 use BugBundle\Entity\Activity;
 use BugBundle\Entity\Issue;
 use BugBundle\Entity\Project;
+use BugBundle\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 21.07.15
- * Time: 19:56
- */
 class ActivityRepositoryTest extends KernelTestCase
 {
     /**
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
+    /** @var  User */
     private $user;
 
     private static $project;
@@ -31,7 +29,6 @@ class ActivityRepositoryTest extends KernelTestCase
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
-
 
         $em = $this->em;
         $this->user = $user = $em->getRepository('BugBundle:User')->findOneBy(array('username' => 'user'));
@@ -52,10 +49,11 @@ class ActivityRepositoryTest extends KernelTestCase
         $em->persist($project);
         $em->persist($activity);
         $em->flush();
-
-
     }
 
+    /**
+     *{@inheritdoc}
+     */
     public function tearDown()
     {
         parent::tearDown();
@@ -66,7 +64,6 @@ class ActivityRepositoryTest extends KernelTestCase
 
     public function testRepo()
     {
-
         $em = $this->em;
         $activityRepo = $em->getRepository('BugBundle:Activity');
         $query = $activityRepo->getActivitiesByUserQuery($this->user);
@@ -77,6 +74,4 @@ class ActivityRepositoryTest extends KernelTestCase
         $result = $activityRepo->getActivitiesForProjectByUser($this->user, self::$project);
         $this->assertNotCount(0, $result);
     }
-
-
 }

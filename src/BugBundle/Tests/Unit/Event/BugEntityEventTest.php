@@ -3,19 +3,10 @@
 namespace BugBundle\Tests\Unit\Event;
 
 use BugBundle\Event\BugEntityEvent;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Mapping\Entity;
 
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 21.07.15
- * Time: 21:44
- */
 class BugEntityEventTest extends \PHPUnit_Framework_TestCase
 {
-
     /** @var  BugEntityEvent */
     private $event;
     private $em;
@@ -40,6 +31,4 @@ class BugEntityEventTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->em, $this->event->getEm());
         $this->assertEquals($this->entity, $this->event->getEntity());
     }
-
-
 }

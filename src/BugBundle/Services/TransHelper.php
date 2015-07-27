@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 03.07.15
- * Time: 12:12
- */
 
 namespace BugBundle\Services;
 
@@ -12,13 +6,21 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 class TransHelper
 {
+    /** @var TranslatorInterface */
     private $trans;
 
+    /**
+     * @param TranslatorInterface $translator
+     */
     public function __construct(TranslatorInterface $translator)
     {
         $this->trans = $translator;
     }
 
+    /**
+     * @param $string
+     * @return string
+     */
     public function transUp($string)
     {
         $translator = $this->trans;
@@ -30,6 +32,4 @@ class TransHelper
 
         return mb_strtoupper($firstChar, $encoding).$then;
     }
-
-
 }

@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 21.07.15
- * Time: 17:29
- */
 
 namespace BugBundle\Tests\Functional\Command;
-
 
 use BugBundle\DataFixtures\ORM\LoadRolesAndUsers;
 use BugBundle\Tests\BugTestCase;
@@ -26,6 +19,5 @@ class LoadFixturesTest extends BugTestCase
         $purger->setPurgeMode($purger::PURGE_MODE_TRUNCATE);
         $purger->purge();
         $this->assertTrue($fix->load($em));
-
     }
 }

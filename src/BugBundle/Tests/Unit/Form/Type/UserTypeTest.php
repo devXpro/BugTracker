@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 16.07.15
- * Time: 18:06
- */
 
 namespace BugBundle\Tests\Unit\Form\Type;
-
 
 use BugBundle\Entity\Role;
 use BugBundle\Entity\User;
@@ -64,17 +57,11 @@ class UserTypeTest extends TypeTestCase
      */
     protected function getExtensions()
     {
-        $stubEntityType = new EntityTypeStub($this->getRoles(), 'bug_user_select_role',array('multiple'=>true));
+        $stubEntityType = new EntityTypeStub($this->getRoles(), 'bug_user_select_role', array('multiple' => true));
+        $ext = new PreloadedExtension(array($stubEntityType->getName() => $stubEntityType), array());
 
-        return array(
-            new PreloadedExtension(
-                array(
-                    $stubEntityType->getName() => $stubEntityType,
-                ), array()
-            ),
-        );
+        return array($ext);
     }
-
 
     private function getRoles()
     {

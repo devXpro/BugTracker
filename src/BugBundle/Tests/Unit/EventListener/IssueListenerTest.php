@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 22.07.15
- * Time: 10:37
- */
 
 namespace BugBundle\Tests\Unit\EventListener;
-
 
 use BugBundle\Entity\Issue;
 use BugBundle\Entity\IssueStatus;
@@ -33,9 +26,12 @@ class IssueListenerTest extends BugTypeTestCase
     private $issueActivity;
     /** @var TokenStorage | \PHPUnit_Framework_MockObject_MockObject $tokenStorage */
     private $tokenStorage;
-
+    /** @var  TokenStorage */
     private $token;
 
+    /**
+     * {@inheritdoc}
+     */
     public function setUp()
     {
         parent::setUp();
@@ -57,7 +53,6 @@ class IssueListenerTest extends BugTypeTestCase
 
     }
 
-
     public function testOnAfterCreate()
     {
         $this->token->expects($this->any())->method('getUser')->will($this->returnValue($this->user));
@@ -68,7 +63,6 @@ class IssueListenerTest extends BugTypeTestCase
         $issueMock->expects($this->once())->method('addCollaborator')->with($this->user);
         $this->issueActivity->expects($this->once())->method('markCreateIssue')->with($issueMock);
         $this->issueListener->onAfterCreate($this->event);
-
     }
 
     public function testOnAfterCreateWithoutToken()
@@ -114,5 +108,4 @@ class IssueListenerTest extends BugTypeTestCase
     {
         $this->issueListener->onPreCreate($this->event);
     }
-
 }

@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 21.07.15
- * Time: 20:28
- */
 
 namespace BugBundle\Tests\Functional\Entity;
-
 
 use BugBundle\Entity\Project;
 use Doctrine\Bundle\DoctrineBundle\Registry;
@@ -19,6 +12,7 @@ class ProjectRepositoryTest extends KernelTestCase
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
+    /** @var */
     private $user;
 
     private static $project;
@@ -42,10 +36,7 @@ class ProjectRepositoryTest extends KernelTestCase
         $project->setSummary('asdfasdf')->setLabel('asdfasdf')->setCreator($user)->setCode('1WE');
         $project->addMember($user);
         $em->persist($project);
-
         $em->flush();
-
-
     }
 
     public function tearDown()

@@ -4,7 +4,7 @@ namespace BugBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
-
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * ProjectRepository
@@ -28,7 +28,7 @@ class ProjectRepository extends EntityRepository
     /**
      * @param User $user
      * @param bool|false $count
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return QueryBuilder
      */
     public function getProjectsByUserQueryBuilder(User $user, $count = false)
     {
@@ -48,7 +48,7 @@ class ProjectRepository extends EntityRepository
     /**
      * @param User $user
      * @param Project $project
-     * @return mixed
+     * @return integer
      */
     public function checkAccessProject(User $user, Project $project)
     {
@@ -74,6 +74,10 @@ class ProjectRepository extends EntityRepository
         return $this->getProjectsByUserQuery($user)->getResult();
     }
 
+    /**
+     * @param User $user
+     * @return integer
+     */
     public function countProjectsByUser(User $user)
     {
         return $this->getProjectsByUserQuery($user, true)->getSingleScalarResult();

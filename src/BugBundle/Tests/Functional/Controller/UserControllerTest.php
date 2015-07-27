@@ -1,18 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 10.07.15
- * Time: 16:29
- */
 
 namespace BugBundle\Tests\Functional\Controller;
 
-
 use BugBundle\Tests\BugTestCase;
-use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Client;
-
 
 class UserControllerTest extends BugTestCase
 {
@@ -42,10 +33,11 @@ class UserControllerTest extends BugTestCase
         } else {
             $this->assertNotCount(0, $crawler->filter('#bug_user_page'));
         }
-
     }
 
-
+    /**
+     * @return array
+     */
     public function profileProvider()
     {
         return [

@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 22.07.15
- * Time: 10:37
- */
 
 namespace BugBundle\Tests\Unit\EventListener;
-
 
 use BugBundle\Entity\Issue;
 use BugBundle\Entity\IssueComment;
@@ -24,11 +17,14 @@ class IssueCommentListenerTest extends BugTypeTestCase
     private $issueCommentListener;
     /** @var  BugEntityEvent| \PHPUnit_Framework_MockObject_MockObject */
     private $event;
-
+    /** @var  User */
     private $user;
     /** @var  IssueCommentActivityInterface| \PHPUnit_Framework_MockObject_MockObject */
     private $issueCommentActivity;
 
+    /**
+     * {@inheritdoc}
+     */
     public function setUp()
     {
         parent::setUp();
@@ -42,13 +38,10 @@ class IssueCommentListenerTest extends BugTypeTestCase
         );
         $tokenStorage->expects($this->any())->method('getToken')->will($this->returnValue($token));
 
-
         /** @var IssueCommentActivityInterface $issueCommentActivity */
         $this->issueCommentActivity = $this->getMock('BugBundle\Services\IssueCommentActivityInterface');
         $this->issueCommentListener = new IssueCommentListener($tokenStorage, $this->issueCommentActivity);
         $this->event = $this->getMockBuilder('BugBundle\Event\BugEntityEvent')->disableOriginalConstructor()->getMock();
-
-
     }
 
     public function testOnPreCreate()

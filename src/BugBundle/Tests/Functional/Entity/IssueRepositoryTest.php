@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 21.07.15
- * Time: 20:14
- */
 
 namespace BugBundle\Tests\Functional\Entity;
-
 
 use BugBundle\Entity\Issue;
 use BugBundle\Entity\IssueStatus;
@@ -55,12 +48,14 @@ class IssueRepositoryTest extends KernelTestCase
             ->setResolution($issueResolution)->setStatus($issueStatus)->setReporter($user);
         $em->persist($issue);
         $em->persist($project);
-
         $em->flush();
 
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function tearDown()
     {
         parent::tearDown();
@@ -71,7 +66,6 @@ class IssueRepositoryTest extends KernelTestCase
 
     public function testRepo()
     {
-
         $em = $this->em;
 
         $query = $em->getRepository('BugBundle:Issue')->getActualIssuesByUserCollaboratorQuery($this->user);
@@ -85,9 +79,7 @@ class IssueRepositoryTest extends KernelTestCase
         $this->assertInstanceOf('Doctrine\ORM\Query', $query);
         $this->assertNotCount(0, $query->getResult());
 
-
         $result = $em->getRepository('BugBundle:Issue')->checkIssueUserAccess($this->user, $this->issue);
-
 
     }
 }

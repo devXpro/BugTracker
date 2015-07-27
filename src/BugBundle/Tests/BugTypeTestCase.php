@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 18.07.15
- * Time: 14:44
- */
 
 namespace BugBundle\Tests;
-
 
 use BugBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,7 +12,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 abstract class BugTypeTestCase extends TypeTestCase
 {
 
-use EntitySetHelper;
+    use EntitySetHelper;
+
     /**
      * @param $entity
      * @param array $excludeFields
@@ -34,10 +28,7 @@ use EntitySetHelper;
             if ((substr($method, 0, strlen('get')) == 'get')) {
                 $filedValue = $entity->$method();
                 $fieldName = strtolower(substr($method, 3, strlen($method) - 3));
-                if ($fieldName == 'id' || !property_exists($entity, $fieldName) || in_array(
-                        $fieldName,
-                        $excludeFields
-                    )
+                if ($fieldName == 'id' || !property_exists($entity, $fieldName) || in_array($fieldName, $excludeFields)
                 ) {
                     continue;
                 }
@@ -57,7 +48,6 @@ use EntitySetHelper;
                         $data[$fieldName] = $filedValue->getId();
                     }
                 }
-
             }
         }
 
@@ -108,7 +98,6 @@ use EntitySetHelper;
 
     protected function checkSelectors($obj)
     {
-
         $this->assertTrue(method_exists($obj, 'getName'));
         $this->assertTrue(method_exists($obj, 'configureOptions'));
         $this->assertTrue(method_exists($obj, 'getParent'));
@@ -125,7 +114,5 @@ use EntitySetHelper;
             )
         );
         $obj->configureOptions($optionsResolverMock);
-
     }
-
 }

@@ -1,22 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 30.06.15
- * Time: 12:47
- */
 
 namespace BugBundle\Services;
-
 
 use BugBundle\Entity\User;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
-
 class UserManager
 {
-
+    /**
+     * @param EncoderFactoryInterface $encoderFactory
+     */
     public function __construct(EncoderFactoryInterface $encoderFactory)
     {
         $this->encoderFactory = $encoderFactory;
@@ -42,5 +36,4 @@ class UserManager
 
         return $user;
     }
-
 }

@@ -8,8 +8,7 @@
 <table class="table table-striped">
     <tr>
         {# sorting of properties based on query components #}
-        <th>{{ knp_pagination_sortable(pagination,'code'|trans|capitalize, 'i.code') }}</th>
-        <th>{{ knp_pagination_sortable(pagination, 'id'|trans|capitalize, 'i.id') }}</th>
+        <th>{{ knp_pagination_sortable(pagination,'code'|trans|capitalize, 'i') }}</th>
         <th>{{ knp_pagination_sortable(pagination,'project'|trans|capitalize, 'i.project.label') }}</th>
         <th>{{ knp_pagination_sortable(pagination,'summary'|trans|capitalize, 'i.summary') }}</th>
 
@@ -26,8 +25,7 @@
     {# table body #}
     {% for i in pagination %}
         <tr {% if loop.index is odd %}class="color"{% endif %}>
-            <td>{{ i.code }}</td>
-            <td><a href="{{ path('bug_issue_view',{'issue': i.id}) }}">{{ i.id }}</a></td>
+            <td><a href="{{ path('bug_issue_view',{'issue': i.id}) }}">{{ i.fullCode }}</a></td>
             <td>{{ i.project }}</td>
             <td>{{ i.summary|slice(0,255) }}</td>
             <td>{{ i.type }}</td>

@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 21.07.15
- * Time: 19:25
- */
 
 namespace BugBundle\Tests\Unit\Entity;
-
 
 use BugBundle\Entity\Role;
 use BugBundle\Entity\User;
@@ -17,11 +10,9 @@ class UserTest extends \PHPUnit_Framework_TestCase
 {
     public function testEntity()
     {
-
         $path = 'asdf';
         $file = $this->getMockBuilder('Symfony\Component\HttpFoundation\File\UploadedFile')->disableOriginalConstructor(
         )->getMock();
-
 
         $active = true;
         $email = 'me@ee.ee';
@@ -32,7 +23,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $role = new Role();
         $roles = new ArrayCollection();
         $roles->add($role);
-
 
         $user->setAva($file);
         $user->setEmail($email);
@@ -71,7 +61,5 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $user->upload();
         $user->setAva(null);
         $user->upload();
-
-
     }
 }

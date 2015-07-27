@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
 class IssueController extends Controller
 {
     use ErrorVisualizer;
@@ -57,6 +56,7 @@ class IssueController extends Controller
      * @Route("/issue/view/{issue}/{onlyActivity}", name="bug_issue_view",defaults={"onlyActivity" = null})
      * @Security("has_role('ROLE_ADMIN') or is_granted('can_manipulate_issue',issue)")
      * @param Issue $issue
+     * @param null $onlyActivity
      * @return Response
      */
     public function issueViewAction(Issue $issue, $onlyActivity = null)
@@ -66,9 +66,7 @@ class IssueController extends Controller
         $template = $onlyActivity ? '@Bug/Issue/right_block.html.twig' : '@Bug/Issue/issue_list.html.twig';
 
         return $this->render($template, array('issue' => $issue, 'activities' => $activities));
-
     }
-
 
     /**
      * @Route("/issue/edit/{issue}", name="bug_issue_edit")
@@ -89,7 +87,6 @@ class IssueController extends Controller
 
             return $this->redirect($this->generateUrl('bug_issue_view', array('issue' => $issue->getId())));
         }
-
 
         return $this->render(
             '@Bug/Issue/issue_edit.html.twig',

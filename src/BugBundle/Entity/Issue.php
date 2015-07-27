@@ -2,6 +2,7 @@
 
 namespace BugBundle\Entity;
 
+use BugBundle\Entity\IssuePriority;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -50,7 +51,7 @@ class Issue
     /**
      * @var string
      * @Assert\NotBlank()
-     * @Assert\Length(min=7)
+     * @Assert\Length(max=10000)
      * @ORM\Column(name="description", type="string", length=10000)
      */
     private $description;
@@ -63,7 +64,6 @@ class Issue
 
     /**
      * @var integer
-     *
      * @ORM\Column(name="type", type="integer")
      */
     private $type;
@@ -117,7 +117,6 @@ class Issue
      */
     private $parentIssue;
 
-
     /**
      * @var Collection | Issue[]
      * @ORM\OneToMany(targetEntity="BugBundle\Entity\Issue", mappedBy="parentIssue")
@@ -154,13 +153,18 @@ class Issue
 
     public function __toString()
     {
-        return $this->getIssueFullName() ? $this->getIssueFullName() : '';
+        return $this->getIssueFullName();
     }
 
     private function getIssueFullName()
     {
+        return ($this->getProject()->getCode() && $this->getCode() && $this->summary) ?
+            $this->getProject()->getCode().'-'.$this->getCode().' '.$this->getSummary() : '';
+    }
 
-        return ($this->code && $this->id && $this->summary) ? $this->code.'-'.$this->id.' '.$this->summary : '';
+    public function getFullCode()
+    {
+        return $this->getProject()->getCode().'-'.$this->getCode();
     }
 
     /**
@@ -336,10 +340,10 @@ class Issue
     /**
      * Set priority
      *
-     * @param \BugBundle\Entity\IssuePriority $priority
+     * @param IssuePriority $priority
      * @return Issue
      */
-    public function setPriority(\BugBundle\Entity\IssuePriority $priority)
+    public function setPriority(IssuePriority $priority)
     {
         $this->priority = $priority;
 
@@ -349,7 +353,7 @@ class Issue
     /**
      * Get priority
      *
-     * @return \BugBundle\Entity\IssuePriority
+     * @return IssuePriority
      */
     public function getPriority()
     {
@@ -480,7 +484,7 @@ class Issue
     /**
      * Get collaborators
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getCollaborators()
     {
@@ -536,7 +540,7 @@ class Issue
     /**
      * Get childrenIssues
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getChildrenIssues()
     {
@@ -592,7 +596,7 @@ class Issue
     /**
      * Get comments
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getComments()
     {
