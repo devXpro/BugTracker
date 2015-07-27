@@ -22,7 +22,7 @@ class PeriodicNotificationCommandTest extends BugTestCase
      */
     public static function setUpBeforeClass()
     {
-
+        self::markTestSkipped('command');
         $client = static::createClient();
         /** @var Registry em */
         $em = $client->getContainer()->get('doctrine')->getManager();

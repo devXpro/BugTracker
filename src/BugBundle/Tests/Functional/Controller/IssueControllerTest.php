@@ -98,7 +98,6 @@ class IssueControllerTest extends BugTestCase
         $this->assertCount(0, $crawler->filter('.error'));
         $this->assertNotCount(0, $crawler->filter('#issue_edit_form'));
         $this->makeIssue($crawler, $client, self::$managerProject, 'user');
-
     }
 
 
@@ -200,15 +199,16 @@ class IssueControllerTest extends BugTestCase
         $issueResolutionIds = $crawler->filter('#bug_issue_resolution > option')->each($getValue);
         $issueAssigneeIds = $crawler->filter('#bug_issue_assignee > option')->each($getValue);
         $form['bug_issue[project]'] = $project->getId();
-        $form['bug_issue[summary]'] = '1';
+        $form['bug_issue[summary]'] = '';
         $form['bug_issue[code]'] = '1';
-        $form['bug_issue[description]'] = '1';
+        $form['bug_issue[description]'] = '';
         $form['bug_issue[type]'] = $issueTypeIds[0];
         $form['bug_issue[priority]'] = $issuePriorityIds[0];
         $form['bug_issue[status]'] = $issueStatusIds[0];
         $form['bug_issue[resolution]'] = $issueResolutionIds[0];
         $form['bug_issue[assignee]'] = $issueAssigneeIds[0];
         $crawler = $client->submit($form);
+        $h=$crawler->html();
         $this->checkAllFieldsValidationErrors(
             array('bug_issue_description', 'bug_issue_summary', 'bug_issue_code'),
             $crawler
@@ -218,6 +218,7 @@ class IssueControllerTest extends BugTestCase
         $form['bug_issue[code]'] = 'PRG';
         $form['bug_issue[description]'] = 'Is is well description, length 10 chars and more';
         $crawler = $client->submit($form);
+        $h=$crawler->html();
         $this->assertNotCount(0, $crawler->filter('#issue_view'));
         $linkProperty = $username.'IssueId';
         $links = $crawler->filterXPath("//a[contains(@href,'issue/edit')]")->each(

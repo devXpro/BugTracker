@@ -58,6 +58,7 @@ class IssueRepository extends EntityRepository
             ->andWhere('status.open = true')
             ->setParameter('user', $user);
 
+
         return $qb->getQuery();
     }
 
@@ -65,4 +66,6 @@ class IssueRepository extends EntityRepository
     {
         return $this->getActualIssuesByUserCollaboratorQuery($user)->getResult();
     }
+
+
 }

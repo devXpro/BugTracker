@@ -12,6 +12,6 @@ class RoleTest extends \PHPUnit_Framework_TestCase
         $role->setRole(Role::ROLE_ADMIN);
         $this->assertEquals(Role::ROLE_ADMIN, $role->getRole());
         $this->assertNull($role->getId());
-        $this->assertEquals(Role::ROLE_ADMIN, $role->__toString());
+        $this->assertEquals('', $role->__toString());
     }
 }

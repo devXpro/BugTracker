@@ -63,7 +63,7 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $activities = $em->getRepository('BugBundle:Activity')
-            ->getActivitiesForProjectByUser($this->getUser(), $project);
+            ->getActivitiesByProject($project);
 
         return $this->render(
             '@Bug/Project/project_list.html.twig',

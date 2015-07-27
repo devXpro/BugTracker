@@ -53,6 +53,20 @@ class ActivityRepository extends EntityRepository
     }
 
     /**
+     * @param Project $project
+     * @return array
+     */
+    public function getActivitiesByProject(Project $project)
+    {
+        return $this->createQueryBuilder('a')
+            ->innerJoin('a.issue', 'issue')
+            ->innerJoin('issue.project', 'p')
+            ->andWhere('p = :project')
+            ->setParameter('project', $project)
+            ->getQuery()->getResult();
+    }
+
+    /**
      * @param User $user
      * @return array
      */
@@ -60,4 +74,6 @@ class ActivityRepository extends EntityRepository
     {
         return $this->getActivitiesByUserQuery($user)->getResult();
     }
+
+
 }

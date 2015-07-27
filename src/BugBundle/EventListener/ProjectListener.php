@@ -39,6 +39,8 @@ class ProjectListener implements ListenerInterface
             return;
         }
         $project->addMember($this->token->getToken()->getUser());
+        $event->getEm()->persist($project);
+        $event->getEm()->flush();
     }
 
     /**

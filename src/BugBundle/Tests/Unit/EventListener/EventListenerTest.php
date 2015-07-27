@@ -33,6 +33,6 @@ class EventListenerTest extends \PHPUnit_Framework_TestCase
         $args->expects($this->any())->method('getEntity')->will($this->returnValue($entity));
         $this->el->postPersist($args);
         $this->el->prePersist($args);
-        $this->el->preUpdate($args);
+        $this->el->postUpdate($args);
     }
 }

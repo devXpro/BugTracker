@@ -59,7 +59,7 @@ class BugTestCase extends WebTestCase
 
     protected function loginAsUserViaForm()
     {
-        return $this->login('user', 'user', 'ROLE_USER');
+        return $this->login('user', 'user', 'User');
     }
 
     /**
@@ -67,7 +67,7 @@ class BugTestCase extends WebTestCase
      */
     protected function loginAsAdminViaForm()
     {
-        return $this->login('admin', 'admin', 'ROLE_ADMIN');
+        return $this->login('admin', 'admin', 'Admin');
     }
 
     /**
@@ -75,7 +75,7 @@ class BugTestCase extends WebTestCase
      */
     protected function loginAsManagerViaForm()
     {
-        return $this->login('manager', 'manager', 'ROLE_MANAGER');
+        return $this->login('manager', 'manager', 'Manager');
     }
 
     /**

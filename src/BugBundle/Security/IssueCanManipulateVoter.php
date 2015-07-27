@@ -45,7 +45,7 @@ class IssueCanManipulateVoter extends BugAbstractVoter
     {
 
         if ($obj instanceof Issue) {
-            if ($this->em->getRepository('BugBundle:Issue')->checkIssueUser($user, $obj)) {
+            if ($this->em->getRepository('BugBundle:Issue')->checkIssueUserAccess($user, $obj)) {
                 return VoterInterface::ACCESS_GRANTED;
             } else {
                 return VoterInterface::ACCESS_DENIED;

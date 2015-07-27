@@ -37,7 +37,8 @@ class Project
 
     /**
      * @var string
-     * @Assert\Length(min=5)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=255)
      * @ORM\Column(name="label", type="string", length=255)
      */
     private $label;
@@ -45,7 +46,7 @@ class Project
     /**
      * @var string
      * @Assert\NotBlank()
-     * @Assert\Length(min=10)
+     * @Assert\Length(max=10000)
      * @ORM\Column(name="summary", type="string", length=10000)
      */
     private $summary;
@@ -199,7 +200,9 @@ class Project
      */
     public function addMember(User $members)
     {
-        $this->members[] = $members;
+        if (!$this->members->contains($members)) {
+            $this->members[] = $members;
+        }
 
         return $this;
     }

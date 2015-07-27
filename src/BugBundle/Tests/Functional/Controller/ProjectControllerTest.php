@@ -141,8 +141,8 @@ class ProjectControllerTest extends BugTestCase
 
             }
         );
-        $form['bug_project[label]'] = 'Sma';
-        $form['bug_project[summary]'] = 'Small';
+        $form['bug_project[label]'] = '';
+        $form['bug_project[summary]'] = '';
         $form['bug_project[code]'] = 'Biggie';
         $form['bug_project[members]']->setValue($memberIds);
         $crawler = $client->submit($form);
@@ -150,8 +150,9 @@ class ProjectControllerTest extends BugTestCase
         $this->checkAllFieldsValidationErrors($checkFields, $crawler);
         $form['bug_project[label]'] = self::PROJECT_LABEL;
         $form['bug_project[summary]'] = 'Without Mistakes. This summary contain full data';
-        $form['bug_project[code]'] = 'PBB';
+        $form['bug_project[code]'] = 'XXX';
         $crawler = $client->submit($form);
+        $x=$crawler->html();
         $this->assertNotCount(0, $crawler->filter('.project_view'));
     }
 }
