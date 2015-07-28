@@ -8,8 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @SuppressWarnings(PHPMD.TooManyFields,PHPMD.ExcessiveClassComplexity)
  * Issue
- *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="BugBundle\Entity\IssueRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -23,7 +23,6 @@ class Issue
 
 
     /**
-     * /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
@@ -32,10 +31,11 @@ class Issue
      */
     private $id;
 
+
     /**
      * @var string
      * @Assert\NotBlank()
-     * @Assert\Length(min=5)
+     * @Assert\Length(max=1000)
      * @ORM\Column(name="summary", type="string", length=1000)
      */
     private $summary;
@@ -44,14 +44,14 @@ class Issue
      * @var string
      * @Assert\Length(min=3)
      * @Assert\Length(max=3)
-     * @ORM\Column(name="code", type="string", length=10)
+     * @ORM\Column(name="code", type="string", length=3)
      */
     private $code;
 
     /**
      * @var string
      * @Assert\NotBlank()
-     * @Assert\Length(min=7)
+     * @Assert\Length(max=10000)
      * @ORM\Column(name="description", type="string", length=10000)
      */
     private $description;
@@ -64,7 +64,6 @@ class Issue
 
     /**
      * @var integer
-     *
      * @ORM\Column(name="type", type="integer")
      */
     private $type;
@@ -118,7 +117,6 @@ class Issue
      */
     private $parentIssue;
 
-
     /**
      * @var Collection | Issue[]
      * @ORM\OneToMany(targetEntity="BugBundle\Entity\Issue", mappedBy="parentIssue")
@@ -155,13 +153,14 @@ class Issue
 
     public function __toString()
     {
-        return $this->getIssueFullName() ? $this->getIssueFullName() : '';
+        return ($this->getProject()->getCode() && $this->getCode() && $this->summary) ?
+            $this->getProject()->getCode().'-'.$this->getCode().' '.$this->getSummary() : '';
     }
 
-    private function getIssueFullName()
-    {
 
-        return ($this->code && $this->id && $this->summary) ? $this->code.'-'.$this->id.' '.$this->summary : '';
+    public function getFullCode()
+    {
+        return $this->getProject()->getCode().'-'.$this->getCode();
     }
 
     /**
@@ -286,7 +285,7 @@ class Issue
      */
     public function setCreatedNow()
     {
-        $this->created = new \DateTime('now');
+        $this->created = new \DateTime('now', new \DateTimeZone('UTC'));
 
         return $this;
     }
@@ -308,7 +307,7 @@ class Issue
      */
     public function setUpdatedNow()
     {
-        $this->updated = new \DateTime('now');
+        $this->updated = new \DateTime('now', new \DateTimeZone('UTC'));
     }
 
     /**
@@ -337,10 +336,10 @@ class Issue
     /**
      * Set priority
      *
-     * @param \BugBundle\Entity\IssuePriority $priority
+     * @param IssuePriority $priority
      * @return Issue
      */
-    public function setPriority(\BugBundle\Entity\IssuePriority $priority)
+    public function setPriority(IssuePriority $priority)
     {
         $this->priority = $priority;
 
@@ -350,7 +349,7 @@ class Issue
     /**
      * Get priority
      *
-     * @return \BugBundle\Entity\IssuePriority
+     * @return IssuePriority
      */
     public function getPriority()
     {
@@ -360,10 +359,10 @@ class Issue
     /**
      * Set status
      *
-     * @param \BugBundle\Entity\IssueStatus $status
+     * @param IssueStatus $status
      * @return Issue
      */
-    public function setStatus(\BugBundle\Entity\IssueStatus $status)
+    public function setStatus(IssueStatus $status)
     {
         $this->status = $status;
 
@@ -373,7 +372,7 @@ class Issue
     /**
      * Get status
      *
-     * @return \BugBundle\Entity\IssueStatus
+     * @return IssueStatus
      */
     public function getStatus()
     {
@@ -383,10 +382,10 @@ class Issue
     /**
      * Set resolution
      *
-     * @param \BugBundle\Entity\IssueResolution $resolution
+     * @param IssueResolution $resolution
      * @return Issue
      */
-    public function setResolution(\BugBundle\Entity\IssueResolution $resolution)
+    public function setResolution(IssueResolution $resolution)
     {
         $this->resolution = $resolution;
 
@@ -396,7 +395,7 @@ class Issue
     /**
      * Get resolution
      *
-     * @return \BugBundle\Entity\IssueResolution
+     * @return IssueResolution
      */
     public function getResolution()
     {
@@ -406,10 +405,10 @@ class Issue
     /**
      * Set reporter
      *
-     * @param \BugBundle\Entity\User $reporter
+     * @param User $reporter
      * @return Issue
      */
-    public function setReporter(\BugBundle\Entity\User $reporter)
+    public function setReporter(User $reporter)
     {
         $this->reporter = $reporter;
 
@@ -419,7 +418,7 @@ class Issue
     /**
      * Get reporter
      *
-     * @return \BugBundle\Entity\User
+     * @return User
      */
     public function getReporter()
     {
@@ -429,10 +428,10 @@ class Issue
     /**
      * Set assignee
      *
-     * @param \BugBundle\Entity\User $assignee
+     * @param User $assignee
      * @return Issue
      */
-    public function setAssignee(\BugBundle\Entity\User $assignee)
+    public function setAssignee(User $assignee)
     {
         $this->assignee = $assignee;
 
@@ -442,7 +441,7 @@ class Issue
     /**
      * Get assignee
      *
-     * @return \BugBundle\Entity\User
+     * @return User
      */
     public function getAssignee()
     {
@@ -452,10 +451,10 @@ class Issue
     /**
      * Add collaborators
      *
-     * @param \BugBundle\Entity\User $collaborators
+     * @param User $collaborators
      * @return Issue
      */
-    public function addCollaborator(\BugBundle\Entity\User $collaborators)
+    public function addCollaborator(User $collaborators)
     {
         foreach ($this->collaborators as $col) {
             if ($col == $collaborators) {
@@ -471,9 +470,9 @@ class Issue
     /**
      * Remove collaborators
      *
-     * @param \BugBundle\Entity\User $collaborators
+     * @param User $collaborators
      */
-    public function removeCollaborator(\BugBundle\Entity\User $collaborators)
+    public function removeCollaborator(User $collaborators)
     {
         $this->collaborators->removeElement($collaborators);
     }
@@ -481,7 +480,7 @@ class Issue
     /**
      * Get collaborators
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getCollaborators()
     {
@@ -491,10 +490,10 @@ class Issue
     /**
      * Set parentIssue
      *
-     * @param \BugBundle\Entity\Issue $parentIssue
+     * @param Issue $parentIssue
      * @return Issue
      */
-    public function setParentIssue(\BugBundle\Entity\Issue $parentIssue)
+    public function setParentIssue(Issue $parentIssue)
     {
         $this->parentIssue = $parentIssue;
 
@@ -504,7 +503,7 @@ class Issue
     /**
      * Get parentIssue
      *
-     * @return \BugBundle\Entity\Issue
+     * @return Issue
      */
     public function getParentIssue()
     {
@@ -514,10 +513,10 @@ class Issue
     /**
      * Add childrenIssues
      *
-     * @param \BugBundle\Entity\Issue $childrenIssues
+     * @param Issue $childrenIssues
      * @return Issue
      */
-    public function addChildrenIssue(\BugBundle\Entity\Issue $childrenIssues)
+    public function addChildrenIssue(Issue $childrenIssues)
     {
         $this->childrenIssues[] = $childrenIssues;
 
@@ -527,9 +526,9 @@ class Issue
     /**
      * Remove childrenIssues
      *
-     * @param \BugBundle\Entity\Issue $childrenIssues
+     * @param Issue $childrenIssues
      */
-    public function removeChildrenIssue(\BugBundle\Entity\Issue $childrenIssues)
+    public function removeChildrenIssue(Issue $childrenIssues)
     {
         $this->childrenIssues->removeElement($childrenIssues);
     }
@@ -537,7 +536,7 @@ class Issue
     /**
      * Get childrenIssues
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getChildrenIssues()
     {
@@ -547,10 +546,10 @@ class Issue
     /**
      * Set project
      *
-     * @param \BugBundle\Entity\Project $project
+     * @param Project $project
      * @return Issue
      */
-    public function setProject(\BugBundle\Entity\Project $project)
+    public function setProject(Project $project)
     {
         $this->project = $project;
 
@@ -560,7 +559,7 @@ class Issue
     /**
      * Get project
      *
-     * @return \BugBundle\Entity\Project
+     * @return Project
      */
     public function getProject()
     {
@@ -570,10 +569,10 @@ class Issue
     /**
      * Add comments
      *
-     * @param \BugBundle\Entity\IssueComment $comments
+     * @param IssueComment $comments
      * @return Issue
      */
-    public function addComment(\BugBundle\Entity\IssueComment $comments)
+    public function addComment(IssueComment $comments)
     {
         $this->comments[] = $comments;
 
@@ -583,9 +582,9 @@ class Issue
     /**
      * Remove comments
      *
-     * @param \BugBundle\Entity\IssueComment $comments
+     * @param IssueComment $comments
      */
-    public function removeComment(\BugBundle\Entity\IssueComment $comments)
+    public function removeComment(IssueComment $comments)
     {
         $this->comments->removeElement($comments);
     }
@@ -593,7 +592,7 @@ class Issue
     /**
      * Get comments
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getComments()
     {

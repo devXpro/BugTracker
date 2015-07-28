@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 30.06.15
- * Time: 16:39
- */
 
 namespace BugBundle\Form\Type;
-
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,9 +8,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
-    /**AbstractType
-     * @param FormBuilderInterface $builder
-     * @param array $options
+    /**
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -25,18 +17,38 @@ class UserType extends AbstractType
             ->add('email', 'email')
             ->add('username', 'text')
             ->add('roles', 'bug_user_select_role')
-            ->add('password', 'password');
+            ->add(
+                'plainPassword',
+                'repeated',
+                array(
+                    'mapped' => false,
+                    'type' => 'password',
+                    'invalid_message' => 'The password fields must match.',
+                    'options' => array('attr' => array('class' => 'password-field')),
+                    'required' => true,
+                    'first_options' => array('label' => 'Password'),
+                    'second_options' => array('label' => 'Repeat Password'),
+                )
+            );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'bug_user';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'BugBundle\Entity\User',
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'BugBundle\Entity\User',
+            )
+        );
     }
 }

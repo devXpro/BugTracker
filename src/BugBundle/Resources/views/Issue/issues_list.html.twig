@@ -2,10 +2,12 @@
 
 {% block body %}
     <div id="issues_list">
-        <a href="{{ path('bug_issue_create') }}" type="button" class="btn btn-primary "><span
-                    class="glyphicon glyphicon-plus"
-                    aria-hidden="true"></span> {{ 'createNewIssue'|trans|capitalize }}
-        </a>
+        {% if is_granted('can_create_any_issue') %}
+            <a href="{{ path('bug_issue_create') }}" type="button" class="btn btn-primary "><span
+                        class="glyphicon glyphicon-plus"
+                        aria-hidden="true"></span> {{ 'createNewIssue'|trans|capitalize }}
+            </a>
+        {% endif %}
 
         <h1>{{ 'issueEditor'|trans|capitalize }}</h1>
         {% set who='member'|trans %}

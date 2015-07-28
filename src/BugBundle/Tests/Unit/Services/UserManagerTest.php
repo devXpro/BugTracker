@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 16.07.15
- * Time: 13:40
- */
 
 namespace BugBundle\Tests\Unit\Services;
-
 
 use BugBundle\Entity\User;
 use BugBundle\Services\UserManager;
@@ -93,8 +86,6 @@ class UserManagerTest extends \PHPUnit_Framework_TestCase
         [
             [(new User())->setPassword('pass'), 'Username in not define'],
             [(new User())->setUsername('pass'), 'Password in not define'],
-
         ];
-
     }
 }

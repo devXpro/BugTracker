@@ -1,4 +1,6 @@
 security:
+    access_decision_manager:
+        strategy: unanimous
     role_hierarchy:
         ROLE_ADMIN: [ROLE_MANAGER,ROLE_USER]
     encoders:
@@ -16,10 +18,7 @@ security:
             pattern: ^/(_(profiler|wdt|error)|css|images|js)/
             security: false
         login:
-            pattern:                        ^/(login)$
-            anonymous:                      true
-        regitstration:
-            pattern:                        ^/(registration)$
+            pattern:                        ^/(login|registration)$
             anonymous:                      true
 
         default:
@@ -37,6 +36,3 @@ security:
 
     access_control:
         - {path: ^/admin, role: ROLE_ADMIN}
-
-
-

@@ -1,22 +1,20 @@
 <?php
+namespace BugBundle\Tests\Functional\Entity;
+
 use BugBundle\Entity\Activity;
 use BugBundle\Entity\Issue;
 use BugBundle\Entity\Project;
+use BugBundle\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 21.07.15
- * Time: 19:56
- */
 class ActivityRepositoryTest extends KernelTestCase
 {
     /**
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
+    /** @var  User */
     private $user;
 
     private static $project;
@@ -32,7 +30,6 @@ class ActivityRepositoryTest extends KernelTestCase
             ->get('doctrine')
             ->getManager();
 
-
         $em = $this->em;
         $this->user = $user = $em->getRepository('BugBundle:User')->findOneBy(array('username' => 'user'));
         $activity = new Activity();
@@ -41,6 +38,7 @@ class ActivityRepositoryTest extends KernelTestCase
         $issuePriority = $em->getRepository('BugBundle:IssuePriority')->findOneBy(array('label' => 'High'));
         $issueResolution = $em->getRepository('BugBundle:IssueResolution')->findOneBy(array('label' => 'Invalid'));
         $issueStatus = $em->getRepository('BugBundle:IssueStatus')->findOneBy(array('label' => 'Closed'));
+        $project->addMember($user);
         $issue = new Issue();
         $issue->addCollaborator($user);
         $issue->setSummary('asdf')->setCode('123')->setAssignee($user)->setDescription('sdf')
@@ -51,10 +49,11 @@ class ActivityRepositoryTest extends KernelTestCase
         $em->persist($project);
         $em->persist($activity);
         $em->flush();
-
-
     }
 
+    /**
+     *{@inheritdoc}
+     */
     public function tearDown()
     {
         parent::tearDown();
@@ -65,14 +64,14 @@ class ActivityRepositoryTest extends KernelTestCase
 
     public function testRepo()
     {
-
         $em = $this->em;
-
-        $query = $em->getRepository('BugBundle:Activity')->getActivitiesByUserQuery($this->user);
+        $activityRepo = $em->getRepository('BugBundle:Activity');
+        $query = $activityRepo->getActivitiesByUserQuery($this->user);
         $this->assertInstanceOf('Doctrine\ORM\Query', $query);
-        $result = $em->getRepository('BugBundle:Activity')->getActivitiesByUser($this->user);
+        $result = $activityRepo->getActivitiesByUser($this->user);
+        $this->assertNotCount(0, $result);
+
+        $result = $activityRepo->getActivitiesForProjectByUser($this->user, self::$project);
         $this->assertNotCount(0, $result);
     }
-
-
 }

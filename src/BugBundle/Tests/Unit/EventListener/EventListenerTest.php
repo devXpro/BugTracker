@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 21.07.15
- * Time: 21:58
- */
 
 namespace BugBundle\Tests\Unit\EventListener;
-
 
 use BugBundle\Entity\User;
 use BugBundle\EventListener\EventListener;
@@ -40,7 +33,6 @@ class EventListenerTest extends \PHPUnit_Framework_TestCase
         $args->expects($this->any())->method('getEntity')->will($this->returnValue($entity));
         $this->el->postPersist($args);
         $this->el->prePersist($args);
-        $this->el->preUpdate($args);
+        $this->el->postUpdate($args);
     }
-
 }

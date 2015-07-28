@@ -1,22 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 30.06.15
- * Time: 12:47
- */
 
 namespace BugBundle\Services;
-
 
 use BugBundle\Entity\User;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
-
 class UserManager
 {
-
+    /**
+     * @param EncoderFactoryInterface $encoderFactory
+     */
     public function __construct(EncoderFactoryInterface $encoderFactory)
     {
         $this->encoderFactory = $encoderFactory;
@@ -27,7 +21,7 @@ class UserManager
      * @return User
      * @throws \Exception
      */
-    public function encodePassword(User $user)
+    public function encodePassword(User $user, $newPassword = null)
     {
         $user->getUsername();
         if (!$user->getUsername()) {
@@ -36,11 +30,11 @@ class UserManager
         if (!$user->getPassword()) {
             throw new \Exception('Password in not define');
         }
+        $pass = $newPassword ? $newPassword : $user->getPassword();
         $encoder = $this->encoderFactory->getEncoder($user);
-        $pass = $encoder->encodePassword($user->getPassword(), $user->getSalt());
+        $pass = $encoder->encodePassword($pass, $user->getSalt());
         $user->setPassword($pass);
 
         return $user;
     }
-
 }

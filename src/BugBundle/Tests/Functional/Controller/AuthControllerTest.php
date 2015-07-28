@@ -1,32 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 10.07.15
- * Time: 16:29
- */
 
 namespace BugBundle\Tests\Functional\Controller;
 
-
 use BugBundle\Tests\BugTestCase;
-use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Client;
 
-
+/**
+ * @SuppressWarnings(PHPMD.ElseExpression)
+ * Class AuthControllerTest
+ * @package BugBundle\Tests\Functional\Controller
+ */
 class AuthControllerTest extends BugTestCase
 {
-    /** @var EntityManager $em */
-    private $em;
-
     /**
-     * Clear test user
+     * {@inheritdoc}
      */
-    protected function setUp()
-    {
-
-    }
-
     public static function tearDownAfterClass()
     {
         parent::tearDownAfterClass();

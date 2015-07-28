@@ -1,9 +1,16 @@
 {{ form_start(form,{'attr':{'class':'form col-md-12 center-block','novalidate': 'novalidate'}}) }}
+
         {% for child in form.children %}
             {% if (hidden_list is defined) and  (child.vars.name in hidden_list) %}
             {% else %}
                 <div class="form_row">
-                     {{ form_row(child,{'attr':{'class':'form-control input-lg'},'label':child.vars.name|trans|capitalize}) }}
+
+                    {% if child.vars.name == 'password' %}
+                        {{ form_row(form.password.first,{'attr':{'class':'form-control input-lg'}}) }}
+                        {{ form_row(form.password.second,{'attr':{'class':'form-control input-lg'}}) }}
+                    {% else %}
+                        {{ form_row(child,{'attr':{'class':'form-control input-lg'},'label':child.vars.name|trans|capitalize}) }}
+                    {% endif %}
                 </div>
             {% endif %}
 

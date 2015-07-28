@@ -2,7 +2,6 @@
 
 namespace BugBundle\Entity;
 
-use Doctrine\DBAL\Types\JsonArrayType;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,9 +16,9 @@ class Activity
     const TYPE_CREATE_ISSUE = 1;
     const TYPE_CHANGE_STATUS_ISSUE = 2;
     const TYPE_COMMENT_ISSUE = 3;
+
     /**
      * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -28,7 +27,6 @@ class Activity
 
     /**
      * @var integer
-     *
      * @ORM\Column(name="type", type="integer")
      */
     private $type;
@@ -51,7 +49,7 @@ class Activity
     /**
      * @var IssueComment
      * @ORM\ManyToOne(targetEntity="BugBundle\Entity\IssueComment")
-     * @ORM\JoinColumn(name="issue_comment_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="issue_comment_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     private $comment;
 
@@ -143,10 +141,10 @@ class Activity
     /**
      * Set issue
      *
-     * @param \BugBundle\Entity\Issue $issue
+     * @param Issue $issue
      * @return Activity
      */
-    public function setIssue(\BugBundle\Entity\Issue $issue = null)
+    public function setIssue(Issue $issue = null)
     {
         $this->issue = $issue;
 
@@ -156,7 +154,7 @@ class Activity
     /**
      * Get issue
      *
-     * @return \BugBundle\Entity\Issue
+     * @return Issue
      */
     public function getIssue()
     {
@@ -192,7 +190,7 @@ class Activity
      */
     public function setCreatedNow()
     {
-        $this->created = new \DateTime('now');
+        $this->created = new \DateTime('now', new \DateTimeZone('UTC'));
 
         return $this;
     }
@@ -201,10 +199,10 @@ class Activity
     /**
      * Set oldStatus
      *
-     * @param \BugBundle\Entity\IssueStatus $oldStatus
+     * @param IssueStatus $oldStatus
      * @return Activity
      */
-    public function setOldStatus(\BugBundle\Entity\IssueStatus $oldStatus = null)
+    public function setOldStatus(IssueStatus $oldStatus = null)
     {
         $this->oldStatus = $oldStatus;
 
@@ -214,7 +212,7 @@ class Activity
     /**
      * Get oldStatus
      *
-     * @return \BugBundle\Entity\IssueStatus
+     * @return IssueStatus
      */
     public function getOldStatus()
     {
@@ -224,10 +222,10 @@ class Activity
     /**
      * Set newStatus
      *
-     * @param \BugBundle\Entity\IssueStatus $newStatus
+     * @param IssueStatus $newStatus
      * @return Activity
      */
-    public function setNewStatus(\BugBundle\Entity\IssueStatus $newStatus = null)
+    public function setNewStatus(IssueStatus $newStatus = null)
     {
         $this->newStatus = $newStatus;
 
@@ -237,7 +235,7 @@ class Activity
     /**
      * Get newStatus
      *
-     * @return \BugBundle\Entity\IssueStatus
+     * @return IssueStatus
      */
     public function getNewStatus()
     {
@@ -247,10 +245,10 @@ class Activity
     /**
      * Set comment
      *
-     * @param \BugBundle\Entity\IssueComment $comment
+     * @param IssueComment $comment
      * @return Activity
      */
-    public function setComment(\BugBundle\Entity\IssueComment $comment = null)
+    public function setComment(IssueComment $comment = null)
     {
         $this->comment = $comment;
 
@@ -260,7 +258,7 @@ class Activity
     /**
      * Get comment
      *
-     * @return \BugBundle\Entity\IssueComment
+     * @return IssueComment
      */
     public function getComment()
     {
@@ -270,10 +268,10 @@ class Activity
     /**
      * Set user
      *
-     * @param \BugBundle\Entity\User $user
+     * @param User $user
      * @return Activity
      */
-    public function setUser(\BugBundle\Entity\User $user = null)
+    public function setUser(User $user = null)
     {
         $this->user = $user;
 
@@ -283,7 +281,7 @@ class Activity
     /**
      * Get user
      *
-     * @return \BugBundle\Entity\User
+     * @return User
      */
     public function getUser()
     {

@@ -2,7 +2,6 @@
 
 namespace BugBundle\Controller;
 
-
 use BugBundle\Entity\Role;
 use BugBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -10,21 +9,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraint;
 
-
 class AuthController extends Controller
 {
-
     /**
      * @Route("/login", name="login_route")
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function loginAction(Request $request)
+    public function loginAction()
     {
         $authenticationUtils = $this->get('security.authentication_utils');
-
-        // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
-
-        // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render(
@@ -39,12 +33,18 @@ class AuthController extends Controller
 
     /**
      * @Route("/registration", name="registration_route")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
      */
     public function registrationAction(Request $request)
     {
         $user = new User();
 
-        $form = $this->createFormBuilder($user, array('validation_groups' => array('registration',Constraint::DEFAULT_GROUP)))
+        $form = $this->createFormBuilder(
+            $user,
+            array('validation_groups' => array('registration', Constraint::DEFAULT_GROUP))
+        )
             ->add('email', 'email')
             ->add('username', 'text')
             ->add('password', 'password')
@@ -52,32 +52,23 @@ class AuthController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $x=$this->get('validator')->validate($user);
             $em = $this->getDoctrine()->getManager();
             /** @var $user User $user */
             $user = $form->getData();
             $user = $this->container->get('bug.userManager')->encodePassword($user);
-            $roleUser = $em->getRepository('BugBundle:Role')->findOneBy(array('role'=>Role::ROLE_USER));
+            $roleUser = $em->getRepository('BugBundle:Role')->findOneBy(array('role' => Role::ROLE_USER));
             $user->addRole($roleUser);
             $em->persist($user);
             $em->flush();
+
             return $this->redirect($this->generateUrl('login_route'));
         }
 
-        return $this->render('@Bug/Auth/register.html.twig', array(
-            'form' => $form->createView(),
-        ));
-
+        return $this->render(
+            '@Bug/Auth/register.html.twig',
+            array(
+                'form' => $form->createView(),
+            )
+        );
     }
-
-//
-//    /**
-//     * @Route("/login_check", name="login_check")
-//     */
-//    public function loginCheckAction()
-//    {
-//        // this controller will not be executed,
-//        // as the route is handled by the Security system
-//
-//    }
 }

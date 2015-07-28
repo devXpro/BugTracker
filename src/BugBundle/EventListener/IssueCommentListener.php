@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 07.07.15
- * Time: 11:16
- */
 
 namespace BugBundle\EventListener;
 
@@ -17,6 +11,7 @@ class IssueCommentListener implements ListenerInterface
 {
     /** @var  TokenStorage */
     private $token;
+    /** @var  IssueCommentActivityInterface */
     private $activityManager;
 
     public function __construct(TokenStorage $token, IssueCommentActivityInterface $activityManager)
@@ -26,8 +21,7 @@ class IssueCommentListener implements ListenerInterface
     }
 
     /**
-     * @param BugEntityEvent $event
-     * @return void
+     * {@inheritdoc}
      */
     public function onPreCreate(BugEntityEvent $event)
     {
@@ -41,8 +35,7 @@ class IssueCommentListener implements ListenerInterface
     }
 
     /**
-     * @param BugEntityEvent $event
-     * @return void
+     * {@inheritdoc}
      */
     public function onUpdate(BugEntityEvent $event)
     {
@@ -50,8 +43,7 @@ class IssueCommentListener implements ListenerInterface
     }
 
     /**
-     * @param BugEntityEvent $event
-     * @return void
+     * {@inheritdoc}
      */
     public function onAfterCreate(BugEntityEvent $event)
     {

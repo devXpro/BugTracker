@@ -1,18 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 16.07.15
- * Time: 18:06
- */
 
 namespace BugBundle\Tests\Unit\Form\Type;
-
 
 use BugBundle\Entity\Issue;
 use BugBundle\Entity\IssueComment;
 use BugBundle\Entity\User;
-
 use BugBundle\Form\Type\IssueCommentType;
 use BugBundle\Tests\BugTypeTestCase;
 use BugBundle\Tests\EntityTypeStub;
@@ -96,9 +88,9 @@ class IssueCommentTypeTest extends BugTypeTestCase
                 array(
                     $issuesStub->getName() => $issuesStub,
                     $usersStub->getName() => $usersStub,
-                ), array()
+                ),
+                array()
             ),
         );
     }
-
 }

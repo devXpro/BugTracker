@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 20.07.15
- * Time: 20:39
- */
 
 namespace BugBundle\Tests\Functional\Controller;
-
 
 use BugBundle\Entity\Role;
 use BugBundle\Entity\User;
@@ -36,17 +29,6 @@ class AdminControllerTest extends BugTestCase
         $em->flush();
     }
 
-//    public static function tearDownAfterClass()
-//    {
-//        parent::tearDownAfterClass();
-//        $client = static::createClient();
-//        $em = $client->getContainer()->get('doctrine')->getManager();
-//        $em->remove($em->find('BugBundle:User', self::$user->getId()));
-//        $em->flush();
-//
-//    }
-
-
     public function testUsersListAction()
     {
         /** @var Client $client */
@@ -68,12 +50,12 @@ class AdminControllerTest extends BugTestCase
         $form = $crawler->filter('button[type="submit"]')->form();
         $form['bug_user[email]'] = 'New@Email.ru';
         $form['bug_user[username]'] = 'New Username';
-        $form['bug_user[password]'] = 'New pass';
+        $form['bug_user[plainPassword][first]'] = 'New pass';
+        $form['bug_user[plainPassword][second]'] = 'New pass';
 
         $roleIds = $crawler->filter('#bug_user_roles > option')->each(
             function (Crawler $node) {
                 return $node->attr('value');
-
             }
         );
 
@@ -93,7 +75,5 @@ class AdminControllerTest extends BugTestCase
         $crawler = $client->request('GET', $route);
 
         $this->assertNotCount(0, $crawler->filter('#admin_users_list'));
-
-
     }
 }

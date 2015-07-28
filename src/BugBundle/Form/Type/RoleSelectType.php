@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 30.06.15
- * Time: 16:39
- */
 
 namespace BugBundle\Form\Type;
 
@@ -16,20 +10,24 @@ class RoleSelectType extends AbstractType
 {
 
     /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     * {@inheritdoc}
      */
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'bug_user_select_role';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
@@ -40,6 +38,9 @@ class RoleSelectType extends AbstractType
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getParent()
     {
         return 'entity';

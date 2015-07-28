@@ -5,16 +5,16 @@ namespace BugBundle\Controller;
 use BugBundle\Entity\Project;
 use BugBundle\Entity\Role;
 use BugBundle\Traits\ErrorVisualizer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 
 class ProjectController extends Controller
 {
     use ErrorVisualizer;
+
     /**
      * @Route("/projects/list/", name="projects_list")
      * @param Request $request
@@ -32,45 +32,52 @@ class ProjectController extends Controller
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $query,
-            $request->query->getInt('page', 1),/*page number*/
-            10 /*limit per page*/
-
+            $request->query->getInt('page', 1),
+            10
         );
+
         return $this->render('@Bug/Project/projects_list.html.twig', array('pagination' => $pagination));
     }
 
     /**
      * @Route("/project/delete/{project}", name="bug_project_delete")
-     * @param Request $request
-     * @param Project $project
+     * @Security
+     * ("has_role('ROLE_ADMIN') or (has_role('ROLE_MANAGER') and is_granted('can_manipulate_project',project))")
      * @return Response
      */
-    public function projectDeleteAction(Request $request, Project $project)
+    public function projectDeleteAction()
     {
         return new Response('delete is not need');
     }
 
     /**
      * @Route("/project/view/{project}", name="bug_project_view")
-     * @param Request $request
+     * @Security("has_role('ROLE_ADMIN') or is_granted('can_manipulate_project',project)")
      * @param Project $project
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function projectListAction(Request $request, Project $project)
+    public function projectViewAction(Project $project)
     {
-        return $this->render('@Bug/Project/project_list.html.twig', array('project' => $project));
+        $em = $this->getDoctrine()->getManager();
+        $activities = $em->getRepository('BugBundle:Activity')
+            ->getActivitiesByProject($project);
+
+        return $this->render(
+            '@Bug/Project/project_list.html.twig',
+            array('project' => $project, 'activities' => $activities)
+        );
     }
 
     /**
      * @Route("/project/edit/{project}", name="bug_project_edit")
+     * @Security
+     * ("has_role('ROLE_ADMIN') or (has_role('ROLE_MANAGER') and is_granted('can_manipulate_project',project))")
      * @param Request $request
      * @param Project $project
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function projectEditAction(Request $request, Project $project)
     {
-        if (!$this->get('security.authorization_checker')->isGranted(Role::ROLE_MANAGER))
-            return $this->renderError('notEnoughPermissions');
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm('bug_project', $project);
         $form->handleRequest($request);
@@ -78,25 +85,30 @@ class ProjectController extends Controller
         if ($form->isValid()) {
             $project = $form->getData();
             $em->persist($project);
-            //$em->flush();
+            $em->flush();
+
             return $this->redirect($this->generateUrl('bug_project_view', array('project' => $project->getId())));
         }
 
-
-        return $this->render('@Bug/Project/project_edit.html.twig', array(
-            'form' => $form->createView(),
-        ));
+        return $this->render(
+            '@Bug/Project/project_edit.html.twig',
+            array(
+                'form' => $form->createView(),
+            )
+        );
     }
 
     /**
      * @Route("/project/create", name="bug_project_create")
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_MANAGER')")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function projectCreateAction(Request $request)
     {
-        if (!$this->isGranted(Role::ROLE_MANAGER))
+        if (!$this->isGranted(Role::ROLE_MANAGER)) {
             return $this->renderError('notEnoughPermissions');
+        }
         $em = $this->getDoctrine()->getManager();
         $project = new Project();
         $form = $this->createForm('bug_project', $project);
@@ -106,13 +118,15 @@ class ProjectController extends Controller
             $project = $form->getData();
             $em->persist($project);
             $em->flush();
+
             return $this->redirect($this->generateUrl('bug_project_view', array('project' => $project->getId())));
         }
 
-
-        return $this->render('@Bug/Project/project_edit.html.twig', array(
-            'form' => $form->createView(),
-        ));
+        return $this->render(
+            '@Bug/Project/project_edit.html.twig',
+            array(
+                'form' => $form->createView(),
+            )
+        );
     }
-
 }

@@ -55,6 +55,6 @@ youAreIssues: you are a %who% of %num% issues
 userAreIssues: That user is a %who% of %num% issues
 onlyStoryCanHaveSubIssue: Sorry, but only Story type task can have subissues. Please change issue type please.
 youHaveNoAnyProjects: You do not have any project where you were a participant or creator. Create or ask Manager asset project for you!
-changeStatusIssueMessage: Issue %issue% was change status from %b%%issueStatusOld%%endb% to %b%%issueStatusNew%%endb% by %b%%user%%endb%
-commentIssueMassage: %b%%user%%endb% was commented issue %issue%, and leave comment:
-createIssueMessage: Issue %issue% was created in project %b%%project%%endb% by %b%%user%%endb%
+changeStatusIssueMessage: Issue %issue% was change status from %b%%issueStatusOld%%endb% to %b%%issueStatusNew%%endb% by %user%
+commentIssueMassage: %user% was commented issue %issue%, and leave comment:
+createIssueMessage: Issue %issue% was created in project %b%%project%%endb% by %user%

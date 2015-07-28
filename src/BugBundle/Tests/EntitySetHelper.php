@@ -1,16 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 20.07.15
- * Time: 15:52
- */
 
 namespace BugBundle\Tests;
 
-
 use Doctrine\Entity;
 
+/**
+ * @SuppressWarnings(PHPMD.ElseExpression,PHPMD.BooleanArgumentFlag)
+ * Class EntitySetHelper
+ * @package BugBundle\Tests
+ */
 trait EntitySetHelper
 {
     /**

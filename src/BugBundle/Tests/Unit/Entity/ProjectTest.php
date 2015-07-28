@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 21.07.15
- * Time: 18:57
- */
 
 namespace BugBundle\Tests\Unit\Entity;
-
 
 use BugBundle\Entity\Issue;
 use BugBundle\Entity\Project;
@@ -53,6 +46,5 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEquals($issues, $project->getIssues());
         $this->assertNotEquals($members, $project->getMembers());
         $this->assertNull($project->getId());
-
     }
 }

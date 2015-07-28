@@ -13,12 +13,12 @@ use Doctrine\ORM\Mapping as ORM;
 class IssueStatus
 {
 
-    const OPEN='Open';
-    const REOPEN='Reopen';
+    const OPEN = 'Open';
+    const REOPEN = 'Reopen';
 
     public function __toString()
     {
-        return $this->getLabel()?$this->getLabel():"";
+        return $this->getLabel() ? $this->getLabel() : "";
     }
 
     /**
@@ -36,6 +36,13 @@ class IssueStatus
      * @ORM\Column(name="label", type="string", length=255)
      */
     private $label;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="open", type="boolean")
+     */
+    private $open=false;
 
 
     /**
@@ -63,11 +70,32 @@ class IssueStatus
 
     /**
      * Get label
-     *
      * @return string
      */
     public function getLabel()
     {
         return $this->label;
+    }
+
+    /**
+     * Set open
+     *
+     * @param boolean $open
+     * @return IssueStatus
+     */
+    public function setOpen($open)
+    {
+        $this->open = $open;
+
+        return $this;
+    }
+
+    /**
+     * Get open
+     * @return boolean
+     */
+    public function getOpen()
+    {
+        return $this->open;
     }
 }

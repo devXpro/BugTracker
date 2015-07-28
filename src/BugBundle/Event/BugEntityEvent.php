@@ -1,22 +1,21 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 07.07.15
- * Time: 14:14
- */
 
 namespace BugBundle\Event;
 
-
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\EventDispatcher\Event;
 
 class BugEntityEvent extends Event
 {
+    /** @var EntityManager */
     private $em;
+    /** @var object */
     private $entity;
 
+    /**
+     * @param LifecycleEventArgs $args
+     */
     public function __construct(LifecycleEventArgs $args)
     {
         $this->em = $args->getEntityManager();
@@ -24,7 +23,7 @@ class BugEntityEvent extends Event
     }
 
     /**
-     * @return \Doctrine\ORM\EntityManager
+     * @return EntityManager
      */
     public function getEm()
     {
@@ -38,5 +37,4 @@ class BugEntityEvent extends Event
     {
         return $this->entity;
     }
-
 }

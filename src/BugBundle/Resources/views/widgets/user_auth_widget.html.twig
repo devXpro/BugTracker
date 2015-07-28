@@ -12,7 +12,7 @@
             {% set username = app.user.username | capitalize %}
         {% endif %}
         <span>{{ 'hello'|trans|capitalize }}<strong> {{ username }}</strong></span><br>
-        <span>{{ 'roles'|trans |capitalize}}<strong> {{ app.user.roles|join(',') }}</strong></span>
+        <span>{{ 'roles'|trans |capitalize }}<strong> {{ app.user.roles|join(',')|capitalize }}</strong></span>
         <br> <a href="{{ path('logout') }}">Logout</a>
         <br><a href="{{ path('user_profile_edit') }}">Edit Profile</a>
     </div>

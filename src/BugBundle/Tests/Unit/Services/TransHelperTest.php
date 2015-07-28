@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 16.07.15
- * Time: 13:06
- */
 
 namespace BugBundle\Tests\Unit\Services;
-
 
 use BugBundle\Services\TransHelper;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -31,18 +24,17 @@ class TransHelperTest extends \PHPUnit_Framework_TestCase
      * @param $string
      * @param $transUp
      */
-    public function testTransUp($string,$transUp){
+    public function testTransUp($string, $transUp)
+    {
         $this->translator->expects($this->once())->method('trans')->will($this->returnArgument(0));
-        $result=$this->transHelper->transUp($string);
-        $this->assertEquals($transUp,$result);
+        $result = $this->transHelper->transUp($string);
+        $this->assertEquals($transUp, $result);
     }
 
-    public function transUpDataProvider(){
+    public function transUpDataProvider()
+    {
         return [
-          ['яблоко','Яблоко']
+            ['яблоко', 'Яблоко'],
         ];
     }
-
-
-
 }

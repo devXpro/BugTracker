@@ -1,17 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 16.07.15
- * Time: 18:06
- */
 
 namespace BugBundle\Tests\Unit\Form\Type;
 
-
 use BugBundle\Entity\Project;
 use BugBundle\Entity\User;
-
 use BugBundle\Form\Type\ProjectType;
 use BugBundle\Tests\BugTypeTestCase;
 use BugBundle\Tests\EntityTypeStub;
@@ -19,6 +11,7 @@ use Symfony\Component\Form\PreloadedExtension;
 
 class ProjectTypeTest extends BugTypeTestCase
 {
+    /** @var  User [] */
     private $members;
 
 
@@ -56,8 +49,7 @@ class ProjectTypeTest extends BugTypeTestCase
         $project->setSummary('MegaProject MegaProjectMegaProject MegaProjectMegaProject MegaProject');
         $this->members = $members;
         $this->members[$user->getId()] = $user;
-        $formData=$this->entityToFormData($project);
-
+        $formData = $this->entityToFormData($project);
 
         return [
             [
@@ -76,15 +68,11 @@ class ProjectTypeTest extends BugTypeTestCase
         $this->formDataProvider();
         $creatorStub = new EntityTypeStub($this->members, 'bug_select_user');
         $membersStub = new EntityTypeStub($this->members, 'bug_select_users', array('multiple' => true));
-
-        return array(
-            new PreloadedExtension(
-                array(
-                    $creatorStub->getName() => $creatorStub,
-                    $membersStub->getName() => $membersStub,
-                ), array()
-            ),
+        $stubs = array(
+            $creatorStub->getName() => $creatorStub,
+            $membersStub->getName() => $membersStub,
         );
-    }
 
+        return array(new PreloadedExtension($stubs, array()));
+    }
 }

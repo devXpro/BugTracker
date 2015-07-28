@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 21.07.15
- * Time: 17:19
- */
 
 namespace BugBundle\Tests\Unit\Entity;
-
 
 use BugBundle\Entity\Issue;
 use BugBundle\Entity\IssueComment;
@@ -21,10 +14,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class IssueTest extends BugTestCase
 {
-
-    /**
-     *
-     */
     public function testEntity()
     {
         $issue = new Issue();
@@ -34,7 +23,7 @@ class IssueTest extends BugTestCase
         $reporter = new User();
         $assignee = new User();
         $code = '123';
-        $now = new \DateTime('now');
+        $now = new \DateTime('now', new \DateTimeZone('UTC'));
         $project = new Project();
         $summary = 'summary';
         $desc = 'desc';
@@ -67,7 +56,6 @@ class IssueTest extends BugTestCase
         $issue->setParentIssue($parentIssue);
         $issue->setUpdated($now);
 
-
         $this->assertEquals($issuePriority, $issue->getPriority());
         $this->assertEquals($issueResolution, $issue->getResolution());
         $this->assertEquals(Issue::TYPE_BUG, $issue->getType());
@@ -85,7 +73,6 @@ class IssueTest extends BugTestCase
         $this->assertEquals($parentIssue, $issue->getParentIssue());
         $this->assertEquals('', $issue->__toString());
         $this->assertEquals(null, $issue->getId());
-
 
         $this->assertEquals(array($childrenIssue), $issue->getChildrenIssues()->toArray());
         $issue->removeCollaborator($collaborator);
@@ -105,7 +92,5 @@ class IssueTest extends BugTestCase
         $this->assertEquals('task', $issue->getTypeName());
         $issue->setType(0);
         $this->assertNull($issue->getTypeName());
-
     }
-
 }

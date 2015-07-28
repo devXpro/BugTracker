@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 20.07.15
- * Time: 13:34
- */
 
 namespace BugBundle\Tests\Unit\Form\Type;
-
 
 use BugBundle\Entity\User;
 use BugBundle\Form\Type\ProjectSelectType;

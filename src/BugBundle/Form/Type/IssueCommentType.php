@@ -1,17 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 30.06.15
- * Time: 16:39
- */
 
 namespace BugBundle\Form\Type;
 
-
 use BugBundle\Entity\Issue;
 use BugBundle\Entity\User;
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,22 +11,17 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class IssueCommentType extends AbstractType
 {
-
-
+    /** @var User */
     private $user;
-
 
     public function __construct(TokenStorageInterface $token)
     {
-
         /** @var User user */
         $this->user = $token->getToken()->getUser();
-
     }
 
     /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -42,15 +29,19 @@ class IssueCommentType extends AbstractType
             ->add('issue', 'bug_select_issue', array('empty_data' => $options['issue']->getId()))
             ->add('body', 'textarea')
             ->add('author', 'bug_select_user', array('data' => $this->user, 'empty_data' => $this->user->getId()));
-
-
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'bug_issue_comment';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
@@ -65,11 +56,10 @@ class IssueCommentType extends AbstractType
             function ($value) {
                 if ($value instanceof Issue) {
                     return true;
-                } else {
-                    return false;
                 }
+
+                return false;
             }
         );
-
     }
 }

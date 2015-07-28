@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 14.07.15
- * Time: 18:23
- */
 
 namespace BugBundle\Tests\Unit\Services;
 
@@ -20,6 +14,11 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyMethods)
+ * Class ActivityManagerTest
+ * @package BugBundle\Tests\Unit\Services
+ */
 class ActivityManagerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  TranslatorInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -34,7 +33,7 @@ class ActivityManagerTest extends \PHPUnit_Framework_TestCase
     protected $activityManager;
 
     /**
-     *
+     * {@inheritdoc}
      */
     protected function setUp()
     {
@@ -46,7 +45,6 @@ class ActivityManagerTest extends \PHPUnit_Framework_TestCase
         );
         $this->router = $this->getMock('Symfony\Component\Routing\RouterInterface');
         $this->activityManager = new ActivityManager($this->translator, $this->doctrine, $this->token, $this->router);
-
     }
 
     /**
@@ -65,7 +63,6 @@ class ActivityManagerTest extends \PHPUnit_Framework_TestCase
         $em->expects($this->once())->method('persist')->with($activity);
         $em->expects($this->once())->method('flush');
         $this->activityManager->markCreateIssue($issue);
-
     }
 
     /**
@@ -83,7 +80,6 @@ class ActivityManagerTest extends \PHPUnit_Framework_TestCase
                 (new Activity())->setType(Activity::TYPE_CREATE_ISSUE)->setIssue($issue)->setUser($user),
                 $this->getToken($user),
             ],
-
         );
     }
 
@@ -103,7 +99,6 @@ class ActivityManagerTest extends \PHPUnit_Framework_TestCase
         $em->expects($this->once())->method('persist')->with($activity);
         $this->activityManager->markCommentIssue($issueComment);
     }
-
 
     /**
      * markCreateIssueDataProvider
@@ -155,7 +150,6 @@ class ActivityManagerTest extends \PHPUnit_Framework_TestCase
         $this->activityManager->markChangeStatusIssue($issue, $oldStatus, $newStatus);
 
     }
-
 
     /**
      * markCreateIssueDataProvider
@@ -210,7 +204,6 @@ class ActivityManagerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-
     /**
      * @dataProvider exceptionsProvider
      * @expectedException \Exception
@@ -232,7 +225,6 @@ class ActivityManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testMarkCommentIssueExceptions($token, $expectedException)
     {
-
         $this->token->expects($this->any())->method('getToken')->will($this->returnValue($token));
         $this->setExpectedException($expectedException);
         $this->activityManager->markCommentIssue(new IssueComment());
@@ -249,7 +241,6 @@ class ActivityManagerTest extends \PHPUnit_Framework_TestCase
         $this->token->expects($this->any())->method('getToken')->will($this->returnValue($token));
         $this->setExpectedException($expectedException);
         $this->activityManager->markChangeStatusIssue(new Issue(), new IssueStatus(), new IssueStatus());
-
     }
 
 
@@ -258,7 +249,6 @@ class ActivityManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function exceptionsProvider()
     {
-
         return array(
             [
                 $this->getToken(null),
@@ -304,4 +294,3 @@ class ActivityManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->activityManager->getTypeName(0));
     }
 }
-

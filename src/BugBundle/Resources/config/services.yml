@@ -70,6 +70,13 @@ services:
             - { name: form.type, alias: bug_select_issue_type }
         arguments: [@bug.trans.helper]
 
+
+    bug.form.type.select.issueTypeSubtask:
+        class: BugBundle\Form\Type\IssueTypeSubtaskSelectType
+        tags:
+            - { name: form.type, alias: bug_select_issue_type_subtask }
+        arguments: [@bug.trans.helper]
+
     bug.form.type.select.project:
         class: BugBundle\Form\Type\ProjectSelectType
         tags:
@@ -98,16 +105,25 @@ services:
         class: BugBundle\EventListener\EventListener
         tags:
             - {name: doctrine.event_listener, event: postPersist}
-            - {name: doctrine.event_listener, event: preUpdate}
+            - {name: doctrine.event_listener, event: postUpdate}
             - {name: doctrine.event_listener, event: prePersist}
         arguments: [@event_dispatcher]
 
     bug.issue.listner:
         class: BugBundle\EventListener\IssueListener
+        class: BugBundle\EventListener\IssueListener
         tags:
             - {name: kernel.event_listener, event: bug.entity.issue.onUpdate, method: onUpdate}
             - {name: kernel.event_listener, event: bug.entity.issue.onPreCreate, method: onPreCreate}
             - {name: kernel.event_listener, event: bug.entity.issue.onAfterCreate, method: onAfterCreate}
+        arguments: [@security.token_storage,@bug.activity.manager,@doctrine]
+
+    bug.project.listner:
+        class: BugBundle\EventListener\ProjectListener
+        tags:
+            - {name: kernel.event_listener, event: bug.entity.project.onUpdate, method: onUpdate}
+            - {name: kernel.event_listener, event: bug.entity.project.onPreCreate, method: onPreCreate}
+            - {name: kernel.event_listener, event: bug.entity.project.onAfterCreate, method: onAfterCreate}
         arguments: [@security.token_storage,@bug.activity.manager]
 
     bug.issue.comment.listner:
@@ -118,8 +134,38 @@ services:
             - {name: kernel.event_listener, event: bug.entity.issuecomment.onAfterCreate, method: onAfterCreate}
         arguments: [@security.token_storage,@bug.activity.manager]
 
-    security.access.issue_voter:
-        class:      BugBundle\Security\IssueVoter
+
+
+    security.access.can_create_children_issue:
+        class:      BugBundle\Security\IssueCanCreateChildrenVoter
+        public:     false
+        tags:
+            - { name: security.voter }
+        arguments: [@doctrine]
+
+    security.access.can_create_any_issue:
+        class:      BugBundle\Security\IssueCanCreateAnyVoter
+        public:     false
+        tags:
+            - { name: security.voter }
+        arguments: [@doctrine]
+
+    security.access.can_manipulate_issue:
+        class:      BugBundle\Security\IssueCanManipulateVoter
+        public:     false
+        tags:
+            - { name: security.voter }
+        arguments: [@doctrine]
+
+    security.access.can_manipulate_project:
+        class:      BugBundle\Security\ProjectCanManipulateVoter
+        public:     false
+        tags:
+            - { name: security.voter }
+        arguments: [@doctrine]
+
+    security.access.can_manipulate_comment_issue:
+        class:      BugBundle\Security\IssueCommentCanManipulateVoter
         public:     false
         tags:
             - { name: security.voter }

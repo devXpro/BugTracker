@@ -1,10 +1,12 @@
 {% extends '@Bug/base.html.twig' %}
 
 {% block body %}
-    <a href="{{ path('bug_project_create') }}" type="button" class="btn btn-primary "><span
-                class="glyphicon glyphicon-plus"
-                aria-hidden="true"></span> {{ 'create_new_project'|trans|capitalize }}
-    </a>
+    {% if is_granted("ROLE_MANAGER") %}
+        <a href="{{ path('bug_project_create') }}" type="button" class="btn btn-primary "><span
+                    class="glyphicon glyphicon-plus"
+                    aria-hidden="true"></span> {{ 'create_new_project'|trans|capitalize }}
+        </a>
+    {% endif %}
     <h1>{{ 'project_editor'|trans|capitalize }}</h1>
     <div class="count">
         <h4> {{ 'projects'|trans|capitalize }}: {{ pagination.getTotalItemCount }}</h4>

@@ -1,18 +1,23 @@
 {% set hidden_list=['issue','author'] %}
 {% include '@Bug/widgets/form_output.html.twig' %}
 <br>
-<button type="submit" class="btn btn-primary btn-lg btn-block"
+<button id="add_comment" type="submit" class="btn btn-primary btn-lg btn-block"
         style="width: 30%">{{ 'doComment'|trans|capitalize }}</button>
 <hr>
 
 
 {% if issueComments %}
     {% for comment in issueComments %}
-        <div class="row">
+        <div class="row comment_widget" comment_id="{{ comment.id }}">
             <div class="col-md-2">
                 <h5>{{ comment.author }}</h5>
-
                 <span class="date subtext">{{ comment.created|date("m/d/Y g:ia") }}</span>
+                <br>
+                {% if (is_granted('ROLE_ADMIN') or is_granted('can_manipulate_comment_issue',comment) ) %}
+                    <a href="#comments" class="glyphicon glyphicon-pencil edit_comment"
+                       style="font-size: 13px; color: brown">Edit</a>
+                    <a class="glyphicon glyphicon-remove remove_comment" style="font-size: 13px; color: red">Remove</a>
+                {% endif %}
             </div>
             <div class="col-md-10 border_left">
                 <p class="comment">{{ comment.body }}</p>

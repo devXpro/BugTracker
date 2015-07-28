@@ -1,22 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 10.07.15
- * Time: 16:29
- */
 
 namespace BugBundle\Tests\Functional\Controller;
 
-
 use BugBundle\Tests\BugTestCase;
-use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Client;
-
 
 class UserControllerTest extends BugTestCase
 {
     /**
+     * @SuppressWarnings(PHPMD.ElseExpression)
      * @dataProvider profileProvider
      * @param $fullName
      * @param $email
@@ -32,24 +24,25 @@ class UserControllerTest extends BugTestCase
         $form = $crawler->filter('button[type=submit]')->form();
         $form['bug_user_profile[email]'] = $email;
         $form['bug_user_profile[fullName]'] = $fullName;
-        $form['bug_user_profile[password]'] = $password;
+        $form['bug_user_profile[plainPassword][first]'] = $password;
+        $form['bug_user_profile[plainPassword][second]'] = $password;
         $crawler = $client->submit($form);
         if (!$result) {
-            $checkFields = array('bug_user_profile_email', 'bug_user_profile_password');
+            $checkFields = array('bug_user_profile_email');
             $this->checkAllFieldsValidationErrors($checkFields, $crawler);
             $this->assertCount(0, $crawler->filter('#bug_user_page'));
 
         } else {
             $this->assertNotCount(0, $crawler->filter('#bug_user_page'));
         }
-
     }
 
-
+    /**
+     * @return array
+     */
     public function profileProvider()
     {
         return [
-            ['name' => 'admin', 'email' => 'admin@ukr.net', 'password' => '123', 'result' => false],
             ['name' => 'user', 'email' => 'user.ukr.net', 'password' => '123', 'result' => false],
             ['name' => 'testUser', 'email' => 'user@ukr.net', 'password' => 'user', 'result' => true],
         ];

@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 07.07.15
- * Time: 16:31
- */
 
 namespace BugBundle\Services;
-
 
 use BugBundle\Entity\Activity;
 use BugBundle\Entity\Issue;
@@ -15,17 +8,23 @@ use BugBundle\Entity\IssueComment;
 use BugBundle\Entity\IssueStatus;
 use BugBundle\Entity\User;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\TokenNotFoundException;
 use Symfony\Component\Translation\TranslatorInterface;
 
-
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects,PHPMD.NumberOfChildren)
+ * Class ActivityManager
+ * @package BugBundle\Services
+ */
 class ActivityManager implements IssueActivityInterface, IssueCommentActivityInterface
 {
-
+    /** @var TranslatorInterface */
     private $trans;
+    /** @var TokenStorageInterface */
     private $token;
 
     /**
@@ -41,11 +40,10 @@ class ActivityManager implements IssueActivityInterface, IssueCommentActivityInt
         $this->trans = $translator;
         $this->doctrine = $doctrine;
         $this->token = $token;
-
     }
 
     /**
-     * @param Issue $issue
+     * {@inheritdoc}
      */
     public function markCreateIssue(Issue $issue)
     {
@@ -59,6 +57,9 @@ class ActivityManager implements IssueActivityInterface, IssueCommentActivityInt
         $em->flush();
     }
 
+    /**
+     * @throws EntityNotFoundException
+     */
     private function tokenCheck()
     {
         if (!$this->token->getToken()) {
@@ -73,12 +74,11 @@ class ActivityManager implements IssueActivityInterface, IssueCommentActivityInt
     }
 
     /**
-     * @param Issue $issue
-     * @param IssueStatus $oldStatus
-     * @param IssueStatus $newStatus
+     * {@inheritdoc}
      */
     public function markChangeStatusIssue(Issue $issue, IssueStatus $oldStatus, IssueStatus $newStatus)
     {
+        /** @var EntityManager $em */
         $em = $this->doctrine->getManagerForClass('BugBundle:Activity');
         $activity = new Activity();
         $activity->setType(Activity::TYPE_CHANGE_STATUS_ISSUE);
@@ -92,7 +92,7 @@ class ActivityManager implements IssueActivityInterface, IssueCommentActivityInt
     }
 
     /**
-     * @param IssueComment $comment
+     * {@inheritdoc}
      * @throws EntityNotFoundException
      */
     public function markCommentIssue(IssueComment $comment)
@@ -111,7 +111,7 @@ class ActivityManager implements IssueActivityInterface, IssueCommentActivityInt
     }
 
     /**
-     * @param $type int
+     * @param $type
      * @return string
      */
     public function getTypeName($type)

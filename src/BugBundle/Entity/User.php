@@ -45,7 +45,7 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
-     * @Assert\Email()
+     * @Assert\Email(groups={"edit_profile"})
      * @ORM\Column(type="string", length=60, unique=true)
      */
     private $email;
@@ -54,8 +54,6 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(name="is_active", type="boolean")
      */
     private $isActive;
-
-    //Other declarations
 
     /**
      * @var Collection | Role[]
@@ -68,6 +66,11 @@ class User implements UserInterface, \Serializable
      * @Assert\File(maxSize="6000000")
      */
     private $ava;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public $path;
 
     public function __construct()
     {
@@ -92,6 +95,9 @@ class User implements UserInterface, \Serializable
         return $this->username;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getSalt()
     {
         // you *may* need a real salt depending on your encoder
@@ -99,6 +105,9 @@ class User implements UserInterface, \Serializable
         return null;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getPassword()
     {
         return $this->password;
@@ -109,11 +118,16 @@ class User implements UserInterface, \Serializable
         return $this->roles->toArray();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function eraseCredentials()
     {
     }
 
-    /** @see \Serializable::serialize() */
+    /**
+     * {@inheritdoc}
+     */
     public function serialize()
     {
         return serialize(
@@ -127,7 +141,9 @@ class User implements UserInterface, \Serializable
         );
     }
 
-    /** @see \Serializable::unserialize() */
+    /**
+     * {@inheritdoc}
+     */
     public function unserialize($serialized)
     {
         list (
@@ -224,10 +240,10 @@ class User implements UserInterface, \Serializable
     /**
      * Add roles
      *
-     * @param \BugBundle\Entity\Role $roles
+     * @param Role $roles
      * @return User
      */
-    public function addRole(\BugBundle\Entity\Role $roles)
+    public function addRole(Role $roles)
     {
         $this->roles[] = $roles;
 
@@ -237,19 +253,16 @@ class User implements UserInterface, \Serializable
     /**
      * Remove roles
      *
-     * @param \BugBundle\Entity\Role $roles
+     * @param Role $roles
      */
-    public function removeRole(\BugBundle\Entity\Role $roles)
+    public function removeRole(Role $roles)
     {
         $this->roles->removeElement($roles);
     }
 
-
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @return null|string
      */
-    public $path;
-
     public function getAbsolutePath()
     {
         return null === $this->path
@@ -257,6 +270,9 @@ class User implements UserInterface, \Serializable
             : $this->getUploadRootDir().'/'.$this->path;
     }
 
+    /**
+     * @return null|string
+     */
     public function getWebPath()
     {
         return null === $this->path
@@ -264,6 +280,9 @@ class User implements UserInterface, \Serializable
             : $this->getUploadDir().'/'.$this->path;
     }
 
+    /**
+     * @return string
+     */
     protected function getUploadRootDir()
     {
         // the absolute directory path where uploaded
@@ -271,6 +290,9 @@ class User implements UserInterface, \Serializable
         return __DIR__.'/../../../web/'.$this->getUploadDir();
     }
 
+    /**
+     * @return string
+     */
     protected function getUploadDir()
     {
         // get rid of the __DIR__ so it doesn't screw up

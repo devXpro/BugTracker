@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 21.07.15
- * Time: 18:50
- */
 
 namespace BugBundle\Tests\Unit\Entity;
-
 
 use BugBundle\Entity\Activity;
 use BugBundle\Entity\Issue;
@@ -20,7 +13,7 @@ class ActivityTest extends \PHPUnit_Framework_TestCase
     public function testEntity()
     {
         $activity = new Activity();
-        $now = new \DateTime('now');
+        $now = new \DateTime('now', new \DateTimeZone('UTC'));
         $issue = new Issue();
         $comment = new IssueComment();
         $newStatus = new IssueStatus();

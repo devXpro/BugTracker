@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 21.07.15
- * Time: 20:28
- */
 
 namespace BugBundle\Tests\Functional\Entity;
-
 
 use BugBundle\Entity\Project;
 use Doctrine\Bundle\DoctrineBundle\Registry;
@@ -19,6 +12,7 @@ class ProjectRepositoryTest extends KernelTestCase
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
+    /** @var */
     private $user;
 
     private static $project;
@@ -42,10 +36,7 @@ class ProjectRepositoryTest extends KernelTestCase
         $project->setSummary('asdfasdf')->setLabel('asdfasdf')->setCreator($user)->setCode('1WE');
         $project->addMember($user);
         $em->persist($project);
-
         $em->flush();
-
-
     }
 
     public function tearDown()
@@ -60,15 +51,20 @@ class ProjectRepositoryTest extends KernelTestCase
     {
 
         $em = $this->em;
-
-        $query = $em->getRepository('BugBundle:Project')->getAllProjectsQuery();
+        $projectRepo = $em->getRepository('BugBundle:Project');
+        $query = $projectRepo->getAllProjectsQuery();
         $this->assertInstanceOf('Doctrine\ORM\Query', $query);
-        $query = $em->getRepository('BugBundle:Project')->getProjectsByUserQuery($this->user);
+        $query = $projectRepo->getProjectsByUserQuery($this->user);
         $this->assertInstanceOf('Doctrine\ORM\Query', $query);
 
-        $result = $em->getRepository('BugBundle:Project')->getProjectsByUser($this->user);
+        $result = $projectRepo->getProjectsByUser($this->user);
         $this->assertNotCount(0, $result);
 
+        $result = $projectRepo->countProjectsByUser($this->user);
+        $this->assertNotEquals(0, $result);
+
+        $result = $projectRepo->checkAccessProject($this->user, self::$project);
+        $this->assertNotEquals(0, $result);
 
     }
 }

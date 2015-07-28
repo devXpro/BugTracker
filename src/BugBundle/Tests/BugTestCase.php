@@ -1,21 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 10.07.15
- * Time: 16:21
- */
 
 namespace BugBundle\Tests;
 
-
-use BugBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Input\StringInput;
-use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\DomCrawler\Crawler;
 
 class BugTestCase extends WebTestCase
@@ -25,7 +13,6 @@ class BugTestCase extends WebTestCase
 
     /** @var Client $client */
     private static $client;
-    private static $application;
 
     /**
      * @param $login
@@ -35,7 +22,6 @@ class BugTestCase extends WebTestCase
      */
     private function login($login, $pass, $role)
     {
-
         $client = static::createClient();
         $client->restart();
         $client->followRedirects();
@@ -73,7 +59,7 @@ class BugTestCase extends WebTestCase
 
     protected function loginAsUserViaForm()
     {
-        return $this->login('user', 'user', 'ROLE_USER');
+        return $this->login('user', 'user', 'User');
     }
 
     /**
@@ -81,7 +67,7 @@ class BugTestCase extends WebTestCase
      */
     protected function loginAsAdminViaForm()
     {
-        return $this->login('admin', 'admin', 'ROLE_ADMIN');
+        return $this->login('admin', 'admin', 'Admin');
     }
 
     /**
@@ -89,7 +75,7 @@ class BugTestCase extends WebTestCase
      */
     protected function loginAsManagerViaForm()
     {
-        return $this->login('manager', 'manager', 'ROLE_MANAGER');
+        return $this->login('manager', 'manager', 'Manager');
     }
 
     /**
@@ -100,7 +86,6 @@ class BugTestCase extends WebTestCase
     protected function checkAllFieldsValidationErrors(array $checkFields, Crawler $crawler)
     {
         foreach ($checkFields as $field) {
-            $html = $crawler->html();
             $this->assertNotCount(0, $crawler->filter('#'.$field)->parents()->filter('ul'));
         }
     }
@@ -156,6 +141,4 @@ class BugTestCase extends WebTestCase
 
         return $client;
     }
-
-
 }

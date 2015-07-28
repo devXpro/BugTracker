@@ -11,14 +11,13 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
  */
 class Role implements RoleInterface
 {
-
     const ROLE_USER = 'ROLE_USER';
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_MANAGER = 'ROLE_MANAGER';
 
     public function __toString()
     {
-        return (string)$this->role;
+        return (string)$this->alias;
     }
 
     /**
@@ -33,6 +32,10 @@ class Role implements RoleInterface
      */
     private $role;
 
+    /**
+     * @ORM\Column(type="string", length=25,nullable=true)
+     */
+    private $alias;
 
     /**
      * Get id
@@ -65,5 +68,28 @@ class Role implements RoleInterface
     public function getRole()
     {
         return $this->role;
+    }
+
+    /**
+     * Set alias
+     *
+     * @param string $alias
+     * @return Role
+     */
+    public function setAlias($alias)
+    {
+        $this->alias = $alias;
+
+        return $this;
+    }
+
+    /**
+     * Get alias
+     *
+     * @return string
+     */
+    public function getAlias()
+    {
+        return $this->alias;
     }
 }

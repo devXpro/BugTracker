@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: roma
- * Date: 07.07.15
- * Time: 17:30
- */
 
 namespace BugBundle\Services;
-
 
 use BugBundle\Entity\Issue;
 use BugBundle\Entity\IssueStatus;
@@ -27,7 +20,9 @@ interface IssueActivityInterface
 
     /**
      * @param Issue $issue
-     * @return void
+     * @param IssueStatus $oldStatus
+     * @param IssueStatus $newStatus
+     * @return mixed
      */
-    public function markChangeStatusIssue(Issue $issue,IssueStatus $oldStatus,IssueStatus $newStatus);
+    public function markChangeStatusIssue(Issue $issue, IssueStatus $oldStatus, IssueStatus $newStatus);
 }
