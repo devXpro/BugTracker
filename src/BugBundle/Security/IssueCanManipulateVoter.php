@@ -8,6 +8,11 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.ElseExpression)
+ * Class IssueCanManipulateVoter
+ * @package BugBundle\Security
+ */
 class IssueCanManipulateVoter extends BugAbstractVoter
 {
     const CAN_MANIPULATE_ISSUE = 'can_manipulate_issue';

@@ -9,6 +9,11 @@ use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.NumberOfChildren,PHPMD.CyclomaticComplexity,PHPMD.ElseExpression)
+ * Class BugTypeTestCase
+ * @package BugBundle\Tests
+ */
 abstract class BugTypeTestCase extends TypeTestCase
 {
 

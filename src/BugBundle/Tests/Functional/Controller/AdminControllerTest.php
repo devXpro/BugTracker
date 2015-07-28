@@ -50,8 +50,8 @@ class AdminControllerTest extends BugTestCase
         $form = $crawler->filter('button[type="submit"]')->form();
         $form['bug_user[email]'] = 'New@Email.ru';
         $form['bug_user[username]'] = 'New Username';
-        $form['bug_user[password][first]'] = 'New pass';
-        $form['bug_user[password][second]'] = 'New pass';
+        $form['bug_user[plainPassword][first]'] = 'New pass';
+        $form['bug_user[plainPassword][second]'] = 'New pass';
 
         $roleIds = $crawler->filter('#bug_user_roles > option')->each(
             function (Crawler $node) {

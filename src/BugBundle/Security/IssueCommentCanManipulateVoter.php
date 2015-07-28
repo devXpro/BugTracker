@@ -17,6 +17,11 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.ElseExpression)
+ * Class IssueCommentCanManipulateVoter
+ * @package BugBundle\Security
+ */
 class IssueCommentCanManipulateVoter extends BugAbstractVoter
 {
     const CAN_MANIPULATE_ISSUE_COMMENT = 'can_manipulate_comment_issue';

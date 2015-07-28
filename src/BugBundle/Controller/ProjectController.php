@@ -43,11 +43,9 @@ class ProjectController extends Controller
      * @Route("/project/delete/{project}", name="bug_project_delete")
      * @Security
      * ("has_role('ROLE_ADMIN') or (has_role('ROLE_MANAGER') and is_granted('can_manipulate_project',project))")
-     * @param Request $request
-     * @param Project $project
      * @return Response
      */
-    public function projectDeleteAction(Request $request, Project $project)
+    public function projectDeleteAction()
     {
         return new Response('delete is not need');
     }
@@ -55,11 +53,10 @@ class ProjectController extends Controller
     /**
      * @Route("/project/view/{project}", name="bug_project_view")
      * @Security("has_role('ROLE_ADMIN') or is_granted('can_manipulate_project',project)")
-     * @param Request $request
      * @param Project $project
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function projectViewAction(Request $request, Project $project)
+    public function projectViewAction(Project $project)
     {
         $em = $this->getDoctrine()->getManager();
         $activities = $em->getRepository('BugBundle:Activity')

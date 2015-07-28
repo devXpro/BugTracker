@@ -2,15 +2,14 @@
 
 namespace BugBundle\Entity;
 
-use BugBundle\Entity\IssuePriority;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @SuppressWarnings(PHPMD.TooManyFields,PHPMD.ExcessiveClassComplexity)
  * Issue
- *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="BugBundle\Entity\IssueRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -31,6 +30,7 @@ class Issue
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
 
     /**
      * @var string
@@ -153,14 +153,10 @@ class Issue
 
     public function __toString()
     {
-        return $this->getIssueFullName();
-    }
-
-    private function getIssueFullName()
-    {
         return ($this->getProject()->getCode() && $this->getCode() && $this->summary) ?
             $this->getProject()->getCode().'-'.$this->getCode().' '.$this->getSummary() : '';
     }
+
 
     public function getFullCode()
     {

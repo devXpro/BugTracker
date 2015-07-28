@@ -18,9 +18,10 @@ class UserType extends AbstractType
             ->add('username', 'text')
             ->add('roles', 'bug_user_select_role')
             ->add(
-                'password',
+                'plainPassword',
                 'repeated',
                 array(
+                    'mapped' => false,
                     'type' => 'password',
                     'invalid_message' => 'The password fields must match.',
                     'options' => array('attr' => array('class' => 'password-field')),

@@ -19,11 +19,10 @@ class IssueController extends Controller
     /**
      * @Route("/issues/list/{project}", name="issues_list", defaults={"project" = null})
      * @param Request $request
-     * @param Project|null $project
      * @return Response
      */
 
-    public function issuesListAction(Request $request, Project $project = null)
+    public function issuesListAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $issueRepository = $em->getRepository('BugBundle:Issue');
@@ -39,11 +38,10 @@ class IssueController extends Controller
     /**
      * @Route("/issues/delete/{issue}", name="bug_issue_delete")
      * @Security("has_role('ROLE_ADMIN') or is_granted('can_manipulate_issue',issue)")
-     * @param Request $request
      * @param Issue $issue
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function issueDeleteAction(Request $request, Issue $issue)
+    public function issueDeleteAction(Issue $issue)
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($issue);

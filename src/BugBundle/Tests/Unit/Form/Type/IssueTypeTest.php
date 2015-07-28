@@ -65,8 +65,8 @@ class IssueTypeTest extends BugTypeTestCase
     public function testFormCreateException()
     {
         $user = $this->getEntity('BugBundle\Entity\User', array('username'));
-        $IssueType = new IssueType($this->getTokenStorageWithUserMock($user));
-        $this->factory->create($IssueType, null, array('parentIssue' => new \StdClass));
+        $issueType = new IssueType($this->getTokenStorageWithUserMock($user));
+        $this->factory->create($issueType, null, array('parentIssue' => new \StdClass));
     }
 
     public function formDataProvider()

@@ -4,6 +4,11 @@ namespace BugBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ * Class IssueRepository
+ * @package BugBundle\Entity
+ */
 class IssueRepository extends EntityRepository
 {
     public function getAllIssuesQuery()
@@ -66,6 +71,4 @@ class IssueRepository extends EntityRepository
     {
         return $this->getActualIssuesByUserCollaboratorQuery($user)->getResult();
     }
-
-
 }

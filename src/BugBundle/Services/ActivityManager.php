@@ -15,6 +15,11 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\TokenNotFoundException;
 use Symfony\Component\Translation\TranslatorInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects,PHPMD.NumberOfChildren)
+ * Class ActivityManager
+ * @package BugBundle\Services
+ */
 class ActivityManager implements IssueActivityInterface, IssueCommentActivityInterface
 {
     /** @var TranslatorInterface */
@@ -106,7 +111,8 @@ class ActivityManager implements IssueActivityInterface, IssueCommentActivityInt
     }
 
     /**
-     * {@inheritdoc}
+     * @param $type
+     * @return string
      */
     public function getTypeName($type)
     {

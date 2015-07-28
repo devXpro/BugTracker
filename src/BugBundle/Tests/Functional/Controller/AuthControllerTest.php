@@ -5,6 +5,11 @@ namespace BugBundle\Tests\Functional\Controller;
 use BugBundle\Tests\BugTestCase;
 use Symfony\Bundle\FrameworkBundle\Client;
 
+/**
+ * @SuppressWarnings(PHPMD.ElseExpression)
+ * Class AuthControllerTest
+ * @package BugBundle\Tests\Functional\Controller
+ */
 class AuthControllerTest extends BugTestCase
 {
     /**
@@ -62,7 +67,6 @@ class AuthControllerTest extends BugTestCase
         $form['form[username]'] = $username;
         $form['form[password]'] = $password;
         $crawler = $client->submit($form);
-        $x=$crawler->html();
         if (!$result) {
             $fields = array('form_email', 'form_username', 'form_password');
             $this->checkAllFieldsValidationErrors($fields, $crawler);

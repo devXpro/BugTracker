@@ -8,6 +8,11 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.ElseExpression)
+ * Class IssueCanCreateAnyVoter
+ * @package BugBundle\Security
+ */
 class IssueCanCreateAnyVoter extends BugAbstractVoter
 {
     const CREATE_ISSUE = 'can_create_any_issue';

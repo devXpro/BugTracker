@@ -112,12 +112,12 @@ class IssueVoterTest extends \PHPUnit_Framework_TestCase
         $obj->expects($this->any())->method('getType')->willReturn(Issue::TYPE_BUG);
         $wrongObj = new \StdClass();
         /** @var ProjectRepository |  \PHPUnit_Framework_MockObject_MockObject $projectRepo */
-        $IssueRepo = $this->getMockBuilder('BugBundle\Entity\IssueRepository')->disableOriginalConstructor()->getMock();
-        $IssueRepo->expects($this->any())->method('find')->with($wrongObj)->will(
+        $issueRepo = $this->getMockBuilder('BugBundle\Entity\IssueRepository')->disableOriginalConstructor()->getMock();
+        $issueRepo->expects($this->any())->method('find')->with($wrongObj)->will(
             $this->returnValue($obj)
         );
         $this->emMock->expects($this->any())->method('getRepository')->with('BugBundle:Issue')->will(
-            $this->returnValue($IssueRepo)
+            $this->returnValue($issueRepo)
         );
         $this->assertFalse(
             $this->issueVoter->vote(
@@ -139,12 +139,12 @@ class IssueVoterTest extends \PHPUnit_Framework_TestCase
         $obj->expects($this->any())->method('getType')->willReturn(Issue::TYPE_STORY);
         $wrongObj = new \StdClass();
         /** @var ProjectRepository |  \PHPUnit_Framework_MockObject_MockObject $projectRepo */
-        $IssueRepo = $this->getMockBuilder('BugBundle\Entity\IssueRepository')->disableOriginalConstructor()->getMock();
-        $IssueRepo->expects($this->any())->method('find')->with($wrongObj)->will(
+        $issueRepo = $this->getMockBuilder('BugBundle\Entity\IssueRepository')->disableOriginalConstructor()->getMock();
+        $issueRepo->expects($this->any())->method('find')->with($wrongObj)->will(
             $this->returnValue($obj)
         );
         $this->emMock->expects($this->any())->method('getRepository')->with('BugBundle:Issue')->will(
-            $this->returnValue($IssueRepo)
+            $this->returnValue($issueRepo)
         );
         $this->assertTrue(
             $this->issueVoter->vote(

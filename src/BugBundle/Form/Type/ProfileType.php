@@ -6,6 +6,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class ProfileType
+ * @package BugBundle\Form\Type
+ */
 class ProfileType extends AbstractType
 {
 
@@ -19,9 +23,10 @@ class ProfileType extends AbstractType
             ->add('ava', 'file', array('required' => false))
             ->add('fullName', 'text', array('required' => false))
             ->add(
-                'password',
+                'plainPassword',
                 'repeated',
                 array(
+                    'mapped' => false,
                     'type' => 'password',
                     'invalid_message' => 'The password fields must match.',
                     'options' => array('attr' => array('class' => 'password-field')),

@@ -41,15 +41,12 @@ class AdminController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm('bug_user', $user, array('validation_groups' => array('edit_profile')));
-        $oldPassword = $user->getPassword();
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $user = $form->getData();
-            if ($user->getPassword()) {
-                $user = $this->container->get('bug.userManager')->encodePassword($user);
-            } else {
-                $user->setPassword($oldPassword);
+            $newPassword = $form->get('plainPassword')->get('first')->getData();
+            if ($newPassword) {
+                $this->container->get('bug.userManager')->encodePassword($user, $newPassword);
             }
             $user->upload();
             $em->persist($user);
@@ -68,11 +65,10 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/users/delete/{user}")
-     * @param Request $request
      * @param User $user
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function userDeleteAction(Request $request, User $user)
+    public function userDeleteAction(User $user)
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($user);

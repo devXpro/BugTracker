@@ -74,6 +74,4 @@ class ActivityRepository extends EntityRepository
     {
         return $this->getActivitiesByUserQuery($user)->getResult();
     }
-
-
 }

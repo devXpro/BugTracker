@@ -152,7 +152,6 @@ class ProjectControllerTest extends BugTestCase
         $form['bug_project[summary]'] = 'Without Mistakes. This summary contain full data';
         $form['bug_project[code]'] = 'XXX';
         $crawler = $client->submit($form);
-        $x=$crawler->html();
         $this->assertNotCount(0, $crawler->filter('.project_view'));
     }
 }

@@ -56,9 +56,9 @@ class IssueCommentType extends AbstractType
             function ($value) {
                 if ($value instanceof Issue) {
                     return true;
-                } else {
-                    return false;
                 }
+
+                return false;
             }
         );
     }

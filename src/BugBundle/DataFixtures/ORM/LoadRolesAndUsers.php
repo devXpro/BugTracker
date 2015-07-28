@@ -9,8 +9,14 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class LoadRolesAndUsers
+ * @package BugBundle\DataFixtures\ORM
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ */
 class LoadRolesAndUsers implements FixtureInterface, ContainerAwareInterface
 {
+
     private $names = array(
         'Noah',
         'Emma',

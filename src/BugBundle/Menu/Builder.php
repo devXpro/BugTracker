@@ -15,7 +15,7 @@ class Builder extends ContainerAware
         return $translator->transUp($string);
     }
 
-    public function mainMenu(FactoryInterface $factory, array $options)
+    public function mainMenu(FactoryInterface $factory)
     {
 
         $menu = $factory->createItem('root');

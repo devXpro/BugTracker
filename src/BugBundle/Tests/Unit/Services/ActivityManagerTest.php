@@ -14,6 +14,11 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyMethods)
+ * Class ActivityManagerTest
+ * @package BugBundle\Tests\Unit\Services
+ */
 class ActivityManagerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  TranslatorInterface|\PHPUnit_Framework_MockObject_MockObject */

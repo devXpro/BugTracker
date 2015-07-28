@@ -21,7 +21,7 @@ class UserManager
      * @return User
      * @throws \Exception
      */
-    public function encodePassword(User $user)
+    public function encodePassword(User $user, $newPassword = null)
     {
         $user->getUsername();
         if (!$user->getUsername()) {
@@ -30,8 +30,9 @@ class UserManager
         if (!$user->getPassword()) {
             throw new \Exception('Password in not define');
         }
+        $pass = $newPassword ? $newPassword : $user->getPassword();
         $encoder = $this->encoderFactory->getEncoder($user);
-        $pass = $encoder->encodePassword($user->getPassword(), $user->getSalt());
+        $pass = $encoder->encodePassword($pass, $user->getSalt());
         $user->setPassword($pass);
 
         return $user;

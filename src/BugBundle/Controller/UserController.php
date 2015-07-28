@@ -19,20 +19,15 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $oldPassword = $user->getPassword();
         $form = $this->createForm('bug_user_profile', $user, array('validation_groups' => array('edit_profile')));
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            /** @var User $userFromForm */
-            $userFromForm = $form->getData();
-            if ($userFromForm->getPassword()) {
-                $userFromForm = $this->container->get('bug.userManager')->encodePassword($user);
-            } else {
-                $userFromForm->setPassword($oldPassword);
+            $newPassword = $form->get('plainPassword')->get('first')->getData();
+            if ($newPassword) {
+                $this->container->get('bug.userManager')->encodePassword($user, $newPassword);
             }
-            $userFromForm->upload();
-            $em->persist($userFromForm);
+            $user->upload();
             $em->flush();
 
             return $this->redirect($this->generateUrl('index'));
@@ -55,11 +50,7 @@ class UserController extends Controller
     public function userPage(Request $request, $user = null)
     {
         $em = $this->getDoctrine()->getManager();
-        if ($user) {
-            $userEntity = $em->getRepository('BugBundle:User')->find($user);
-        } else {
-            $userEntity = $this->getUser();
-        }
+        $userEntity = $user ? $em->getRepository('BugBundle:User')->find($user) : $this->getUser();
         $activities = $em->getRepository('BugBundle:Activity')->getActivitiesByUser($userEntity);
         $issuesQuery = $em->getRepository('BugBundle:Issue')->getActualIssuesByUserCollaboratorQuery($userEntity);
         $paginator = $this->get('knp_paginator');

@@ -46,11 +46,10 @@ class IssueCommentController extends Controller
     /**
      * @Route("/issue/comment/delete/{issueComment}", name="issue_comment_delete")
      * @Security("has_role('ROLE_ADMIN') or is_granted('can_manipulate_comment_issue',issueComment)")
-     * @param Request $request
      * @param IssueComment $issueComment
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function deleteCommentAction(Request $request, IssueComment $issueComment)
+    public function deleteCommentAction(IssueComment $issueComment)
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($issueComment);

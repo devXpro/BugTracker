@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Client;
 class UserControllerTest extends BugTestCase
 {
     /**
+     * @SuppressWarnings(PHPMD.ElseExpression)
      * @dataProvider profileProvider
      * @param $fullName
      * @param $email
@@ -23,11 +24,11 @@ class UserControllerTest extends BugTestCase
         $form = $crawler->filter('button[type=submit]')->form();
         $form['bug_user_profile[email]'] = $email;
         $form['bug_user_profile[fullName]'] = $fullName;
-        $form['bug_user_profile[password][first]'] = $password;
-        $form['bug_user_profile[password][second]'] = $password;
+        $form['bug_user_profile[plainPassword][first]'] = $password;
+        $form['bug_user_profile[plainPassword][second]'] = $password;
         $crawler = $client->submit($form);
         if (!$result) {
-            $checkFields = array('bug_user_profile_email', 'bug_user_profile_password_first');
+            $checkFields = array('bug_user_profile_email');
             $this->checkAllFieldsValidationErrors($checkFields, $crawler);
             $this->assertCount(0, $crawler->filter('#bug_user_page'));
 
